@@ -16,6 +16,18 @@ int getInt(int representation)
     return val;
 }
 
+unsigned int getUInt(int representation)
+{
+    unsigned int val;
+    char str[11], *ptr;
+    gets(str);
+
+    val = strtol(str, &ptr, representation);
+
+    free(ptr);
+    return val;
+}
+
 int getShort(int representation)
 {
     int val;
@@ -51,4 +63,3 @@ double getDouble()
     free(ptr);
     return val;
 }
-

@@ -7,6 +7,7 @@
 
 int getInt(int representation);
 int getShort(int representation);
+unsigned int getUInt(int representation);
 float getFloat();
 double getDouble();
 
