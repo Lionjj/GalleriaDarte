@@ -10,4 +10,5 @@ typedef struct
     char pw [50];
 }Users;
 
+void registerUser();
 #endif //GALLERIADARTE_USERS_H
