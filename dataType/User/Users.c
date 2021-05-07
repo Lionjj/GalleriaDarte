@@ -14,10 +14,7 @@ void registerUser()
     puts(user.email);
     puts(user.pw);
     puts(user.username);
-    //if(isAlredyReg(&user)) printf("-ATTENZIONE: Utente già esistente!\n");
-    //else
-    saveUser(&user);
-
+    if(!isAlredyReg(&user)) saveUser(&user);
 
 }
 
@@ -29,7 +26,7 @@ void getUser(Users* user)
 
     printf("-Inserisci\n\t>Nome (Il nome non deve contenere numeri, e non deve superare i 30 caratteri):");
     do {
-        if(i != 0) printf("\n\t-ATTENZIONE: Il nome inserito non e' conforme con le specifiche richieste, riprova: ");
+        if(i != 0) printf("\n\t-ATTENZIONE: Il nome inserito non e' conforme con le specifiche richieste, riprova:");
         gets(str);
         i++;
     } while (!sisaspha(str) || strlen(str) > 30);
@@ -39,7 +36,7 @@ void getUser(Users* user)
 
     printf("\n\t>Cognome (Il cognome non deve contenere numeri, e non deve superare i 30 caratteri):");
     do {
-        if(i != 0) printf("\n\t-ATTENZIONE: Il cognome inserito non e' conforme con le specifiche richieste, riprova: ");
+        if(i != 0) printf("\n\t-ATTENZIONE: Il cognome inserito non e' conforme con le specifiche richieste, riprova:");
         gets(str);
         i++;
     } while (!sisaspha(str) || strlen(str) > 30);
@@ -49,7 +46,7 @@ void getUser(Users* user)
 
     printf("\n\t>Username (L'Username non deve superare i 50 caratteri):");
     do {
-        if(i != 0) printf("\n\t-ATTENZIONE: L'username inserito non e' conforme con le specifiche richieste, riprova: ");
+        if(i != 0) printf("\n\t-ATTENZIONE: L'username inserito non e' conforme con le specifiche richieste, riprova:");
         gets(str);
         i++;
     } while (!sisalnum(str) || strlen(str) > 50);
@@ -59,7 +56,7 @@ void getUser(Users* user)
 
     printf("\n\t>Email (L'Email non deve superare gli 80 caratteri):");
     do {
-        if(i != 0) printf("\n\t-ATTENZIONE: L'email inserita non e' conforme con le specifiche richieste, riprova: ");
+        if(i != 0) printf("\n\t-ATTENZIONE: L'email inserita non e' conforme con le specifiche richieste, riprova:");
         gets(str);
         i++;
     } while (!verifyemail(str) || strlen(str) > 80);
@@ -69,7 +66,7 @@ void getUser(Users* user)
 
     printf("\n\t>password (la password non deve superare i 50 caratteri e deve essere di almeno 8 caratteri, inoltre deve alemo\n\tcontenere un carattere speciale e un numero):");
     do {
-        if(i != 0) printf("\n\t-ATTENZIONE: La password inserita non e' conforme con le specifiche richieste, riprova: ");
+        if(i != 0) printf("\n\t-ATTENZIONE: La password inserita non e' conforme con le specifiche richieste, riprova:");
         gets(str);
         i++;
     } while (!shaveanumber(str) || strlen(str) > 50);
@@ -89,7 +86,8 @@ bool saveUser(Users* user)
         proposition = false;
         printf("-ATTENZIONE: Non è stato possibile registrare l'utente!\n");
     } else{
-        fprintf(file, "#%s#%s-%s-%s-%s\n", user->username, user->email, user->pw, user->name, user->surname);
+
+        fprintf(file, "%s#%s#%s-%s-%s-\n", user->username, user->email, user->pw, user->name, user->surname);
         printf("-Benvenuto nel sistema %s!\n", user->name);
         fclose(file);
         free(file);
@@ -109,25 +107,21 @@ bool isAlredyReg(Users* user)
         printf("-ATTENZIONE: Non è stato possibile aprire il file per la verifica.\n");
     } else{
 
-        while (!feof(file) && !proposition)
+        while (fgets(str, 240, file) != NULL && proposition == false)
         {
-            fgets(str, 240, file);
             fUserName = strtok(str, "#");
             fUserEmail = strtok(NULL, "#");
-
-            puts(fUserEmail);
-            puts(fUserName);
 
             if(strcmp(fUserName, user->username) == 0)
             {
                 proposition = true;
-                printf("-ATTENZIONE: il nome utente scelto è già esistente!\n");
+                printf("-ATTENZIONE: il nome utente scelto e' gia' esistente!\n");
             }
 
             if(strcmp(fUserEmail, user->email) == 0)
             {
                 proposition = true;
-                printf("-ATTENZIONE: l'email utilizzata è già esistente!\n");
+                printf("-ATTENZIONE: l'email utilizzata e' gia' esistente!\n");
             }
         }
 
