@@ -13,4 +13,5 @@ bool shaveanumber(char str[]);
 // Funzione booleana utilizzata per verificare se una stringa contiene alemno un carattere speciale ($, %, &, ...)
 bool shaveaspecial(char str[]);
 
+bool verifyemail(char str[]);
 #endif //GALLERIADARTE_STRINGCONTROL_H
