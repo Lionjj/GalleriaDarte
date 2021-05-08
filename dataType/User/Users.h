@@ -16,4 +16,17 @@ void registerUser();
 void getUser(Users* user);
 bool saveUser(Users* user);
 bool isAlredyReg(Users* user);
+
+// restitutisce vero se l'utente è riuscito ad entrare nel sistema
+bool getLog();
+bool logIn(Users* user);
+
+void loadUser(char str[], Users* user);
+
+// Procedura per modificare le credenziali di un utente
+void editFile(Users* user, unsigned int choice);
+void editUser(bool access, Users* user);
+
+
+// eliminaUtente()
 #endif //GALLERIADARTE_USERS_H

@@ -82,3 +82,54 @@ bool verifyemail(char str[])
     free(ptr);
     return proposition;
 }
+
+bool sisspace(char str[])
+{
+    bool proposition = false;
+    unsigned int i = 0;
+
+    while (str[i] != '\0')
+    {
+        if(isspace(str[i]))
+        {
+            proposition = true;
+            break;
+        }else i++;
+    }
+    return proposition;
+}
+
+void deletespaces(char str[])
+{
+    int i = 0, j = 1;
+    char* formattedString = NULL;
+
+    if(sisspace(str))
+    {
+        while (str[i] != '\0')
+        {
+            if (!isspace(str[i]))
+            {
+                j++;
+            }
+            i++;
+        }
+
+        formattedString = (char *) malloc(sizeof(char) * j);
+
+        i = 0;
+        while (str[i] != '\0')
+        {
+            if (!isspace(str[i]))
+            {
+
+                formattedString[i] = str[i];
+            }
+            i++;
+        }
+
+
+        strcpy(str, formattedString);
+        free(formattedString);
+    }
+}

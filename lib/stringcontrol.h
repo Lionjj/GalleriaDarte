@@ -14,4 +14,8 @@ bool shaveanumber(char str[]);
 bool shaveaspecial(char str[]);
 
 bool verifyemail(char str[]);
+
+bool sisspace(char str[]);
+
+void deletespaces(char str[]);
 #endif //GALLERIADARTE_STRINGCONTROL_H
