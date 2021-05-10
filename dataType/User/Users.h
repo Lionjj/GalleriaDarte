@@ -15,18 +15,20 @@ typedef struct
 void registerUser();
 void getUser(Users* user);
 bool saveUser(Users* user);
-bool isAlredyReg(Users* user);
+bool isAlredyReg(char userName[],char userEmail[] , char mode);
 
 // restitutisce vero se l'utente è riuscito ad entrare nel sistema
 bool getLog();
 bool logIn(Users* user);
 
+// data la stringa presa da file, vengono caricate le informazioni dell'utente
 void loadUser(char str[], Users* user);
 
 // Procedura per modificare le credenziali di un utente
 void editFile(Users* user, unsigned int choice);
 void editUser(bool access, Users* user);
 
+// Procedura per eliminare un utente
+void delateUser(bool access, Users* users);
 
-// eliminaUtente()
 #endif //GALLERIADARTE_USERS_H

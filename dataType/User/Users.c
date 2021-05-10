@@ -1,10 +1,14 @@
-#include "Users.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <conio.h>
+#include <ctype.h>
+#include "Users.h"
 #include "../../lib/stringcontrol.h"
 #include "../../lib/dataimput.h"
+
+
 
 #define MAX_LEN 240
 
@@ -12,13 +16,7 @@ void registerUser()
 {
     Users user = {"","", "", "", ""};
     getUser(&user);
-    puts(user.name);
-    puts(user.surname);
-    puts(user.email);
-    puts(user.pw);
-    puts(user.username);
-    if(!isAlredyReg(&user)) saveUser(&user);
-
+    if(!isAlredyReg(user.username, user.email, 'b')) saveUser(&user);
 }
 
 void getUser(Users* user)
@@ -103,7 +101,7 @@ bool saveUser(Users* user)
     return proposition;
 }
 
-bool isAlredyReg(Users* user)
+bool isAlredyReg(char userName[],char userEmail[] , char mode)
 {
     bool proposition = false;
     FILE *file = NULL;
@@ -112,24 +110,53 @@ bool isAlredyReg(Users* user)
     if((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Users.txt", "r")) == NULL)
     {
         proposition = NULL;
-        printf("-ATTENZIONE: Non e' stato possibile aprire il file per la verifica.\n");
+        printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file per la verifica.");
     } else{
 
         while (fgets(str, MAX_LEN, file) != NULL && proposition == false)
         {
-            fUserName = strtok(str, "#");
-            fUserEmail = strtok(NULL, "#");
-
-            if(strcmp(fUserName, user->username) == 0)
+            switch (mode)
             {
-                proposition = true;
-                printf("-ATTENZIONE: il nome utente scelto e' gia' esistente!\n");
-            }
+                case 'b':
+                    fUserName = strtok(str, "#");
+                    fUserEmail = strtok(NULL, "#");
 
-            if(strcmp(fUserEmail, user->email) == 0)
-            {
-                proposition = true;
-                printf("-ATTENZIONE: l'email utilizzata e' gia' esistente!\n");
+                    if(strcmp(fUserName, userName) == 0)
+                    {
+                        proposition = true;
+                        printf("\n\t-ATTENZIONE: il nome utente scelto e' gia' esistente!");
+                    }
+
+                    if(strcmp(fUserEmail, userEmail) == 0)
+                    {
+                        proposition = true;
+                        printf("\n\t-ATTENZIONE: l'email utilizzata e' gia' esistente!");
+                    }
+                    break;
+
+                case 'u':
+                    fUserName = strtok(str, "#");
+
+                    if(strcmp(fUserName, userName) == 0)
+                    {
+                        proposition = true;
+                        printf("\n\t-ATTENZIONE: il nome utente scelto e' gia' esistente!");
+                    }
+                    break;
+
+                case 'e':
+                    fUserName = strtok(str, "#");
+                    fUserEmail = strtok(NULL, "#");
+
+                    if(strcmp(fUserEmail, userEmail) == 0)
+                    {
+                        proposition = true;
+                        printf("\n\t-ATTENZIONE: l'email utilizzata e' gia' esistente!");
+                    }
+                    break;
+
+                default:
+                    break;
             }
         }
 
@@ -171,7 +198,7 @@ bool getLog(Users* user)
     if((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Users.txt", "r")) == NULL)
     {
         proposition = NULL;
-        printf("-ATTENZIONE: Non e' stato possibile aprire il file per la verifica.\n");
+        printf("\n-ATTENZIONE: Non e' stato possibile aprire il file per la verifica.");
     } else{
 
         verif = fgets(str, MAX_LEN, file);
@@ -238,9 +265,9 @@ bool logIn(Users* user)
 {
     bool proposition;
     if((proposition = getLog(user))){
-        printf("\t-Benevenuto nel sistema!\n");
+        printf("\n\t-Benevenuto nel sistema!");
     } else{
-        printf("\t-ATTENZIONE: Credenziali errate!\n");
+        printf("\n\t-ATTENZIONE: Credenziali errate!");
     }
 
     return proposition;
@@ -253,7 +280,7 @@ void editUser(bool access, Users* user)
     // se si è fatto il login nel sistema allora si potrà procedere
     if(access == false)
     {
-        printf("\t-ATTENZIONE: per potere cambiare i dati devi prima effettuare il login.\n");
+        printf("\n\t-ATTENZIONE: per potere cambiare i dati devi prima effettuare il login.");
     } else{
 
         printf("# Modifica utente #\n\tPremi:\n\t\t-1] Per modificare l'username;\n\t\t-2] Per modifcare l'email;"
@@ -275,12 +302,12 @@ void editFile(Users* user, unsigned int choice)
 
     if((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Users.txt", "r")) == NULL)
     {
-        printf("\t-ATTENZIONE: non è stata possibile effettuare l'operazione!\n");
+        printf("\n\t-ATTENZIONE: non è stata possibile effettuare l'operazione!");
     } else{
 
         if((fileCopy = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\CopyUsers.txt", "w")) == NULL)
         {
-            printf("\t-ATTENZIONE: non è stato possibile effettuare la copia del file!\n");
+            printf("\n\t-ATTENZIONE: non è stato possibile effettuare la copia del file!");
         } else{
             // continua fintato che non ci sono più linee nel file
             while (fgets(str, MAX_LEN, file) != NULL)
@@ -303,8 +330,8 @@ void editFile(Users* user, unsigned int choice)
                                 i++;
                             } while (!sisalnum(newValue) || strlen(newValue) > 50);
 
+                            if(!isAlredyReg(newValue, "", 'u')) strcpy(temp.username, newValue);
 
-                            strcpy(temp.username, newValue);
                             break;
 
                         case 2:
@@ -316,7 +343,8 @@ void editFile(Users* user, unsigned int choice)
                                 i++;
                             } while (!verifyemail(newValue) || strlen(newValue) > 80);
 
-                            strcpy(temp.email, newValue);
+                            if(!isAlredyReg("",newValue, 'e')) strcpy(temp.email, newValue);
+
                             break;
 
                         case 3:
@@ -329,6 +357,7 @@ void editFile(Users* user, unsigned int choice)
                             } while (!shaveanumber(newValue) || (strlen(newValue) > 50 || strlen(newValue) < 8));
 
                             strcpy(temp.pw, newValue);
+
                             break;
 
                         default:
@@ -374,4 +403,52 @@ void loadUser(char str[], Users* user)
     free(fUserUserName);
     free(fUserName);
     free(fUserSurname);
+}
+
+void delateUser(bool access, Users* users)
+{
+    char choice;
+    FILE* file = NULL, *fileCopy = NULL ;
+    char str[MAX_LEN];
+    Users temp;
+    if(access)
+    {
+        printf("\n\t-ATTENZIONE: stai per eliminare questo account, sei sicuro di procedere?(s/n):\n\t-");
+        choice = (char) getch();
+
+        if(toupper(choice) == 'S')
+        {
+            if((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Users.txt", "r")) == NULL)
+            {
+                printf("\n\t-ATTENZIONE: non è stata possibile effettuare l'operazione!");
+
+            } else{
+
+                if((fileCopy = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\CopyUsers.txt", "w")) == NULL)
+                {
+                    printf("\n\t-ATTENZIONE: non è stato possibile effettuare la copia del file!");
+                } else{
+
+                    while (fgets(str, MAX_LEN, file) != NULL)
+                    {
+                        loadUser(str, &temp);
+                        if(strcmp(temp.username, users->username) != 0) fprintf(fileCopy, "%s#%s#%s-%s-%s-\n", temp.username, temp.email, temp.pw, temp.name, temp.surname);
+                    }
+                    printf("\n\t-Account cancellato, grazie per aver utilizzato la nostra APP!");
+
+                    fclose(file);
+                    fclose(fileCopy);
+
+                    remove("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Users.txt");
+                    rename("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\CopyUsers.txt", "C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Users.txt");
+
+                    free(fileCopy);
+                    free(file);
+                }
+            }
+
+        }else{
+            printf("\n\t-Cancellazione dell'account annullata.");
+        }
+    }
 }
