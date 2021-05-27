@@ -9,15 +9,14 @@ typedef struct
     char houseNum[5];
     char city[30];
     char structure[50];
-    unsigned int paintingsNumb;
-    unsigned int sculpturesNumb;
-}exhiPlace;
+} exhiPlace;
 
-typedef struct{
+typedef struct
+{
     unsigned int day;
     unsigned int month;
     unsigned int year;
-}exposure;
+} exposure;
 
 typedef struct
 {
@@ -25,10 +24,13 @@ typedef struct
     char surname[30];
     char fiscalCode[16];
     char IDResponsible[6];
-}loacaManager;
+} loacaManager;
 
 
-enum operaType {painting, sculpture, drawing };
+enum operaType
+{
+    painting, sculpture, drawing
+};
 
 typedef struct
 {
@@ -36,16 +38,31 @@ typedef struct
     char authorName[30];
     char authorSurname[30];
     enum operaType operaType;
-    char kind [30];
+    char kind[30];
     char historPeriod[30];
     unsigned int prodYear;
     bool BC;
-}artwork;
+} artwork;
 
 bool tempExhibition;
 
 unsigned int sizeShows;
 
 unsigned int codeShows;
+
+void getStreet(exhiPlace *place);
+
+void getHouseNum(exhiPlace *place);
+
+void getCity(exhiPlace *place);
+
+void getNameStructure(exhiPlace *place);
+
+
+void getExhiPlace(exhiPlace *place);
+
+void loadGallery(char str[], exhiPlace *place);
+
+bool isGalleryAlredyReg(char *galCity, char *galStreet, char *galHouseN);
 
 #endif //GALLERIADARTE_ARTSHOW_H

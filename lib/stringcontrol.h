@@ -2,10 +2,12 @@
 #define GALLERIADARTE_STRINGCONTROL_H
 
 // Funzione booleana utilizzata per verificare se una stringa contiene solo caratteri alfabetici
-bool sisaspha(char str[]);
+bool sisalpha(char *str);
 
 // Funzione booleana utilizzata per verificare se una stringa contiene solo caratteri alfanumerici
 bool sisalnum(char str[]);
+
+bool sisdigit(char* str);
 
 // Funzione booleana utilizzata per verificare se una stringa contiene alemno un carattere numerico
 bool shaveanumber(char str[]);
@@ -18,4 +20,6 @@ bool verifyemail(char str[]);
 bool sisspace(char str[]);
 
 void deletespaces(char str[]);
+
+void delatenoalpha(char str[]);
 #endif //GALLERIADARTE_STRINGCONTROL_H
