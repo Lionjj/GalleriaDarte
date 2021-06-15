@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include "lib/datainput.h"
 #include "dataType/User/Users.h"
+#include "dataType/User/Artgalleymanagers.h"
 
 
 int main()
@@ -11,6 +12,7 @@ int main()
     Users user;
     exhiPlace place;
     unsigned int choice;
+
     printf("Benvenuto in *nome del sistema*");
     do {
 
@@ -70,14 +72,14 @@ int main()
             } else{
 
                 printf("\n# Gestore galleria: %s #\n\tPremi:\n\t\t-1] Per registrare una mostra;\n\t\t-2] Per"
-                       " modificare il tuo account;\n\t\t-3] Per eliminare l'account;\n\t\t-4] Per "
-                       "chiudere il programma;\n\t-", user.username);
+                       " modificare il tuo account;\n\t\t-3] Per eliminare l'account;\n\t\t-4] Per aggiungere una nuova opera d'arte;"
+                       "\n\t\t-5] Per chiudere il programma;\n\t-", user.username);
 
                 choice = getUInt(10);
 
                 switch (choice) {
                     case 1:
-                        //creaMostra();
+                        recordShow(place.structure);
                         break;
                     case 2:
                         editUser(&user, &place);
@@ -86,12 +88,17 @@ int main()
                         delateUser(&user);
                         access = false;
                         break;
+                    case 4:
+                        registerArtwork();
+                        break;
                     default:
+                        access = false;
                         run = false;
                         break;
                 }
             }
         }
+
     } while (run);
 
     system("PAUSE");

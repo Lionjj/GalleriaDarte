@@ -17,12 +17,10 @@ int getInt(int representation) {
 
 unsigned int getUInt(int representation) {
     unsigned int val;
-    char str[11], *ptr;
+    char str[11], *ptr = NULL;
     gets(str);
 
     val = strtol(str, &ptr, representation);
-
-    free(ptr);
     return val;
 }
 

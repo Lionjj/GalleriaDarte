@@ -1,28 +1,112 @@
 #include <stddef.h>
 #include <stdio.h>
-#include <string.h>
+
 #include <stdlib.h>
 #include "Artshow.h"
 #include "../../lib/stringcontrol.h"
+#include "../../lib/datainput.h"
+#include "../User/Users.h"
+#include <time.h>
+#include <ctype.h>
+#include <conio.h>
+#include <string.h>
 
-#define MAX_LEN 415
+#define MAX_LEN_USERS 415
+#define MAX_LEN_ARTWORK 230
+#define MAX_LEN_SHOW 300
+
+void getStreet(char *streetName) {
+    char str[90];
+    int i = 0;
+
+    printf("\n\t>Via/piazza (Il nome della via/piazza non deve contenere numeri, e non deve superare i 90 caratteri):");
+    do {
+        if (i != 0) {
+            printf("\n\t-ATTENZIONE: La via/piazza inserita non e' conforme con le specifiche richieste, riprova:");
+        }
+        gets(str);
+        i++;
+    } while (!sisalpha(str) || strlen(str) > 90);
+
+    strcpy(streetName, str);
+}
+
+void getHouseNum(char *houseNum) {
+    char str[5];
+    int i = 0;
+    printf("\n\t>Numero civico (Il numero civico deve contenere esclusivamente numeri):");
+    do {
+        if (i != 0) {
+            printf("\n\t-ATTENZIONE: Il numero inserita non e' conforme con le specifiche richieste, riprova:");
+        }
+        gets(str);
+        i++;
+    } while (!sisdigit(str));
+
+    strcpy(houseNum, str);
+}
+
+void getCity(char *city) {
+    char str[30];
+    int i = 0;
+    printf("\n\t>Citta (Il nome della citta non deve contenere numeri e non deve superare i 30 caratteri):");
+    do {
+        if (i != 0) {
+            printf("\n\t-ATTENZIONE: Il nome della citta inserito non e' conforme con le specifiche richieste, riprova:");
+        }
+        gets(str);
+        i++;
+    } while (!sisalpha(str) || strlen(str) > 30);
+
+    strcpy(city, str);
+}
+
+void getNameStructure(char *structure) {
+    char str[50];
+    int i = 0;
+    printf("\n\t>Nome della struttura (Il nome della stru. non deve contenere numeri e non deve superare i 50 caratteri):");
+    do {
+        if (i != 0) {
+            printf("\n\t-ATTENZIONE: Il nome della struttura inserito non e' conforme con le specifiche richieste, riprova:");
+        }
+        gets(str);
+        i++;
+    } while (!sisalpha(str) || strlen(str) > 50);
+
+    strcpy(structure, str);
+}
 
 void getExhiPlace(exhiPlace *place) {
-    printf("\n# Registra luogo esposizione #\n-Inserisci:");
+    printf("\n# Registra sede galleria #\n-Inserisci:");
 
-    getStreet(place);
+    getStreet(place->streetName);
 
-    getHouseNum(place);
+    getHouseNum(place->houseNum);
 
-    getCity(place);
+    getCity(place->city);
 
-    getNameStructure(place);
+    getNameStructure(place->structure);
+}
+
+void loadGallery(char str[], exhiPlace *place) {
+    char *fStreetName = NULL, *fHouseNum = NULL, *fCity = NULL, *fStructure = NULL;
+
+    fCity = strtok(str, "<");
+    fStreetName = strtok(NULL, "<");
+    fHouseNum = strtok(NULL, "<");
+    fStructure = strtok(NULL, "-");
+
+
+    strcpy(place->city, fCity);
+    strcpy(place->streetName, fStreetName);
+    strcpy(place->houseNum, fHouseNum);
+    strcpy(place->structure, fStructure);
 }
 
 bool isGalleryAlredyReg(char *galCity, char *galStreet, char *galHouseN) {
     bool proposition = false;
     FILE *file = NULL;
-    char str[MAX_LEN], *fGalCity, *fGalStreet, *fGalHouseN;
+    char str[MAX_LEN_USERS], *fGalCity, *fGalStreet, *fGalHouseN;
 
     if ((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\ArtGalleryManager.txt",
                       "r")) == NULL) {
@@ -30,12 +114,11 @@ bool isGalleryAlredyReg(char *galCity, char *galStreet, char *galHouseN) {
         printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file per la verifica.");
     } else {
 
-        while (fgets(str, MAX_LEN, file) != NULL && proposition == false) {
-            strtok(str, "|");
+        while (fgets(str, MAX_LEN_USERS, file) != NULL && proposition == false) {
 
-            fGalCity = strtok(NULL, "#");
-            fGalStreet = strtok(NULL, "#");
-            fGalHouseN = strtok(NULL, "#");
+            fGalCity = strtok(str, "<");
+            fGalStreet = strtok(NULL, "<");
+            fGalHouseN = strtok(NULL, "<");
 
             if (strcmp(fGalCity, galCity) == 0) {
                 if (strcmp(fGalStreet, galStreet) == 0) {
@@ -55,81 +138,386 @@ bool isGalleryAlredyReg(char *galCity, char *galStreet, char *galHouseN) {
     return proposition;
 }
 
-void loadGallery(char str[], exhiPlace *place) {
-    char *fStreetName = NULL, *fHouseNum = NULL, *fCity = NULL, *fStructure = NULL;
-
-    fCity = strtok(str, "#");
-    fStreetName = strtok(NULL, "#");
-    fHouseNum = strtok(NULL, "#");
-    fStructure = strtok(NULL, "-");
-
-    delatenoalpha(fCity);
-
-    strcpy(place->city, fCity);
-    strcpy(place->streetName, fStreetName);
-    strcpy(place->houseNum, fHouseNum);
-    strcpy(place->structure, fStructure);
+void getCurrentDate(date* d){
+    time_t t  = time(NULL);
+    struct tm tm = *localtime(&t);
+    d->day = tm.tm_mday;
+    d->month = tm.tm_mon + 1;
+    d->year = tm.tm_year + 1900;
 }
 
-void getStreet(exhiPlace *place) {
-    char str[90];
+void getYear(date* time,const unsigned int current){
+    unsigned int t;
     int i = 0;
 
-    printf("\n\t>Via/piazza (Il nome della via/piazza non deve contenere numeri, e non deve superare i 90 caratteri):");
+    printf("\n\t>Anno (L'anno deve essere maggiore o uguale a quello corrente):");
     do {
         if (i != 0) {
-            printf("\n\t-ATTENZIONE: La via/piazza inserita non e' conforme con le specifiche richieste, riprova:");
+            printf("\n\t-ATTENZIONE: L'anno inserito non e' conforme con le specifiche richieste, riprova:");
+        }
+        t = getUInt(10);
+        i++;
+    } while (t < current);
+
+    time->year = t;
+}
+
+void getMonth(date *time, date *current) {
+    unsigned int t;
+    int i = 0;
+
+    printf("\n\t>Mese (Il mese deve essere maggiore o uguale a quello corrente):");
+    do {
+        if (i != 0) {
+            printf("\n\t-ATTENZIONE: Il mese inserito deve essere compreso fra 1 e 12 e \n\tdeve essere maggiore o guale a %u, riprova:", current->month);
+        }
+        t = getUInt(10);
+        i++;
+    } while ((t < 1 || t > 12) || (current->month > t && current->year == time->year ));
+    time->month = t;
+}
+
+void getDay(date* time, date* current){
+    unsigned int t, lim;
+    int i = 0;
+
+    if(time->month == 4 || time->month == 6 || time->month == 9 || time->month == 11){
+        lim = 30;
+    } else if(time->month == 2){
+        if(isLeapYear(time->year)){
+            lim = 29;
+        } else{
+            lim = 28;
+        }
+    } else{
+        lim = 31;
+    }
+
+    printf("\n\t>Giorno (il giorno deve essere maggiore o uguale a quello corrente):");
+    do {
+        if (i != 0) {
+            printf("\n\t-ATTENZIONE: Il giorno inserito deve essere compreso fra 1 e %d e"
+                   "\n\tdeve essere maggiore o guale a %u, riprova:", lim, current->day);
+        }
+        t = getUInt(10);
+        i++;
+    } while ((t < 1 || t > lim) || (t < current->day && current->month == time->month));
+
+    time->day = t;
+}
+
+void getDate(date* time){
+    date current;
+    getCurrentDate(&current);
+
+    printf("\n-Inserisci:");
+    getYear(time, current.year);
+    getMonth(time, &current);
+    getDay(time, &current);
+}
+
+void getExpositionTime(date* timeStart, date* timeEnd){
+    int i = 0;
+    printf("\n- Inizio data esposizione -");
+    getDate(timeStart);
+
+    printf("\n- Fine data esposizione -");
+    do{
+        if(i > 0){
+            printf("\n\t-ATTENZIONE: La data di conclusione della mostra non deve essere precedente alla data di inzio, riprova.");
+        }
+        getDate(timeEnd);
+        i++;
+    } while (!isPrevious(timeStart, timeEnd));
+}
+
+bool isLeapYear(unsigned int year){
+    bool proposition = false;
+
+    if(year%400 == 0) {
+        proposition = true;
+    } else {
+        if((year%4 == 0) && !(year%100 == 0)){
+            proposition = true;
+        }
+    }
+
+    return proposition;
+}
+
+bool isPrevious(date* timeStart, date* timeEnd){
+    bool proposition = false;
+
+    if(timeStart->year < timeEnd->year){
+        proposition = true;
+    } else if(timeStart->year == timeEnd->year){
+        if(timeStart->month < timeEnd->month){
+            proposition = true;
+        } else if(timeStart->month == timeEnd->month){
+            if(timeStart->day <= timeEnd->day){
+                proposition = true;
+            }
+        }
+    }
+
+    return proposition;
+}
+
+void getFiscalCode(char* fiscalCode){
+    char str[17];
+    int i = 0;
+    printf("\n\t>Codice fiscale (Il codice fisc. deve contenere solo numeri e lettere):");
+    do {
+        if (i != 0) {
+            printf("\n\t-ATTENZIONE: Il codice fiscale non e' conforme con le specifiche richieste, riprova:");
         }
         gets(str);
         i++;
-    } while (!sisalpha(str) || strlen(str) > 90);
-
-    strcpy(place->streetName, str);
+    } while (!sisalnum(str) || strlen(str) != 16);
+    stoupper(str);
+    strcpy(fiscalCode, str);
 }
 
-void getHouseNum(exhiPlace *place) {
-    char str[5];
+void getLocalManager(localManager* manager){
+    printf("\n- Registrazione del manager locale -\n-Inserisci:");
+    getName(manager->name);
+    getSurname(manager->surname);
+    getFiscalCode(manager->fiscalCode);
+}
+
+unsigned int getIdArtwork(){
+    FILE* file = NULL;
+    char str [MAX_LEN_ARTWORK];
+    size_t id = 0;
+
+    if((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Artworks.txt", "r")) == NULL){
+        printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file per la verifica.");
+    } else{
+        while (fgets(str, MAX_LEN_ARTWORK, file) != NULL) id++;
+        fclose(file);
+    }
+
+    return id;
+}
+
+void getArtworkName(char* artworkName){
+    char str[100];
     int i = 0;
-    printf("\n\t>Numero civico (Il numero civico deve contenere esclusivamente numeri):");
+    printf("\n\t>Nome opera d'arte (Il nome dell'opera deve contenere esclusivamente\n\tlettere e non puo' superare i 100 caratteri):\n\t-");
     do {
         if (i != 0) {
-            printf("\n\t-ATTENZIONE: Il numero inserita non e' conforme con le specifiche richieste, riprova:");
+            printf("\n\t-ATTENZIONE: Il nome dell'opera non e' conforme con le specifiche richieste, riprova:");
         }
         gets(str);
         i++;
-    } while (!sisdigit(str));
+    } while (!sisalpha(str) || strlen(str) > 100);
 
-    strcpy(place->houseNum, str);
+    strcpy(artworkName, str);
 }
 
-void getCity(exhiPlace *place) {
+enum operaType getOperaType(){
+    enum operaType opType;
+    bool run = true;
+    unsigned int choice;
+
+    do {
+        printf("\n-Premi:\n\t\t-1] Dipinto;\n\t\t-2] Scultura;\n\t\t-3] Disegno;\n\t-");
+        choice = getUInt(10);
+
+        switch (choice) {
+            case 1:
+                opType = painting;
+                run = false;
+                break;
+            case 2:
+                opType = sculpture;
+                run = false;
+                break;
+            case 3:
+                opType = drawing;
+                run = false;
+                break;
+            default:
+                break;
+        }
+    } while (run);
+
+    return opType;
+}
+
+void getKind(char* kind){
     char str[30];
     int i = 0;
-    printf("\n\t>Citta (Il nome della citta non deve contenere numeri e non deve superare i 30 caratteri):");
+    printf("\n\t>Genere opera (Il genere dell'opera deve contenere solo lette e non puo' superare i 30 caratteri):");
     do {
         if (i != 0) {
-            printf("\n\t-ATTENZIONE: Il nome della citta inserito non e' conforme con le specifiche richieste, riprova:");
+            printf("\n\t-ATTENZIONE: Il genere dell'opera non e' conforme con le specifiche richieste, riprova:");
         }
         gets(str);
         i++;
     } while (!sisalpha(str) || strlen(str) > 30);
 
-    strcpy(place->city, str);
+    strcpy(kind, str);
 }
 
-void getNameStructure(exhiPlace *place) {
-    char str[50];
+void getHistorPeriod(char* historPeriod){
+    char str[30];
     int i = 0;
-    printf("\n\t>Nome della struttura (Il nome della stru. non deve contenere numeri e non deve superare i 50 caratteri):");
+    printf("\n\t>Periodo storico (Il periodo storico deve contenere solo lettere e deve essere al massimo di 30 caratteri):");
     do {
         if (i != 0) {
-            printf("\n\t-ATTENZIONE: Il numero inserita non e' conforme con le specifiche richieste, riprova:");
+            printf("\n\t-ATTENZIONE: Il perido storico non e' conforme con le specifiche richieste, riprova:");
         }
         gets(str);
         i++;
-    } while (!sisalpha(str) || strlen(str) > 50);
+    } while (!sisalpha(str) || strlen(str) > 30);
 
-    strcpy(place->structure, str);
+    strcpy(historPeriod, str);
 }
 
-//loadExhiplace
+bool isBC() {
+    bool proposition = false;
+    printf("\n\t>Si tratta di un opera avanti cristo? (s/n):\n\t-");
+
+    if(toupper(getch()) == 'S'){
+        proposition = true;
+    }
+    getch();
+    return proposition;
+}
+
+unsigned int getProdYear(bool BC){
+    time_t t  = time(NULL);
+    struct tm tm = *localtime(&t);
+    unsigned int currentY = tm.tm_year + 1900;
+    unsigned int year, i = 0;
+
+    printf("\n\t>Anno di prosuzione (L'anno non deve essere superiore a quello corrente, se l'opera e D.C.\n\t "
+           "Altrimenti se e' A.C. non puo superare l'anno 40.000):\n\t-");
+
+    do {
+
+        if (i != 0) {
+            printf("\n\t-ATTENZIONE: Il perido storico non e' conforme con le specifiche richieste, riprova:");
+        }
+
+        year = getUInt(10);
+        i++;
+
+        // Se l'anno di porduzione non è A.C., verifica se l'anno inserito è maggiore di quello corrente
+        // oppure se l'opera è A.C. verifica se è maggiore della prima opera scoperta
+    } while ((!BC && year > currentY) || (BC && year > 40000));
+    return year;
+}
+
+void getArtwork(artwork* artw){
+
+    printf("\n# Registrazione di un opera d'arte #");
+
+    artw->IDArtwork = getIdArtwork();
+
+    getArtworkName(artw->name);
+
+    getName(artw->authorName);
+
+    getSurname(artw->authorSurname);
+
+    artw->operaType = getOperaType();
+
+    getKind(artw->kind);
+
+    getHistorPeriod(artw->historPeriod);
+
+    artw->BC = isBC();
+
+    artw->prodYear = getProdYear(artw->BC);
+
+}
+
+void chooseArtwork(unsigned int* IDs, const unsigned int dim){
+
+    FILE* file = NULL;
+    char str[MAX_LEN_ARTWORK];
+    unsigned int temp;
+
+    // inserire le funzioni di ricerca tramite i filtri
+    if((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Artworks.txt", "r")) == NULL){
+        printf("\n-ATTENZIONE: Non e' stato possibile aprire il file!");
+    } else{
+        while (fgets(str, MAX_LEN_ARTWORK, file) != NULL){
+            printf("\n\t\t>ID: %s;",strtok(str, "#"));
+            printf("\tNome opera: %s;",strtok(NULL, "-"));
+            printf("\tAutore:%s %s;",strtok(NULL, "-"), strtok(NULL, "-"));
+        }
+        fclose(file);
+    }
+    printf("\n\n\t\t-Digita l'ID delle opere, per aggiungerle alla mostra:");
+
+    for (int i = 0; i < dim; ++i) {
+        printf("\n\t-");
+        temp = getUInt(10);
+        if(IDExists(temp)){
+            IDs[i] = temp;
+        } else{
+            printf("\n-ATTENZIONE: L'ID specificato e' inesistente riprova:");
+        }
+    }
+}
+
+bool IDExists(unsigned int ID){
+    FILE* file = NULL;
+    char str[MAX_LEN_ARTWORK], *ptr;
+    bool run = true, idExists = false;
+
+    if((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Artworks.txt", "r")) == NULL){
+        printf("\n-ATTENZIONE: Non e' stato possibile aprire il file!");
+    } else{
+        while (fgets(str, MAX_LEN_ARTWORK, file) != NULL && run){
+            if((strtol(strtok(str, "#"), &ptr, 10)) == ID){
+                run = false;
+                idExists = true;
+            }
+        }
+        fclose(file);
+        free(ptr);
+    }
+    return idExists;
+}
+
+unsigned int getIDShow(){
+    unsigned int id = 0;
+    FILE* file = NULL;
+    char str [MAX_LEN_SHOW];
+
+    if((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Artshow.txt", "r")) == NULL){
+        printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file per la verifica.");
+    } else{
+        while (fgets(str, MAX_LEN_ARTWORK, file) != NULL) id++;
+        fclose(file);
+    }
+
+    return id;
+}
+
+char* getShow(date *timeStart, date* timeEnd, localManager* manager){
+    unsigned int dimShow;
+    unsigned int *artworks = NULL;
+    char *idArtwork = NULL;
+    printf("\n# Registra mostra #");
+    getExpositionTime(timeStart, timeEnd);
+
+    getLocalManager(manager);
+    /**
+     * \bug risolvere timeEnd->day rimane uogale a zero
+     */
+    printf("\n\t-Inserisci il numero di opere che la mostra puo' contenere:\n\t\t-");
+    dimShow = getUInt(10);
+    artworks = (unsigned int*) malloc(sizeof (unsigned int)* dimShow);
+
+    chooseArtwork(artworks, dimShow);
+    idArtwork = separateWithComma(artworks, dimShow);
+
+    free(artworks);
+
+    return idArtwork;
+}

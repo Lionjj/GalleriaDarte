@@ -21,5 +21,7 @@ bool sisspace(char str[]);
 
 void deletespaces(char str[]);
 
-void delatenoalpha(char str[]);
+void stoupper(char str[]);
+
+char* separateWithComma(unsigned int* arr, unsigned int dim);
 #endif //GALLERIADARTE_STRINGCONTROL_H

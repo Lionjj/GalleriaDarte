@@ -17,11 +17,11 @@ typedef struct
 void registerUser();
 void getUser(Users* user);
 
-void getNameU(Users* user);
-void getSurnameU(Users* user);
-void getUsernameU(Users* user);
-void getEmailU(Users* user);
-void getPwU(Users* user);
+void getName(char* user);
+void getSurname(char *surname);
+void getUsername(char *username);
+void getEmail(char *email);
+void getPw(char *pw);
 
 bool saveUser(Users* user);
 bool isUserAlredyReg(char userName[],char userEmail[] , char mode, bool userType);
@@ -48,4 +48,5 @@ void delateUser(Users* users);
 
 // RicercaOpera()
 
+char* fgetIdsArtwork(unsigned int idChosen);
 #endif //GALLERIADARTE_USERS_H

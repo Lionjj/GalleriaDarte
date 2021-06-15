@@ -6,7 +6,7 @@
 typedef struct
 {
     unsigned int iDExhibition;
-    exposure* days; // data di esposizione di una mostra
+    date* days; // data di esposizione di una mostra
 }Reservation;
 
 

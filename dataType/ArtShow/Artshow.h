@@ -2,7 +2,10 @@
 #define GALLERIADARTE_ARTSHOW_H
 
 #include <stdbool.h>
-
+/**
+ * \defgroup exhibitionPlace Luogo della mostra
+ * \struct exhiPlace "../GalleriaDarte/dataType/ArtShow/Artshow.h"
+ */
 typedef struct
 {
     char streetName[90];
@@ -11,29 +14,44 @@ typedef struct
     char structure[50];
 } exhiPlace;
 
+/**
+ * \defgroup date Data
+ * \struct date "../GalleriaDarte/dataType/ArtShow/Artshow.h"
+ */
 typedef struct
 {
     unsigned int day;
     unsigned int month;
     unsigned int year;
-} exposure;
+} date;
 
+/**
+ * \defgroup localManager Manager locale
+ * \struct localManager "../GalleriaDarte/dataType/ArtShow/Artshow.h"
+ */
 typedef struct
 {
     char name[30];
     char surname[30];
     char fiscalCode[16];
-    char IDResponsible[6];
-} loacaManager;
+} localManager;
 
-
+/**
+ * \addtogroup artwork
+ * \enum operaType "../GalleriaDarte/dataType/ArtShow/Artshow.h"
+ */
 enum operaType
 {
     painting, sculpture, drawing
 };
 
+/**
+ * \defgroup artwork Opera d'arte
+ * \struct artwork "../GalleriaDarte/dataType/ArtShow/Artshow.h"
+ */
 typedef struct
 {
+    unsigned int IDArtwork;
     char name[100];
     char authorName[30];
     char authorSurname[30];
@@ -44,25 +62,283 @@ typedef struct
     bool BC;
 } artwork;
 
-bool tempExhibition;
+/**
+ * \addtogroup exhibitionPlace
+ * @{
+ * Carica il valore: streetName[] di una struttura exhiPlace
+ *
+ * @param *streetName: puntatore ad una stringa che contenerrà il nome della via in cui è situata una struttura
+ */
+void getStreet(char *streetName);
 
-unsigned int sizeShows;
+/**
+ * Carica il valore: houseNum[] di una struttura exhiPlace
+ *
+ * @param *houseNum: puntatore ad una stringa che contenerrà il numero civico di una struttura
+ */
+void getHouseNum(char *houseNum);
 
-unsigned int codeShows;
+/**
+ * Carica il valore: city[] di una struttura exhiPlace
+ *
+ * @param *place: puntatore ad una stringa che conterrà il nome della città in cui è situata la struttura
+ */
+void getCity(char *city);
 
-void getStreet(exhiPlace *place);
+/**
+ * Carica il valore: structure[] di una struttura exhiPlace
+ *
+ * @param *structure: puntatore ad una stringa che conterrà il nome della struttura
+ */
+void getNameStructure(char *structure);
 
-void getHouseNum(exhiPlace *place);
-
-void getCity(exhiPlace *place);
-
-void getNameStructure(exhiPlace *place);
-
+/**
+ * \brief Carica l'intera struttura
+ *
+ * Modulo coordinatore, utilizzato per caricare una generica struttura, exhiPlace;
+ * sfruttando le procedure:
+ *
+ * getStreet(char *streetName)
+ *
+ * getHouseNum(char *houseNum)
+ *
+ * getCity(char *city)
+ *
+ * getNameStructure(char *structure)
+ *
+ * @param *place: puntatore ad una struttura di tipo: exhiPlace
+ */
 
 void getExhiPlace(exhiPlace *place);
 
+/**
+ * tale procedura viene utilizzata per dividere in token la stringa str, recuperata da file,
+ * per poi caricare i token nella struttura place
+ *
+ * @param str[]: stringa da dividere in token
+ * @param *place: puntatore ad una struttura di tipo exhiPlace
+ */
 void loadGallery(char str[], exhiPlace *place);
 
+/**
+ * funzione utilizzata per verificare se una sede della galleria d'arte è gia registrata
+ *
+ * @param *galCity: puntatore a una stringa rappresentante la città in cui è situata la sede
+ * @param *galStreet: puntatore a una stringa che rappresenta la via in cui è situata la sede
+ * @param *galHouseN: puntatore a una stringa che rappresenta il numero civico in cui è situata la sede
+ * @return True se la sede è già registrata, false altrimenti
+ */
+/**@}*/
 bool isGalleryAlredyReg(char *galCity, char *galStreet, char *galHouseN);
+
+/**
+ * \addtogroup date
+ * @{
+ * procedura utilizzata per caricare una struttura di tipo: date, con la data odierna
+ *
+ * @param *d: puntatore ad una struttura di tipo: date
+ */
+void getCurrentDate(date* d);
+
+/**
+ * procedura utilizzata per caricare il valore: year di una struttura data
+ *
+ * @param *time: puntatore ad una struttura di tipo: date
+ * @param current: valore che specifica l'anno corrente
+ */
+void getYear(date* time, unsigned int current);
+
+/**
+ * procedura utilizzata per caricare il valore: month di una struttura data
+ *
+ * @param *time: puntatore ad una struttura di tipo: date
+ * @param *current: puntatore ad una struttura di tipo: date, che indica la data corrente
+ */
+void getMonth(date *time, date *current);
+
+/**
+ * procedura utilizata per caricare il valore: day di una struttura date
+ *
+ * @param *time: puntatore ad una struttura di tipo: date
+ * @param *current: puntatore ad una struttura di tipo: date, che indica la data corrente
+ */
+void getDay(date* time, date* current);
+
+/**
+ * Modulo coordinatore ulizizzato per caricare una struttura di tipo: date;
+ * sfrutta le procedure:
+ *
+ * getYear(date* time, unsigned int current)
+ *
+ * getMonth(date *time, unsigned int currentMonth)
+ *
+ * getDay(date* time, date* current)
+ *
+ * @param *time: puntatore ad una struttura di tipo: date
+ */
+void getDate(date* time);
+
+/**
+ * Modulo coordinatore, utilizzato per specificare il tempo di esposizione di esposizione di una mostra
+ * sfruttando le procedure:
+ *
+ * getDate(date* time)
+ *
+ * @param *timeStart: puntatore ad una struttura date che rappresenta la data di partenza
+ * @param *timeEnd: punatore ad una struttura date che rappresenta la data di fine
+ */
+void getExpositionTime(date* timeStart, date* timeEnd);
+
+/**
+ * Funzione utilizzata per ferivicare se: dato un certo anno esso è bisestile
+ *
+ * @param year: valore che rappresenta una annata
+ * @return True se l'anno è bisestile, falso altrimenti
+ */
+bool isLeapYear(unsigned int year);
+
+/**
+ * Funzione utilizzata per verificare se la data timeStart è precedente alla data timeEnd
+ *
+ * @param *timeStart: puntatore ad una struttura date che rappresenta la data di partenza
+ * @param *timeEnd: punatore ad una struttura date che rappresenta la data di fine
+ * @return True se la data rappresentata da timeStart è precedente alla data rappresentata da timeEnd, false altrimenti
+ */
+ /**@}*/
+bool isPrevious(date* timeStart, date* timeEnd);
+
+/**
+ * \addtogroup localManager
+ * @{
+ *  procedura utilizzata per caricare il valore fiscalCode[] di una struttura localManager
+ *
+ * @param *fiscalCode: puntatore ad una stringa che conterra il codice fiscale di un manager locale
+ */
+void getFiscalCode(char* fiscalCode);
+
+/**
+ * Modulo coordinatore per caricare una generica struttura: localManager, esso sfrutta le procedure:
+ *
+ * getFiscalCode(char* fiscalCode)
+ *
+ * getName(char* name) guarda anche \ref
+ *
+ * @param *manager: puntatore ad una struttora di tipo: localManager
+ */
+/**@}*/
+void getLocalManager(localManager* manager);
+
+/**
+ * \addtogroup artwork
+ * @{
+ * funzione utilizzata per assegnare, ad un opera d'arte un identificativo
+ *
+ * @return Restituisce l'identificativo dell'opera
+ */
+unsigned int getIdArtwork();
+
+/**
+ * procedura per caricare il name[] della struttura artwork
+ *
+ * @param *artworkName: puntatore ad una stringa che conterrà il nome dell'opera
+ */
+void getArtworkName(char* artworkName);
+
+/**
+ * Funzione utilizzata per specificare il tipo di opera
+ *
+ * @return Restituisce il numero che rappresenta il tipo dell'opera
+ */
+enum operaType getOperaType();
+
+/**
+ * procedura per caricare il kind[] della struttura artwork
+ *
+ * @param *kind: puntatore ad una stringa che conterrà il genere dell'opera
+ */
+void getKind(char* kind);
+
+/**
+ * procedura per caricare il historPeriod[] della struttura artwork
+ *
+ * @param *historPeriod: puntatore ad una stringa che contterra il periodo storico in cui è stata realizzata l'opera
+ */
+void getHistorPeriod(char* historPeriod);
+
+/**
+ * Funzione utilizzata per specificare se la data di produzione dell'opera è avanti cristo
+ *
+ * @return true se l'utente specifica che l'opera è avanti cristo, false altrimenti
+ */
+bool isBC();
+
+/**
+ * Funzione untilizzata per specificare l'anno in cui è stata prodotta l'opera
+ *
+ * @param BC: valore booleano che specifica se la data a cui ci si riferisce è prima o dopo cristo
+ * @return Ritorna l'anno di produzione dell'opera
+ */
+unsigned int getProdYear(bool BC);
+
+/**
+ * Modulo coordinatore utilizzato per caricare una generica struttura artwork, sfrutta:
+ *
+ * unsigned int getIdArtwork()
+ *
+ * void getArtworkName(char* artworkName)
+ *
+ * enum operaType getOperaType()
+ *
+ * void getKind(char* kind)
+ *
+ * void getHistorPeriod(char* historPeriod)
+ *
+ * bool isBC()
+ *
+ * unsigned int getProdYear(bool BC)
+ *
+ * @param *artw: puntatore ad una struttura di tipo artwork
+ */
+void getArtwork(artwork* artw);
+
+/**
+ * Procedura utilizzata per decidere quali opere d'arte dovranno essere inserite nella mostra
+ *
+ * @param IDs[]: vettore di interi che contiene gli identificativi delle opere d'arte
+ * @param dim: dimensione del vettore
+ */
+void chooseArtwork(unsigned int IDs[], unsigned int dim);
+
+/**
+ * Funzione utilizzata per verificare l'esistenza del indentificativo ID, per un opera d'arte
+ *
+ * @param ID: Identificativo di cui si verificerà l'esistenza
+ * @return: Restituisce true se il valore è esistente, falso altrimenti
+ */
+bool IDExists(unsigned int ID);
+/**@}*/
+
+/**
+ * Funzione utilizzata per restituire l'identificativo di una mostra
+ *
+ * @return: Restituisce L'identificativo di una mostra
+ */
+unsigned int getIDShow();
+
+/**
+ * Modulo coordinatore utilizzato per caricare le strutture: timeStart, timeEnd, manager; sfruttando:
+ *
+ * void getLocalManager(localManager* manager)
+ *
+ * void getExpositionTime(date* timeStart, date* timeEnd)
+ *
+ * void chooseArtwork(unsigned int IDs[], unsigned int dim)
+ *
+ * @param *timeStart: puntatore ad una struttura date che rappresenta la data di inizio di una mostra
+ * @param *timeEnd: punntatore ad una struttura date che rappresenta la data di fine di una mostra
+ * @param *manager: puntatore ad una struttura localManager che rappresenta il il manager locale della mostra
+ * @return: Restituisce vettore di identificativi di opere d'arte
+ */
+char* getShow(date *timeStart, date* timeEnd, localManager* manager);
 
 #endif //GALLERIADARTE_ARTSHOW_H

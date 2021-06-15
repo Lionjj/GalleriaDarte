@@ -11,5 +11,4 @@ unsigned int getUInt(int representation);
 float getFloat();
 double getDouble();
 
-
 #endif //GALLERIADARTE_DATAINPUT_H

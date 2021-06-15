@@ -125,17 +125,39 @@ void deletespaces(char str[]) {
     }
 }
 
-void delatenoalpha(char str[]) {
-    unsigned int i = 0, j = 0;
-    char str1[90];
-
-    while (str[i] != '\0') {
-        if (isalpha(str[i]) && isprint(str[i])) {
-            str1[j] = str[i];
-            j++;
-        }
-        i++;
+void stoupper(char str[]){
+    for (int i = 0; i < strlen(str); i++){
+        str[i] = (char) toupper(str[i]);
     }
-    str1[j] = '\0';
-    strcpy(str, str1);
+}
+
+char* separateWithComma(unsigned int* arr, const unsigned int dim){
+    char* string = NULL;
+    char strTemp[20];
+    size_t i, j = 0, k;
+
+    for (i = 0; i < dim; i++){
+        itoa((int) arr[i], strTemp, 10);
+        j += strlen(strTemp);
+    }
+
+
+    k = i + j;
+    string = (char*) malloc(sizeof(char) * k);
+
+    j = 0;
+    for (i = 0; i < dim; i++){
+        k = 0;
+        itoa((int)arr[i], strTemp, 10);
+        while (strTemp[k] != '\0'){
+            string[j] = strTemp[k];
+            j++;
+            k++;
+        }
+        string[j] = ',';
+        j++;
+    }
+
+    string[j] = '\0';
+    return string;
 }
