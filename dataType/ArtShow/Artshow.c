@@ -88,6 +88,12 @@ void getExhiPlace(exhiPlace *place) {
     getNameStructure(place->structure);
 }
 
+/**
+ * Per fare in modo che, tale procedura funzioni in maniera corretta, è necessario che il parametro str[], sia una
+ * stringa recupreata dal file ArtGalleryManager.txt, in caso contrario il corretto funzionamento del modulo,
+ * non è garantito.
+ *
+ */
 void loadGallery(char str[], exhiPlace *place) {
     char *fStreetName = NULL, *fHouseNum = NULL, *fCity = NULL, *fStructure = NULL;
 
@@ -103,6 +109,20 @@ void loadGallery(char str[], exhiPlace *place) {
     strcpy(place->structure, fStructure);
 }
 
+/**
+ * \pre Tale funzione recupera dal file ArtGalleryManager.txt tre sottostringhe: fGalCity, fGalStreet, fGalHouseN;
+ * \pre che verranno confrontate con i parametri formali della funzione, rispettivamente nell'ordine: nome della città,
+ * \pre via/piazza e numero civico. La realizzazione di questo controllo viene effettuata con tre if annidati questo poiché
+ * \pre solo nel caso in cui, due sedi della galleria, si trovino nella stessa città bisonga verificare se si trovino nella
+ * \pre stessa via è in tale caso verificare anche se il numero civico è lo stesso. Se queste condizoni risultanto vere,
+ * \pre ossia esistono due sedi della galleria registrate allo stesso indirizzo, allora la funzione
+ * \pre avverte l'utente manager di ciò.
+ *
+ * Questo ciclo di controlli, continua fintato che, non è terminato il file, oppure termina se e solo se la
+ * variabile proposition, che rappresenta il risultato finale del triplice controllo, è posta a false, ossia non
+ * esiste una galleria già registrata nel file ArtGalleryManager.txt con il medesimo indirizzo della galleria i cui
+ * valori sono stati passati alla funzione.
+ */
 bool isGalleryAlredyReg(char *galCity, char *galStreet, char *galHouseN) {
     bool proposition = false;
     FILE *file = NULL;
@@ -169,14 +189,30 @@ void getMonth(date *time, date *current) {
     printf("\n\t>Mese (Il mese deve essere maggiore o uguale a quello corrente):");
     do {
         if (i != 0) {
-            printf("\n\t-ATTENZIONE: Il mese inserito deve essere compreso fra 1 e 12 e \n\tdeve essere maggiore o guale a %u, riprova:", current->month);
+            if(current->month > t && current->year == time->year){
+                printf("\n\t-ATTENZIONE: Il mese inserito deve essere compreso fra 1 e 12 e "
+                       "\n\tdeve essere maggiore o guale a %u, riprova:", current->month);
+            } else{
+                printf("\n\t-ATTENZIONE: Il mese inserito deve essere compreso fra 1 e 12, riprova:");
+            }
         }
         t = getUInt(10);
         i++;
-    } while ((t < 1 || t > 12) || (current->month > t && current->year == time->year ));
+    } while ((t < 1 || t > 12) || (current->month > t && current->year == time->year));
     time->month = t;
 }
 
+/**
+ * In tale procedura viene verificato innanzituto il lim che corrisponde al numero massimo, rappresentante il giorno,
+ * rispetto al mese specificato dal puntatore time->month. Nel caso in cui il mese è di 30 giorni allora la variabile
+ * lim connterrà il valore 30 e così via per gli altri mesi.
+ *
+ * Nel caso il mese corrisponde a febbraio, si verifica se l'anno, specificato dal puntatore time->year sia
+ * bisestile attraverso la funzione isLeapYear(unsigned int year) che data un'annata verifica se essa è bisestile.
+ * Nel caso l'anno sia bisestile allora lim conterrà il valore 29, altrimenti il valore 28.
+ *
+ * \sa Artshow.c::isLeapYear(unsigned int year).
+ */
 void getDay(date* time, date* current){
     unsigned int t, lim;
     int i = 0;
@@ -196,8 +232,13 @@ void getDay(date* time, date* current){
     printf("\n\t>Giorno (il giorno deve essere maggiore o uguale a quello corrente):");
     do {
         if (i != 0) {
-            printf("\n\t-ATTENZIONE: Il giorno inserito deve essere compreso fra 1 e %d e"
-                   "\n\tdeve essere maggiore o guale a %u, riprova:", lim, current->day);
+            if(t < current->day && current->month == time->month){
+                printf("\n\t-ATTENZIONE: Il giorno inserito deve essere compreso fra 1 e %d e"
+                       "\n\tdeve essere maggiore o guale a %u, riprova:", lim, current->day);
+            } else{
+                printf("\n\t-ATTENZIONE: Il giorno inserito deve essere compreso fra 1 e %d, riprova:", lim);
+            }
+
         }
         t = getUInt(10);
         i++;
@@ -216,6 +257,12 @@ void getDate(date* time){
     getDay(time, &current);
 }
 
+/**
+ * Una volta che la data timeStart, rappresentante la data di inizio di una mostra, viene caricata, allora la
+ * data timeEnd non deve precedere la data di partenza della mostra.
+ *
+ * \sa Artshow.h::getDate(date* time)
+ */
 void getExpositionTime(date* timeStart, date* timeEnd){
     int i = 0;
     printf("\n- Inizio data esposizione -");
@@ -224,7 +271,8 @@ void getExpositionTime(date* timeStart, date* timeEnd){
     printf("\n- Fine data esposizione -");
     do{
         if(i > 0){
-            printf("\n\t-ATTENZIONE: La data di conclusione della mostra non deve essere precedente alla data di inzio, riprova.");
+            printf("\n\t-ATTENZIONE: La data di conclusione della mostra non deve essere precedente "
+                   "alla data di inzio, riprova.");
         }
         getDate(timeEnd);
         i++;
@@ -386,6 +434,10 @@ bool isBC() {
     return proposition;
 }
 
+/**
+ * Tale funzione verifica se l'anno di produzione di un'opera d'arte, nel caso essa fosse A.C., non sià superiore
+ * all'anno 40.000 A.C. (anno a cui risale la prima opera d'arte scoperta)
+ */
 unsigned int getProdYear(bool BC){
     time_t t  = time(NULL);
     struct tm tm = *localtime(&t);
@@ -434,6 +486,13 @@ void getArtwork(artwork* artw){
 
 }
 
+/**
+ *
+ *
+ * Nel ciclo for, l'utente manager dovrà inserire gli identificativi delle opere d'arte che la mostra dovrà
+ * contenere. Prima che il valore temp, digitato dall'utente, venga inserito nel vettore di identificatori delle
+ * opere d'arte, si verifica se tale valore è effettivamente esistente nel file Artworks
+ */
 void chooseArtwork(unsigned int* IDs, const unsigned int dim){
 
     FILE* file = NULL;
@@ -464,6 +523,10 @@ void chooseArtwork(unsigned int* IDs, const unsigned int dim){
     }
 }
 
+/**
+ * Tale funzion verifica, all'interno del file Artworks.txt, l'esistenza dell'identificativo passato come
+ * parametro reale alla funzione. Se l'identificativo esiste allora restitusice true.
+ */
 bool IDExists(unsigned int ID){
     FILE* file = NULL;
     char str[MAX_LEN_ARTWORK], *ptr;
@@ -492,6 +555,7 @@ unsigned int getIDShow(){
     if((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Artshow.txt", "r")) == NULL){
         printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file per la verifica.");
     } else{
+        /** \ Conta le righe del file*/
         while (fgets(str, MAX_LEN_ARTWORK, file) != NULL) id++;
         fclose(file);
     }

@@ -48,5 +48,6 @@ void delateUser(Users* users);
 
 // RicercaOpera()
 
-char* fgetIdsArtwork(unsigned int idChosen);
+unsigned int* fgetIdsArtwork(unsigned int idArtshow, unsigned int *dim);
+void pritArtworks(unsigned int idArtshow);
 #endif //GALLERIADARTE_USERS_H

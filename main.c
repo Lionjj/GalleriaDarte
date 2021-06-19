@@ -5,6 +5,10 @@
 #include "dataType/User/Users.h"
 #include "dataType/User/Artgalleymanagers.h"
 
+/**
+ * \@file main.c
+ *
+ */
 
 int main()
 {
@@ -12,6 +16,8 @@ int main()
     Users user;
     exhiPlace place;
     unsigned int choice;
+
+    pritArtworks(2);
 
     printf("Benvenuto in *nome del sistema*");
     do {

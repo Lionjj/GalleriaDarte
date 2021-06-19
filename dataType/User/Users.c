@@ -11,6 +11,7 @@
 
 
 #define MAX_LEN_USERS 415
+#define MAX_LEN_SHOW 300
 
 void registerUser() {
     Users user = {"", "", "", "", ""};
@@ -39,7 +40,7 @@ void getUser(Users *user) {
 
     getEmail(user->email);
 
-    getPw(user->email);
+    getPw(user->pw);
 }
 
 bool saveUser(Users *user) {
@@ -504,18 +505,19 @@ void bookShow(char* username){
     // registrati a quella mostra
 }
 
-/*char* fgetIdsArtwork(unsigned int idChosen){
+unsigned int* fgetIdsArtwork(const unsigned int idArtshow, unsigned int *dim){
     FILE *file = NULL;
     bool run = true;
-    char str[MAX_LEN_USERS], *ptr = NULL, *iDsArt = NULL, *temp = NULL;
-    unsigned int id;
+    char str[MAX_LEN_SHOW], *ptr = NULL, *temp = NULL;
+    unsigned int *idsArtwork = NULL;
+    unsigned int id, i = 0, len = 1;
 
     if((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Artshow.txt", "r")) == NULL){
         printf("\n\t-ATTENZIONE: non è stato possibile aprire il file per la verifica.");
     } else{
-        while (run && fgets(str, MAX_LEN_USERS, file) != NULL){
+        while (run && fgets(str, MAX_LEN_SHOW, file) != NULL){
             id = strtol(strtok(str, "#"), &ptr, 10);
-            if(id == idChosen){
+            if(id == idArtshow){
                 run = false;
             }
         }
@@ -526,13 +528,49 @@ void bookShow(char* username){
         strtok(NULL, "#");
 
 
+        idsArtwork = (unsigned int*) malloc(sizeof (unsigned int));
+
         while ((temp = strtok(NULL, ",")) != NULL){
-            strcat(iDsArt, temp);
-            strcat(iDsArt, ",");
-            printf("%s", iDsArt);
+            idsArtwork[i] = strtol(temp, &ptr, 10);
+            idsArtwork = realloc(idsArtwork, len);
+
+            i++;
+            len++;
         }
         fclose(file);
     }
+    *dim = i-1;
 
-    return iDsArt;
-}*/
+    return idsArtwork;
+}
+
+void pritArtworks(unsigned int idArtshow){
+    FILE* file = NULL;
+    unsigned int *idsArtwork = NULL;
+    unsigned int dim, id;
+    char temp[MAX_LEN_SHOW], *ptr = NULL;
+    bool run = true;
+
+    if((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Artworks.txt", "r")) == NULL){
+        printf("\n\t-ATTENZIONE: non è stato possibile aprire il file per la verifica.");
+    } else{
+
+        idsArtwork = fgetIdsArtwork(idArtshow, &dim);
+
+        for (int i = 0; i < dim; ++i) {
+            while (run && fgets(temp, MAX_LEN_SHOW, file) != NULL) {
+                id = strtol(strtok(temp, "#"), &ptr, 10);
+                if (id == idsArtwork[i]) {
+
+                    printf("\n\tNome opera: %s;",strtok(NULL, "-"));
+                    printf("\tAutore:%s %s;",strtok(NULL, "-"), strtok(NULL, "-"));
+
+                    run = false;
+                }
+            }
+            run = true;
+        }
+        free(idsArtwork);
+        fclose(file);
+    }
+}
