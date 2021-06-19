@@ -495,21 +495,41 @@ void getArtwork(artwork* artw){
  */
 void chooseArtwork(unsigned int* IDs, const unsigned int dim){
 
-    FILE* file = NULL;
+    FILE *file = NULL;
     char str[MAX_LEN_ARTWORK];
-    unsigned int temp;
+    unsigned int temp, choice;
 
-    // inserire le funzioni di ricerca tramite i filtri
-    if((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Artworks.txt", "r")) == NULL){
-        printf("\n-ATTENZIONE: Non e' stato possibile aprire il file!");
-    } else{
-        while (fgets(str, MAX_LEN_ARTWORK, file) != NULL){
-            printf("\n\t\t>ID: %s;",strtok(str, "#"));
-            printf("\tNome opera: %s;",strtok(NULL, "-"));
-            printf("\tAutore:%s %s;",strtok(NULL, "-"), strtok(NULL, "-"));
+    do
+    {
+        printf(">Inserire \"1\" per avviare una ricerca dettgliata delle opere disponibili\n>Inserire \"2\" per visualizzare in modo compatto tutte le opere nel sistema\n");
+        choice = getUInt(10);
+        switch (choice)
+        {
+        case 1:
+            research();
+            break;
+        case 2:
+            if ((file = fopen("Data/Artworks.txt", "r")) == NULL)
+            {
+                printf("\n-ATTENZIONE: Non e' stato possibile aprire il file!");
+            }
+            else
+            {
+                while (fgets(str, MAX_LEN_ARTWORK, file) != NULL)
+                {
+                    printf("\n\t\t>ID: %s;", strtok(str, "#"));
+                    printf("\tNome opera: %s;", strtok(NULL, "-"));
+                    printf("\tAutore:%s %s;", strtok(NULL, "-"), strtok(NULL, "-"));
+                }
+                fclose(file);
+            }
+            break;
+        default:
+            printf("Inserire un valore tra quelli disponibili");
+            break;
         }
-        fclose(file);
-    }
+    } while (choice < 1 || choice > 2);
+
     printf("\n\n\t\t-Digita l'ID delle opere, per aggiungerle alla mostra:");
 
     for (int i = 0; i < dim; ++i) {
@@ -585,3 +605,24 @@ char* getShow(date *timeStart, date* timeEnd, localManager* manager){
 
     return idArtwork;
 }
+
+//Non completo
+/*void printArtshow(FILE *file, unsigned int ido)
+{
+    char *nome, str[MAX_LEN_SHOW], *id = NULL;
+
+    while (fgets(str, MAX_LEN_SHOW, file) != NULL)
+    {
+        id = atoi(strtok(str, "#"));
+        printf("%d", id);
+        nome = strtok(NULL, "#");
+        strtok(NULL, "#");
+        if (strstr(ido,id) != 0)
+        {
+            printf("\n\t>Quest'opera verra' mostrata nella mostra con queste caratteristiche:");
+            printf("\n\t\t-ID: %s", id);
+            printf("\n\t\t-Nome: %s", nome);
+        }
+    }
+}
+*/

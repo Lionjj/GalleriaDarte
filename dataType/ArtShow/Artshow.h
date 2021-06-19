@@ -349,4 +349,10 @@ unsigned int getIDShow();
  */
 char* getShow(date *timeStart, date* timeEnd, localManager* manager);
 
+//Procedura di lettura e stampa delle opere
+void loadArtwork(char str[], artwork *artwork);
+void printArtwork(int num, artwork artwork);
+
+void printArtshow(FILE *file, unsigned int ido);
+
 #endif //GALLERIADARTE_ARTSHOW_H

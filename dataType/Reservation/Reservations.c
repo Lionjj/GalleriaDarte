@@ -8,7 +8,7 @@ void reserve(Users* user)
     FILE* file = NULL;
     Reservation newRes;
 
-    if((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Reservations.txt", "a")) == NULL)
+    if((file = fopen("Data/Reservations.txt", "a")) == NULL)
     {
         printf("\n\t-ATTENZIONE: non è stato possibile effettuare la prenotazione!");
     } else{

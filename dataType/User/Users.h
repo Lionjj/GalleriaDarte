@@ -47,6 +47,17 @@ void delateUser(Users* users);
 // RicercaMostra()
 
 // RicercaOpera()
+//Procedure di ricerca
+void research();
+void searchName(FILE* file);
+void searchArtAuthor(FILE* file);
+void searchArtType(FILE* file);
+void searchArtKind(FILE* file);
+void searchArtHistorPeriod(FILE* file);
+void searchArtProdYear(FILE* file);
+char* fgetIdsArtwork(unsigned int idChosen);
+
+
 
 unsigned int* fgetIdsArtwork(unsigned int idArtshow, unsigned int *dim);
 void pritArtworks(unsigned int idArtshow);
