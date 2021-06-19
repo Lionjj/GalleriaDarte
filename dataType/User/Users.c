@@ -5,7 +5,6 @@
 #include <conio.h>
 #include <ctype.h>
 #include "Users.h"
-#include "../../dataType/ArtShow/artshow.h"
 #include "../../lib/stringcontrol.h"
 #include "../../lib/datainput.h"
 #include "Artgalleymanagers.h"
@@ -613,8 +612,10 @@ void getPw(char *pw)
 void research()
 {
     FILE *file = NULL;
-    int choice;
-    printf("\n\t>Scegliere criterio di ricerca:\n\t\t-1] Nome opera;\n\t\t-2] Autore opera;\n\t\t-3] Tipo opera;\n\t\t-4] Genere opera;\n\t\t-5] Periodo storico opera;\n\t\t-6] Anno produzione opera\n-");
+    unsigned int choice;
+    printf("\n\t>Scegliere criterio di ricerca:\n\t\t-1] Nome opera;\n\t\t-2] Autore opera;"
+           "\n\t\t-3] Tipo opera;\n\t\t-4] Genere opera;\n\t\t-5] Periodo storico opera;"
+           "\n\t\t-6] Anno produzione opera\n-");
     choice = getUInt(10);
     if ((file = fopen("Data/Artworks.txt", "r")) == NULL)
     {
@@ -681,7 +682,7 @@ void searchName(FILE *file)
         if (strstr(artwork.name, name) != 0)
         {
             num++;
-            printArtwork(num, artwork);
+            printArtwork(num, &artwork);
         }
     }
     printf("\n\t-Numero risultati: %d", num);
@@ -700,14 +701,14 @@ void searchArtAuthor(FILE *file)
         if (strcmp(artwork.authorName, authorName) != 0)
         {
             num++;
-            printArtwork(num, artwork);
+            printArtwork(num, &artwork);
         }
         else
         {
             if (strcmp(artwork.authorSurname, authorName) != 0)
             {
                 num++;
-                printArtwork(num, artwork);
+                printArtwork(num, &artwork);
             }
         }
         printf("\n\t-Numero risultati: %d", num);
@@ -717,7 +718,7 @@ void searchArtAuthor(FILE *file)
 void searchArtType(FILE *file)
 {
     char str[MAX_LEN];
-    int artType;
+    unsigned int artType;
     artwork artwork;
     int num = 0;
     printf("\n\t>Inserire un tipo tra i disponibili:\n\t\t-0] Dipinto;\n\t\t-1] Scultura;\n\t\t-2] Disegno;\n-");
@@ -728,7 +729,7 @@ void searchArtType(FILE *file)
         if (artwork.operaType == artType)
         {
             num++;
-            printArtwork(num, artwork);
+            printArtwork(num, &artwork);
         }
     }
     printf("\n\t-Numero risultati: %d", num);
@@ -747,7 +748,7 @@ void searchArtKind(FILE *file)
         if (strstr(artwork.kind, artKind) != 0)
         {
             num++;
-            printArtwork(num, artwork);
+            printArtwork(num, &artwork);
         }
     }
     printf("\n\t-Numero risultati: %d", num);
@@ -766,7 +767,7 @@ void searchArtHistorPeriod(FILE *file)
         if (strstr(artwork.historPeriod, artHistorPeriod) != 0)
         {
             num++;
-            printArtwork(num, artwork);
+            printArtwork(num, &artwork);
         }
     }
     printf("\n\t-Numero risultati: %d", num);
@@ -775,14 +776,14 @@ void searchArtHistorPeriod(FILE *file)
 void searchArtProdYear(FILE *file)
 {
     char str[MAX_LEN];
-    int min = 0, max = 0, c = 0;
+    int min, max, c;
     artwork artwork;
     int num = 0;
     printf("\n\t>Inserire periodo di produzione");
     printf("\n\t>Primo anno:\n-");
-    min = getUInt(10);
+    min = getInt(10);
     printf("\n\t>Secondo anno:\n-");
-    max = getUInt(10);
+    max = getInt(10);
     if (min > max)
     {
         c = min;
@@ -795,7 +796,7 @@ void searchArtProdYear(FILE *file)
         if (artwork.prodYear >= min && artwork.prodYear <= max)
         {
             num++;
-            printArtwork(num, artwork);
+            printArtwork(num, &artwork);
         }
     }
     printf("\n\t-Numero risultati: %d", num);
@@ -808,6 +809,7 @@ void loadArtwork(char str[], artwork *artwork)
     char *fArtType = NULL;
     char *fArtProdYear = NULL;
     char *fArtBC = NULL;
+    char *ptr = NULL;
 
     fArtID = strtok(str, "#");
     fArtName = strtok(NULL, "-");
@@ -819,22 +821,15 @@ void loadArtwork(char str[], artwork *artwork)
     fArtProdYear = strtok(NULL, "-");
     fArtBC = strtok(NULL, "-");
 
-    artwork->IDArtwork = atoi(fArtID);
+    artwork->IDArtwork = strtol(fArtID, &ptr, 10);
     strcpy(artwork->name, fArtName);
     strcpy(artwork->authorName, fArtAuthorName);
     strcpy(artwork->authorSurname, fArtAuthorSurname);
-    artwork->operaType = atoi(fArtType);
+    artwork->operaType = strtol(fArtType, &ptr, 10);
     strcpy(artwork->kind, fArtKind);
     strcpy(artwork->historPeriod, fhistorPeriod);
-    artwork->prodYear = atoi(fArtProdYear);
-    if (strstr(fArtBC, "1"))
-    {
-        artwork->BC = true;
-    }
-    else
-    {
-        artwork->BC = false;
-    }
+    artwork->prodYear = strtol(fArtProdYear, &ptr, 10);
+    artwork->BC = strtol(fArtBC, &ptr, 10);
 
     free(fArtID);
     free(fArtName);
@@ -847,15 +842,15 @@ void loadArtwork(char str[], artwork *artwork)
     free(fArtBC);
 }
 
-void printArtwork(int num, artwork artwork)
+void printArtwork(int num, artwork* artwork)
 {
     printf("\n\t-Questo e' il risultato numero %d:\n", num);
-    printf("\n\t\t-ID dell'opera d'arte: %d", artwork.IDArtwork);
-    printf("\n\t\t-Nome dell'opera d'arte: %s", artwork.name);
-    printf("\n\t\t-Nome dell'autore dell'opera d'arte: %s", &artwork.authorName);
-    printf("\n\t\t-Cognome dell'autore dell'opera d'arte: %s", artwork.authorSurname);
+    printf("\n\t\t-ID dell'opera d'arte: %d", artwork->IDArtwork);
+    printf("\n\t\t-Nome dell'opera d'arte: %s", artwork->name);
+    printf("\n\t\t-Nome dell'autore dell'opera d'arte: %s", artwork->authorName);
+    printf("\n\t\t-Cognome dell'autore dell'opera d'arte: %s", artwork->authorSurname);
     printf("\n\t\t-Tipo dell'opera d'arte: ");
-    switch (artwork.operaType)
+    switch (artwork->operaType)
     {
     case 0:
         printf("Dipinto");
@@ -870,10 +865,10 @@ void printArtwork(int num, artwork artwork)
         printf("Errore nel tipo");
         break;
     }
-    printf("\n\t\t-Genere dell'opera d'arte: %s", artwork.kind);
-    printf("\n\t\t-Periodo storico dell'opera d'arte: %s", artwork.historPeriod);
-    printf("\n\t\t-Anno di produzione dell'opera d'arte: %d", artwork.prodYear);
-    if (artwork.BC == true)
+    printf("\n\t\t-Genere dell'opera d'arte: %s", artwork->kind);
+    printf("\n\t\t-Periodo storico dell'opera d'arte: %s", artwork->historPeriod);
+    printf("\n\t\t-Anno di produzione dell'opera d'arte: %d", artwork->prodYear);
+    if (artwork->BC == true)
     {
         printf(" BC\n");
     }
@@ -881,7 +876,6 @@ void printArtwork(int num, artwork artwork)
     {
         printf(" AD\n");
     }
-    associatedShow(&artwork);
 }
 
 
@@ -931,7 +925,7 @@ unsigned int* fgetIdsArtwork(const unsigned int idArtshow, unsigned int *dim){
     return idsArtwork;
 }
 
-void pritArtworks(unsigned int idArtshow){
+/*void printArtworks(unsigned int idArtshow){
     FILE* file = NULL;
     unsigned int *idsArtwork = NULL;
     unsigned int dim, id;
@@ -960,4 +954,4 @@ void pritArtworks(unsigned int idArtshow){
         free(idsArtwork);
         fclose(file);
     }
-}
+}*/

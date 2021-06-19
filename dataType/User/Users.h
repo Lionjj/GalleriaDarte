@@ -55,10 +55,9 @@ void searchArtType(FILE* file);
 void searchArtKind(FILE* file);
 void searchArtHistorPeriod(FILE* file);
 void searchArtProdYear(FILE* file);
-char* fgetIdsArtwork(unsigned int idChosen);
 
 
-
+void printArtwork(int num, artwork* artwork);
 unsigned int* fgetIdsArtwork(unsigned int idArtshow, unsigned int *dim);
-void pritArtworks(unsigned int idArtshow);
+//void printArtworks(unsigned int idArtshow);
 #endif //GALLERIADARTE_USERS_H

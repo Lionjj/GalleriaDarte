@@ -17,7 +17,7 @@ int main()
     exhiPlace place;
     unsigned int choice;
 
-    pritArtworks(2);
+    printArtworks(2);
 
     printf("Benvenuto in *nome del sistema*");
     do {
