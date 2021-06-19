@@ -46,10 +46,10 @@ int main()
                     run = false;
                     break;
             }
-        } else{
+        } else {
             if(!user.artGalleryManager) {
                 printf("\n# Utente: %s #\n\tPremi:\n\t\t-1] Per prenotare una mostra;\n\t\t-2] Per"
-                       " modificare il tuo account;\n\t\t-3] Per eliminare l'account;\n\t\t-4] Per "
+                       " modificare il tuo account;\n\t\t-3] Per eliminare l'account;\n\t\t-4] Per ricercare un'opera;\n\t\t-5] Per "
                        "chiudere il programma;\n\t-", user.username);
 
                 choice = getUInt(10);
@@ -65,6 +65,9 @@ int main()
                         delateUser(&user);
                         access = false;
                         break;
+                    case 4:
+                        research();
+                        break;
                     default:
                         run = false;
                         break;
@@ -72,8 +75,8 @@ int main()
             } else{
 
                 printf("\n# Gestore galleria: %s #\n\tPremi:\n\t\t-1] Per registrare una mostra;\n\t\t-2] Per"
-                       " modificare il tuo account;\n\t\t-3] Per eliminare l'account;\n\t\t-4] Per aggiungere una nuova opera d'arte;"
-                       "\n\t\t-5] Per chiudere il programma;\n\t-", user.username);
+                       " modificare il tuo account;\n\t\t-3] Per eliminare l'account;\n\t\t-4] Per ricercrare un'opera;\n\t\t-5] Per aggiungere una nuova opera d'arte;"
+                       "\n\t\t-6] Per chiudere il programma;\n\t-", user.username);
 
                 choice = getUInt(10);
 
@@ -89,6 +92,9 @@ int main()
                         access = false;
                         break;
                     case 4:
+                        research();
+                        break;
+                    case 5:
                         registerArtwork();
                         break;
                     default:
