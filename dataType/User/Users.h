@@ -58,6 +58,6 @@ void searchArtProdYear(FILE* file);
 
 
 void printArtwork(int num, artwork* artwork);
-unsigned int* fgetIdsArtwork(unsigned int idArtshow, unsigned int *dim);
-//void printArtworks(unsigned int idArtshow);
+unsigned int* fgetIdsArtwork(unsigned int idArtshow, unsigned int *retDim);
+void printAssArtworks(unsigned int idArtshow);
 #endif //GALLERIADARTE_USERS_H
