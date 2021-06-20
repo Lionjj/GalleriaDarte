@@ -1,6 +1,9 @@
 #ifndef GALLERIADARTE_ARTSHOW_H
 #define GALLERIADARTE_ARTSHOW_H
 
+#define MAX_LEN_SHOW 400
+#define MAX_LEN_ARTWORK 235
+
 #include <stdbool.h>
 /**
  * \file GalleriaDarte.dataType.ArtShow.Artshow.h
@@ -35,7 +38,7 @@ typedef struct
 {
     char name[30];
     char surname[30];
-    char fiscalCode[16];
+    char fiscalCode[17];
 } localManager;
 
 /**
@@ -352,6 +355,9 @@ char* getShow(date *timeStart, date* timeEnd, localManager* manager);
 //Procedura di lettura e stampa delle opere
 void loadArtwork(char str[], artwork *artwork);
 
-void printArtshow(FILE *file, unsigned int ido);
+void delateArtshow(unsigned int idArtshow);
 
+void fgetDateEnd(date *d, const unsigned int id);
+bool isShowOver(unsigned int id);
+void listenerTimeExpired();
 #endif //GALLERIADARTE_ARTSHOW_H

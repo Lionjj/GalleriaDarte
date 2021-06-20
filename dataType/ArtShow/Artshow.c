@@ -12,8 +12,6 @@
 #include <string.h>
 
 #define MAX_LEN_USERS 415
-#define MAX_LEN_ARTWORK 230
-#define MAX_LEN_SHOW 300
 
 void getStreet(char *streetName) {
     char str[90];
@@ -501,7 +499,7 @@ void chooseArtwork(unsigned int* IDs, const unsigned int dim){
 
     do
     {
-        printf(">Inserire \"1\" per avviare una ricerca dettgliata delle opere disponibili\n>Inserire \"2\" per visualizzare in modo compatto tutte le opere nel sistema\n");
+        printf("\n>Inserire \"1\" per avviare una ricerca dettgliata delle opere disponibili\n>Inserire \"2\" per visualizzare in modo compatto tutte le opere nel sistema\n");
         choice = getUInt(10);
         switch (choice)
         {
@@ -509,7 +507,7 @@ void chooseArtwork(unsigned int* IDs, const unsigned int dim){
             research();
             break;
         case 2:
-            if ((file = fopen("Data/Artworks.txt", "r")) == NULL)
+            if ((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Artworks.txt", "r")) == NULL)
             {
                 printf("\n-ATTENZIONE: Non e' stato possibile aprire il file!");
             }
@@ -525,7 +523,7 @@ void chooseArtwork(unsigned int* IDs, const unsigned int dim){
             }
             break;
         default:
-            printf("Inserire un valore tra quelli disponibili");
+            printf("\nInserire un valore tra quelli disponibili");
             break;
         }
     } while (choice < 1 || choice > 2);
@@ -585,17 +583,23 @@ unsigned int getIDShow(){
 
 char* getShow(date *timeStart, date* timeEnd, localManager* manager){
     unsigned int dimShow;
-    unsigned int *artworks = NULL;
+    unsigned int *artworks = NULL, i = 0;
     char *idArtwork = NULL;
     printf("\n# Registra mostra #");
-    getExpositionTime(timeStart, timeEnd);
 
     getLocalManager(manager);
-    /**
-     * \bug risolvere timeEnd->day rimane uogale a zero
-     */
-    printf("\n\t-Inserisci il numero di opere che la mostra puo' contenere:\n\t\t-");
-    dimShow = getUInt(10);
+
+    getExpositionTime(timeStart, timeEnd);
+
+    printf("\n\t-Inserisci il numero di opere che la mostra puo' contenere (Max 60 opere):\n\t\t-");
+    do {
+        if(i > 0){
+            printf("\n\t-ATTENZIONE: il numero di opere supera il massimo valore inseribile, riprova:");
+        }
+        dimShow = getUInt(10);
+        i++;
+    } while (dimShow > 60);
+
     artworks = (unsigned int*) malloc(sizeof (unsigned int)* dimShow);
 
     chooseArtwork(artworks, dimShow);
@@ -606,6 +610,134 @@ char* getShow(date *timeStart, date* timeEnd, localManager* manager){
     return idArtwork;
 }
 
+void delateArtshow(const unsigned int idArtshow){
+    FILE *fileArtshow = NULL, *fileArtshowCopy = NULL, *fileRes = NULL, *fileResCopy = NULL;
+    char tempArtshow[MAX_LEN_SHOW], tempRes[MAX_LEN_RES], *ptr = NULL, *ptrArtshow = NULL, *ptrRes = NULL;
+    unsigned int idArt, idRes;
+    bool itWasCanc = false;
+
+    if((fileArtshow = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Artshow.txt", "r")) == NULL){
+        printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file.");
+    } else{
+
+        if((fileArtshowCopy = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\CopyArtshow.txt", "w")) == NULL){
+            printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file.");
+
+        } else {
+
+            if((fileRes = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Reservations.txt", "r")) == NULL){
+                printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file.");
+            } else {
+
+                if((fileResCopy = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\CopyReservations.txt", "w")) == NULL){
+                    printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file.");
+
+                } else {
+                    while (fgets(tempArtshow, MAX_LEN_SHOW, fileArtshow) != NULL){
+                        fgets(tempRes, MAX_LEN_RES, fileRes);
+
+                        ptrRes = reversStrtok(tempRes, '#');
+                        ptrArtshow = reversStrtok(tempArtshow, '#');
+                        idArt = strtol(strtok(tempArtshow, "#"), &ptr, 10);
+                        idRes = strtol(strtok(tempRes, "#"), &ptr, 10);
+
+
+                        if(idArt != idArtshow){
+                            if(itWasCanc){
+                                idArt--;
+                                idRes--;
+                                fprintf(fileArtshowCopy, "%u#%s", idArt, ptrArtshow);
+                                fprintf(fileResCopy, "%u#%s", idRes, ptrRes);
+
+                            }else{
+                                fprintf(fileArtshowCopy, "%u#%s", idArt, ptrArtshow);
+                                fprintf(fileResCopy, "%u#%s", idRes, ptrRes);
+
+                            }
+
+                        } else{
+                            itWasCanc = true;
+                        }
+                    }
+                    fclose(fileResCopy);
+                }
+                fclose(fileRes);
+            }
+            fclose(fileArtshowCopy);
+        }
+        fclose(fileArtshow);
+    }
+    remove("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Artshow.txt");
+    remove("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Reservations.txt");
+
+    rename("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\CopyArtshow.txt",
+           "C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Artshow.txt");
+    rename("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\CopyReservations.txt",
+           "C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Reservations.txt");
+}
+
+bool isShowOver(const unsigned int id){
+    bool proposition;
+    date current, fdate;
+
+    getCurrentDate(&current);
+    fgetDateEnd(&fdate, id);
+    proposition = isPrevious(&fdate, &current);
+
+    return proposition;
+}
+
+void fgetDateEnd(date *d, const unsigned int id){
+    FILE *file = NULL;
+    char artShow[MAX_LEN_SHOW], *date = NULL,*ptr = NULL;
+    unsigned int fid;
+    bool run = true;
+    if((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Artshow.txt", "r")) == NULL){
+        printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file.");
+    } else{
+
+        while (fgets(artShow, MAX_LEN_SHOW, file) != NULL && run){
+            fid = strtol(strtok(artShow, "#"), &ptr, 10);
+
+            if(id == fid){
+                strtok(NULL, "#");
+                strtok(NULL, "#");
+                strtok(NULL, "#");
+                date = strtok(NULL, "#");
+                d->day = strtol(strtok(date, "/"), &ptr, 10);
+                d->month = strtol(strtok(NULL, "/"), &ptr, 10);
+                d->year = strtol(strtok(NULL, "/"), &ptr, 10);
+                run = false;
+            }
+        }
+        fclose(file);
+    }
+}
+
+unsigned int lineOfFile(FILE *file,const int MAX_LENG){
+    unsigned int l = 0;
+    char str[MAX_LENG];
+    while (fgets(str, MAX_LENG, file) != NULL) l++;
+    return l;
+}
+
+void listenerTimeExpired(){
+    FILE *file = NULL;
+    unsigned int len = 0;
+
+    if((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Artshow.txt", "r")) == NULL){
+        printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file.");
+    } else{
+        len = lineOfFile(file, MAX_LEN_SHOW);
+        fclose(file);
+    }
+
+    for (int i = 0; i < len; ++i) {
+        if(isShowOver(i)){
+            delateArtshow(i);
+        }
+    }
+}
 //Non completo
 /*void printArtshow(FILE *file, unsigned int ido)
 {

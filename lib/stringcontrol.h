@@ -24,4 +24,5 @@ void deletespaces(char str[]);
 void stoupper(char str[]);
 
 char* separateWithComma(unsigned int* arr, unsigned int dim);
+char* reversStrtok(char *str, char symbol);
 #endif //GALLERIADARTE_STRINGCONTROL_H

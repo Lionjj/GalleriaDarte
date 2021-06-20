@@ -9,9 +9,6 @@
 #include "../../lib/datainput.h"
 #include "Artgalleymanagers.h"
 
-#define MAX_LEN 240
-#define MAX_LEN_USERS 415
-#define MAX_LEN_SHOW 300
 
 void registerUser()
 {
@@ -881,9 +878,9 @@ void printArtwork(int num, artwork* artwork)
 
 void bookShow(char *username)
 {
+
     // printa le mostre disponibili e le opere associate
-    // seleziona la mostra a cui vuoi registrarti
-    // registrati a quella mostra
+    selectArtshow(username);
 }
 
 unsigned int* fgetIdsArtwork(const unsigned int idArtshow, unsigned int *retDim){
@@ -953,5 +950,70 @@ void printAssArtworks(unsigned int idArtshow){
         }
         free(idsArtwork);
         fclose(file);
+    }
+}
+
+void selectArtshow(char *username){
+    unsigned int choice;
+
+    printf("\n\t-Digita il ID della mostra a cui vuoi registrarti:\n\t-");
+    choice = getUInt(10);
+    bookUser(choice, username);
+
+}
+
+void bookUser(const unsigned int IDArtshow, char *newUsername){
+    FILE *file = NULL, *fileCopy = NULL;
+    char temp[MAX_LEN_SHOW], *ptr = NULL, *usernames = NULL;
+    unsigned int id, max;
+
+    if ((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Reservations.txt", "r")) ==
+        NULL){
+        printf("-ATTENZIONE: Non e' stato possibile registrarti alla mostra!\n");
+    }
+    else{
+        if ((fileCopy = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\CopyReservations.txt",
+                              "w")) == NULL){
+            printf("\n\t-ATTENZIONE: non è stato possibile effettuare la copia del file!");
+        }
+        else{
+            while (fgets(temp,MAX_LEN_SHOW,file)){
+
+                temp[strlen(temp)-1] = '\0';
+
+                id = strtol(strtok(temp, "#"), &ptr, 10);
+                max = strtol(strtok(NULL, "#"), &ptr, 10);
+                usernames = strtok(NULL, "<");
+
+
+                if(id == IDArtshow){
+
+                    if(max > 0){
+                        max--;
+                        if(usernames != NULL){
+                            fprintf(fileCopy, "%u#%u#%s%s,<\n", id, max, usernames, newUsername);
+                        } else{
+                            fprintf(fileCopy, "%u#%u#%s,<\n", id, max, newUsername);
+                        }
+
+                    } else{
+                        printf("\n\t-ATTENZIONE: ci dispiace ma purtoppo il numero massimo di utenti \n\tpartecipanti a "
+                               "questa mostra e' stato raggiunto.");
+                    }
+                } else{
+                    if(usernames != NULL){
+                        fprintf(fileCopy, "%u#%u#%s<\n", id, max, usernames);
+                    } else{
+                        fprintf(fileCopy, "%u#%u#<\n", id, max);
+                    }
+                }
+            }
+            fclose(fileCopy);
+        }
+        fclose(file);
+
+        remove("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Reservations.txt");
+        rename("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\CopyReservations.txt",
+               "C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Reservations.txt");
     }
 }

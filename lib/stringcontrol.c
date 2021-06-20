@@ -161,3 +161,16 @@ char* separateWithComma(unsigned int* arr, const unsigned int dim){
     string[j] = '\0';
     return string;
 }
+
+char* reversStrtok(char *str, const char symbol) {
+    char *ptr = NULL;
+    unsigned int i = 0;
+
+    while (str[i] != symbol) {
+        i++;
+    }
+    i++;
+    ptr = &str[i];
+
+    return ptr;
+}
