@@ -9,7 +9,6 @@
 #include "../../lib/datainput.h"
 #include "Artgalleymanagers.h"
 
-
 void registerUser()
 {
     Users user = {"", "", "", "", ""};
@@ -58,7 +57,7 @@ bool saveUser(Users *user)
 
     if (!user->artGalleryManager)
     {
-        if ((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Users.txt", "a")) ==
+        if ((file = fopen("Data/Users.txt", "a")) ==
             NULL)
         {
             proposition = false;
@@ -88,7 +87,7 @@ bool isUserAlredyReg(char *userName, char *userEmail, char mode, bool userType)
 
     if (!userType)
     {
-        if ((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Users.txt", "r")) ==
+        if ((file = fopen("Data/Users.txt", "r")) ==
             NULL)
         {
             proposition = NULL;
@@ -192,7 +191,7 @@ bool getLog(Users *user, exhiPlace *place)
     if (!user->artGalleryManager)
     {
 
-        if ((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Users.txt", "r")) ==
+        if ((file = fopen("Data/Users.txt", "r")) ==
             NULL)
         {
             proposition = NULL;
@@ -259,7 +258,6 @@ bool getLog(Users *user, exhiPlace *place)
     }
     else
     {
-        printf("-%s", user->username);
         proposition = getManagerLog(user, place, uNameORuEmail, uPw);
     }
 
@@ -327,7 +325,7 @@ void editFile(Users *user, exhiPlace *place, unsigned int choice)
 
     if (!user->artGalleryManager)
     {
-        if ((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Users.txt", "r")) ==
+        if ((file = fopen("Data/Users.txt", "r")) ==
             NULL)
         {
             printf("\n\t-ATTENZIONE: non è stata possibile effettuare l'operazione!");
@@ -335,7 +333,7 @@ void editFile(Users *user, exhiPlace *place, unsigned int choice)
         else
         {
 
-            if ((fileCopy = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\CopyUsers.txt",
+            if ((fileCopy = fopen("Data/CopyUsers.txt",
                                   "w")) == NULL)
             {
                 printf("\n\t-ATTENZIONE: non è stato possibile effettuare la copia del file!");
@@ -402,9 +400,9 @@ void editFile(Users *user, exhiPlace *place, unsigned int choice)
                 fclose(file);
                 fclose(fileCopy);
 
-                remove("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Users.txt");
-                rename("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\CopyUsers.txt",
-                       "C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Users.txt");
+                remove("Data/Users.txt");
+                rename("Data/CopyUsers.txt",
+                       "Data/Users.txt");
 
                 free(fileCopy);
                 free(file);
@@ -454,7 +452,7 @@ void delateUser(Users *users)
     {
         if (!users->artGalleryManager)
         {
-            if ((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Users.txt",
+            if ((file = fopen("Data/Users.txt",
                               "r")) ==
                 NULL)
             {
@@ -464,7 +462,7 @@ void delateUser(Users *users)
             {
 
                 if ((fileCopy = fopen(
-                         "C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\CopyUsers.txt",
+                         "Data/CopyUsers.txt",
                          "w")) ==
                     NULL)
                 {
@@ -487,9 +485,9 @@ void delateUser(Users *users)
                     fclose(file);
                     fclose(fileCopy);
 
-                    remove("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Users.txt");
-                    rename("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\CopyUsers.txt",
-                           "C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Users.txt");
+                    remove("Data/Users.txt");
+                    rename("Data/CopyUsers.txt",
+                           "Data/Users.txt");
 
                     free(fileCopy);
                     free(file);
@@ -610,60 +608,63 @@ void research()
 {
     FILE *file = NULL;
     unsigned int choice;
-    printf("\n\t>Scegliere criterio di ricerca:\n\t\t-1] Nome opera;\n\t\t-2] Autore opera;"
-           "\n\t\t-3] Tipo opera;\n\t\t-4] Genere opera;\n\t\t-5] Periodo storico opera;"
-           "\n\t\t-6] Anno produzione opera\n\t-");
-    choice = getUInt(10);
-    if ((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Artworks.txt", "r")) == NULL)
+    do
     {
-        printf("\n\t-ATTENZIONE: non e' stata possibile effettuare l'operazione!");
-    }
-    else
-    {
-        switch (choice)
+        printf("\n\t>Scegliere criterio di ricerca:\n\t\t-1] Nome opera;\n\t\t-2] Autore opera;"
+               "\n\t\t-3] Tipo opera;\n\t\t-4] Genere opera;\n\t\t-5] Periodo storico opera;"
+               "\n\t\t-6] Anno produzione opera\n\t-");
+        choice = getUInt(10);
+        if ((file = fopen("Data/Artworks.txt", "r")) == NULL)
         {
-        case 1:
-
-            printf("\n\t-Ricerca tramite nome\n");
-            searchName(file);
-            break;
-
-        case 2:
-
-            printf("\n\t-Ricerca tramite autore\n");
-            searchArtAuthor(file);
-            break;
-
-        case 3:
-
-            printf("\n\t-Ricerca tramite tipo di opera\n");
-            searchArtType(file);
-            break;
-
-        case 4:
-
-            printf("\n\t-Ricerca tramite genere di opera\n");
-            searchArtKind(file);
-            break;
-
-        case 5:
-
-            printf("\n\t-Ricerca tramite periodo storico\n");
-            searchArtHistorPeriod(file);
-            break;
-
-        case 6:
-
-            printf("\n\t-Ricerca tramite anno di produzione\n");
-            searchArtProdYear(file);
-            break;
-
-        default:
-            printf("\n\t-Azione di ricerca interrotta!\n");
-            break;
+            printf("\n\t-ATTENZIONE: non e' stata possibile effettuare l'operazione!");
         }
-        fclose(file);
-    }
+        else
+        {
+            switch (choice)
+            {
+            case 1:
+
+                printf("\n\t-Ricerca tramite nome\n");
+                searchName(file);
+                break;
+
+            case 2:
+
+                printf("\n\t-Ricerca tramite autore\n");
+                searchArtAuthor(file);
+                break;
+
+            case 3:
+
+                printf("\n\t-Ricerca tramite tipo di opera\n");
+                searchArtType(file);
+                break;
+
+            case 4:
+
+                printf("\n\t-Ricerca tramite genere di opera\n");
+                searchArtKind(file);
+                break;
+
+            case 5:
+
+                printf("\n\t-Ricerca tramite periodo storico\n");
+                searchArtHistorPeriod(file);
+                break;
+
+            case 6:
+
+                printf("\n\t-Ricerca tramite anno di produzione\n");
+                searchArtProdYear(file);
+                break;
+
+            default:
+                printf("\n\t-Azione di ricerca interrotta!\n");
+                break;
+            }
+            fclose(file);
+        }
+    } while (choice < 1 || choice > 6);
 }
 
 void searchName(FILE *file)
@@ -839,10 +840,9 @@ void loadArtwork(char str[], artwork *artwork)
     free(fArtBC);
 }
 
-void printArtwork(int num, artwork* artwork)
+void printArtwork(int num, artwork *artwork)
 {
     printf("\n\t-Questo e' il risultato numero %d:\n", num);
-    printf("\n\t\t-ID dell'opera d'arte: %d", artwork->IDArtwork);
     printf("\n\t\t-Nome dell'opera d'arte: %s", artwork->name);
     printf("\n\t\t-Nome dell'autore dell'opera d'arte: %s", artwork->authorName);
     printf("\n\t\t-Cognome dell'autore dell'opera d'arte: %s", artwork->authorSurname);
@@ -873,8 +873,42 @@ void printArtwork(int num, artwork* artwork)
     {
         printf(" AD\n");
     }
+    assArtshow(artwork->IDArtwork);
 }
 
+void assArtshow(unsigned int id)
+{
+    FILE *file = NULL;
+    char str[MAX_LEN_SHOW], *name = NULL, *dates = NULL, *datee = NULL, *ptr = NULL, *ids = NULL, pos[5];
+    unsigned int idShow;
+    if((file = fopen("Data/Artshow.txt", "r")) == NULL) 
+    { 
+        printf("\n\t-ATTENZIONE: non è stata possibile effettuare l'operazione!");
+    }
+        else 
+        {
+            while (fgets(str, MAX_LEN_SHOW, file) != NULL) 
+            {
+                ids = reversStrtok(reversStrtok(reversStrtok(reversStrtok(str, '/'), '#'), '/'), '#');
+                ids[strlen(ids) - 1] = '\0';
+                idShow = strtol(strtok(str, "#"), &ptr, 10);
+                name = strtok(NULL, "#");
+                strtok(NULL, "#");
+                dates = strtok(NULL, "#");
+                datee = strtok(NULL, "#");
+                sprintf(pos, "%u", id);
+                if (strstr(ids, pos) != NULL)
+                {
+                    printf("\n\t>Quest'opera verra' mostrata nella mostra con queste caratteristiche:");
+                    printf("\n\t\t-ID: %u", idShow);
+                    printf("\n\t\t-Nome: %s", name);
+                    printf("\n\t\t-Data inizio: %s", dates);
+                    printf("\n\t\t-Data fine: %s", datee);
+                }
+            }
+            fclose(file);
+        }
+}
 
 void bookShow(char *username)
 {
@@ -883,19 +917,25 @@ void bookShow(char *username)
     selectArtshow(username);
 }
 
-unsigned int* fgetIdsArtwork(const unsigned int idArtshow, unsigned int *retDim){
+unsigned int *fgetIdsArtwork(const unsigned int idArtshow, unsigned int *retDim)
+{
     FILE *file = NULL;
     bool run = true;
     char str[MAX_LEN_SHOW], *ptr = NULL, *temp = NULL;
     unsigned int *idsArtwork = NULL;
     unsigned int id, i = 0, len = 1;
 
-    if((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Artshow.txt", "r")) == NULL){
+    if ((file = fopen("Data/Artshow.txt", "r")) == NULL)
+    {
         printf("\n\t-ATTENZIONE: non è stato possibile aprire il file per la verifica.");
-    } else{
-        while (run && fgets(str, MAX_LEN_SHOW, file) != NULL){
+    }
+    else
+    {
+        while (run && fgets(str, MAX_LEN_SHOW, file) != NULL)
+        {
             id = strtol(strtok(str, "#"), &ptr, 10);
-            if(id == idArtshow){
+            if (id == idArtshow)
+            {
                 run = false;
             }
         }
@@ -905,10 +945,10 @@ unsigned int* fgetIdsArtwork(const unsigned int idArtshow, unsigned int *retDim)
         strtok(NULL, "#");
         strtok(NULL, "#");
 
+        idsArtwork = (unsigned int *)malloc(sizeof(unsigned int));
 
-        idsArtwork = (unsigned int*) malloc(sizeof (unsigned int));
-
-        while ((temp = strtok(NULL, ",")) != NULL){
+        while ((temp = strtok(NULL, ",")) != NULL)
+        {
             idsArtwork[i] = strtol(temp, &ptr, 10);
             idsArtwork = realloc(idsArtwork, len);
 
@@ -922,26 +962,33 @@ unsigned int* fgetIdsArtwork(const unsigned int idArtshow, unsigned int *retDim)
     return idsArtwork;
 }
 
-void printAssArtworks(unsigned int idArtshow){
-    FILE* file = NULL;
+void printAssArtworks(unsigned int idArtshow)
+{
+    FILE *file = NULL;
     unsigned int *idsArtwork = NULL;
     unsigned int dim, id;
     char temp[MAX_LEN_SHOW], *ptr = NULL;
     bool run = true;
 
-    if((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Artworks.txt", "r")) == NULL){
+    if ((file = fopen("Data/Artworks.txt", "r")) == NULL)
+    {
         printf("\n\t-ATTENZIONE: non è stato possibile aprire il file per la verifica.");
-    } else{
+    }
+    else
+    {
 
         idsArtwork = fgetIdsArtwork(idArtshow, &dim);
 
-        for (int i = 0; i < dim; ++i) {
-            while (run && fgets(temp, MAX_LEN_SHOW, file) != NULL) {
+        for (int i = 0; i < dim; ++i)
+        {
+            while (run && fgets(temp, MAX_LEN_SHOW, file) != NULL)
+            {
                 id = strtol(strtok(temp, "#"), &ptr, 10);
-                if (id == idsArtwork[i]) {
+                if (id == idsArtwork[i])
+                {
 
-                    printf("\n\tNome opera: %s;",strtok(NULL, "-"));
-                    printf("\tAutore:%s %s;",strtok(NULL, "-"), strtok(NULL, "-"));
+                    printf("\n\tNome opera: %s;", strtok(NULL, "-"));
+                    printf("\tAutore:%s %s;", strtok(NULL, "-"), strtok(NULL, "-"));
 
                     run = false;
                 }
@@ -953,57 +1000,73 @@ void printAssArtworks(unsigned int idArtshow){
     }
 }
 
-void selectArtshow(char *username){
+void selectArtshow(char *username)
+{
     unsigned int choice;
 
     printf("\n\t-Digita il ID della mostra a cui vuoi registrarti:\n\t-");
     choice = getUInt(10);
     bookUser(choice, username);
-
 }
 
-void bookUser(const unsigned int IDArtshow, char *newUsername){
+void bookUser(const unsigned int IDArtshow, char *newUsername)
+{
     FILE *file = NULL, *fileCopy = NULL;
     char temp[MAX_LEN_SHOW], *ptr = NULL, *usernames = NULL;
     unsigned int id, max;
 
-    if ((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Reservations.txt", "r")) ==
-        NULL){
+    if ((file = fopen("Data/Reservations.txt", "r")) ==
+        NULL)
+    {
         printf("-ATTENZIONE: Non e' stato possibile registrarti alla mostra!\n");
     }
-    else{
-        if ((fileCopy = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\CopyReservations.txt",
-                              "w")) == NULL){
+    else
+    {
+        if ((fileCopy = fopen("Data/CopyReservations.txt",
+                              "w")) == NULL)
+        {
             printf("\n\t-ATTENZIONE: non è stato possibile effettuare la copia del file!");
         }
-        else{
-            while (fgets(temp,MAX_LEN_SHOW,file)){
+        else
+        {
+            while (fgets(temp, MAX_LEN_SHOW, file))
+            {
 
-                temp[strlen(temp)-1] = '\0';
+                temp[strlen(temp) - 1] = '\0';
 
                 id = strtol(strtok(temp, "#"), &ptr, 10);
                 max = strtol(strtok(NULL, "#"), &ptr, 10);
                 usernames = strtok(NULL, "<");
 
+                if (id == IDArtshow)
+                {
 
-                if(id == IDArtshow){
-
-                    if(max > 0){
+                    if (max > 0)
+                    {
                         max--;
-                        if(usernames != NULL){
+                        if (usernames != NULL)
+                        {
                             fprintf(fileCopy, "%u#%u#%s%s,<\n", id, max, usernames, newUsername);
-                        } else{
+                        }
+                        else
+                        {
                             fprintf(fileCopy, "%u#%u#%s,<\n", id, max, newUsername);
                         }
-
-                    } else{
+                    }
+                    else
+                    {
                         printf("\n\t-ATTENZIONE: ci dispiace ma purtoppo il numero massimo di utenti \n\tpartecipanti a "
                                "questa mostra e' stato raggiunto.");
                     }
-                } else{
-                    if(usernames != NULL){
+                }
+                else
+                {
+                    if (usernames != NULL)
+                    {
                         fprintf(fileCopy, "%u#%u#%s<\n", id, max, usernames);
-                    } else{
+                    }
+                    else
+                    {
                         fprintf(fileCopy, "%u#%u#<\n", id, max);
                     }
                 }
@@ -1012,8 +1075,8 @@ void bookUser(const unsigned int IDArtshow, char *newUsername){
         }
         fclose(file);
 
-        remove("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Reservations.txt");
-        rename("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\CopyReservations.txt",
-               "C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Reservations.txt");
+        remove("Data/Reservations.txt");
+        rename("Data/CopyReservations.txt",
+               "Data/Reservations.txt");
     }
 }

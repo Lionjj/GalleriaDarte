@@ -137,18 +137,19 @@ char* separateWithComma(unsigned int* arr, const unsigned int dim){
     size_t i, j = 0, k;
 
     for (i = 0; i < dim; i++){
-        itoa((int) arr[i], strTemp, 10);
+        sprintf(strTemp, "%u", arr[i]);
         j += strlen(strTemp);
     }
 
 
     k = i + j;
-    string = (char*) malloc(sizeof(char) * k);
+    string = (char*) malloc(sizeof(char) * (k + 1));
+    string[0] = '\0';
 
     j = 0;
     for (i = 0; i < dim; i++){
         k = 0;
-        itoa((int)arr[i], strTemp, 10);
+        sprintf(strTemp, "%u", arr[i]);
         while (strTemp[k] != '\0'){
             string[j] = strTemp[k];
             j++;
@@ -157,8 +158,7 @@ char* separateWithComma(unsigned int* arr, const unsigned int dim){
         string[j] = ',';
         j++;
     }
-
-    string[j] = '\0';
+    
     return string;
 }
 

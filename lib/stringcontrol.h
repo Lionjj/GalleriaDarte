@@ -25,4 +25,6 @@ void stoupper(char str[]);
 
 char* separateWithComma(unsigned int* arr, unsigned int dim);
 char* reversStrtok(char *str, char symbol);
+
+unsigned int* mergeIds(char* str, unsigned int* postDim);
 #endif //GALLERIADARTE_STRINGCONTROL_H

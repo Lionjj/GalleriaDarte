@@ -60,6 +60,7 @@ void searchArtType(FILE* file);
 void searchArtKind(FILE* file);
 void searchArtHistorPeriod(FILE* file);
 void searchArtProdYear(FILE* file);
+void assArtshow(unsigned int id);
 
 
 void printArtwork(int num, artwork* artwork);

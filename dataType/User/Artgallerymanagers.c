@@ -18,7 +18,7 @@ bool saveArtGalleyManager(Users *user) {
 
     if (!isGalleryAlredyReg(place.city, place.streetName, place.houseNum)) {
         if ((file = fopen(
-                "C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\ArtGalleryManager.txt",
+                "Data/ArtGalleryManager.txt",
                 "a")) ==
             NULL) {
             proposition = false;
@@ -42,7 +42,7 @@ bool isGalleryManagAlredyReg(char *userName, char *userEmail, char mode){
     FILE *file = NULL;
     char str[MAX_LEN_USERS], *fUserName = NULL, *fUserEmail = NULL;
 
-    if ((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\ArtGalleryManager.txt",
+    if ((file = fopen("Data/ArtGalleryManager.txt",
                       "r")) ==
         NULL) {
         proposition = NULL;
@@ -103,7 +103,7 @@ bool getManagerLog(Users *user, exhiPlace *place, char *uNameORuEmail, char * uP
     FILE *file = NULL;
     char *fStreetName = NULL, *fHouseNum = NULL, *fCity = NULL, *fStructure = NULL;
 
-    if ((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\ArtGalleryManager.txt",
+    if ((file = fopen("Data/ArtGalleryManager.txt",
                       "r")) ==
         NULL) {
         proposition = NULL;
@@ -179,13 +179,13 @@ void editManagerFile(Users *user, exhiPlace *place, unsigned int choice){
     Users temp;
     exhiPlace tempP;
 
-    if ((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\ArtGalleryManager.txt",
+    if ((file = fopen("Data/ArtGalleryManager.txt",
                       "r")) ==
         NULL) {
         printf("\n\t-ATTENZIONE: non è stata possibile effettuare l'operazione!");
     } else {
         if ((fileCopy = fopen(
-                "C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\CopyArtGallety.txt",
+                "Data/CopyArtGallety.txt",
                 "w")) == NULL) {
             printf("\n\t-ATTENZIONE: non è stato possibile effettuare la copia del file!");
         } else {
@@ -294,9 +294,9 @@ void editManagerFile(Users *user, exhiPlace *place, unsigned int choice){
             fclose(file);
             fclose(fileCopy);
 
-            remove("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\ArtGalleryManager.txt");
-            rename("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\CopyArtGallety.txt",
-                   "C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\ArtGalleryManager.txt");
+            remove("Data/ArtGalleryManager.txt");
+            rename("Data/CopyArtGallety.txt",
+                   "Data/ArtGalleryManager.txt");
 
             free(fileCopy);
             free(file);
@@ -310,7 +310,7 @@ void delateManager(Users *users){
     Users temp;
 
     if ((file = fopen(
-            "C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\ArtGalleryManager.txt",
+            "Data/ArtGalleryManager.txt",
             "r")) ==
         NULL) {
         printf("\n\t-ATTENZIONE: non è stata possibile effettuare l'operazione!");
@@ -320,7 +320,7 @@ void delateManager(Users *users){
         exhiPlace tempP;
 
         if ((fileCopy = fopen(
-                "C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\CopyArtGallety.txt",
+                "Data/CopyArtGallety.txt",
                 "w")) ==
             NULL) {
             printf("\n\t-ATTENZIONE: non è stato possibile effettuare la copia del file!");
@@ -340,9 +340,9 @@ void delateManager(Users *users){
             fclose(file);
             fclose(fileCopy);
 
-            remove("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\ArtGalleryManager.txt");
-            rename("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\CopyArtGallety.txt",
-                   "C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\ArtGalleryManager.txt");
+            remove("Data/ArtGalleryManager.txt");
+            rename("Data/CopyArtGallety.txt",
+                   "Data/ArtGalleryManager.txt");
 
             free(fileCopy);
             free(file);
@@ -357,7 +357,7 @@ void recordShow(char* nameStructure){
     char* idArtwork = NULL;
     FILE* file = NULL;
 
-    if((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Artshow.txt", "a")) == NULL){
+    if((file = fopen("Data/Artshow.txt", "a")) == NULL){
         printf("\n-ATTENZIONE: Non e' stato possibile registrare la mostra!");
     }else{
         idArtwork = getShow(&timeStart, &timeEnd, &manager);
@@ -370,7 +370,7 @@ void recordShow(char* nameStructure){
         fclose(file);
     }
 
-    if((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Reservations.txt", "a")) == NULL){
+    if((file = fopen("Data/Reservations.txt", "a")) == NULL){
         printf("\n-ATTENZIONE: Non e' stato possibile registrare la mostra!");
     }else{
 
@@ -386,7 +386,7 @@ void registerArtwork(){
     getArtwork(&artw);
 
     // verifica se l'opera è già esistente nel file
-    if((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Artworks.txt", "a")) == NULL){
+    if((file = fopen("Data/Artworks.txt", "a")) == NULL){
         printf("-ATTENZIONE: Non e' stato possibile registrare nel sistema l'opera!\n");
     } else{
         fprintf(file, "%u#%s-%s-%s-%u-%s-%s-%u-%u\n", artw.IDArtwork, artw.name, artw.authorName, artw.authorSurname,
