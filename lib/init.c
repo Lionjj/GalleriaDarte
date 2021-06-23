@@ -34,7 +34,7 @@ bool userOperation(Users *user, bool *access){
     bool run = true;
 
     printf("\n# Utente: %s #\n\tPremi:\n\t\t-1] Per prenotare una mostra;\n\t\t-2] Per"
-           " modificare il tuo account;\n\t\t-3] Per eliminare l'account;\n\t\t-4] Per ricercare un'opera;\n\t\t-5] Per "
+           " modificare il tuo account;\n\t\t-3] Per eliminare l'account;\n\t\t-4] Per ricercare un'opera;\n\t\t-5] Per disdire una prenotazione\n\t\t-6] Per "
            "chiudere il programma;\n\t-", user->username);
 
     choice = getUInt(10);
@@ -52,6 +52,9 @@ bool userOperation(Users *user, bool *access){
             break;
         case 4:
             research();
+            break;
+        case 5:
+            deleteReservation(user->username);
             break;
         default:
             run = false;

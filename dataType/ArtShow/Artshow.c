@@ -875,33 +875,3 @@ void listenerTimeExpired()
         }
     }
 }
-
-void printArtshow(FILE *file, unsigned int ido)
-{
-    char *cis = NULL, *nome = NULL, *datai = NULL, *dataf = NULL, str[MAX_LEN_SHOW], *ptr = NULL, *temp = NULL;
-    unsigned int id, artId;
-
-    while (fgets(str, MAX_LEN_SHOW, file) != NULL)
-    {
-        cis = strtok(str, "#");
-        nome = strtok(NULL, "#");
-        strtok(NULL, "#");
-        datai = strtok(NULL, "#");
-        dataf = strtok(NULL, "#");
-
-        id = strtol(cis, &ptr, 10);
-        while ((temp = strtok(NULL, ",")) != NULL)
-        {
-
-            artId = strtol(temp, &ptr, 10);
-            if (ido == artId)
-            {
-                printf("\n\t>Quest'opera verra' mostrata nella mostra con queste caratteristiche:");
-                printf("\n\t\t-ID: %u", id);
-                printf("\n\t\t-Nome: %s", nome);
-                printf("\n\t\t-Data inizio: %s", datai);
-                printf("\n\t\t-Data fine: %s", dataf);
-            }
-        }
-    }
-}

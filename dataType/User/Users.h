@@ -48,7 +48,7 @@ void delateUser(Users* users);
 // EffettuaPrenotazione()
 
 // CancellaPrenotazione()
-
+void deleteReservation(char *username);
 // RicercaMostra()
 
 // RicercaOpera()
@@ -61,6 +61,7 @@ void searchArtKind(FILE* file);
 void searchArtHistorPeriod(FILE* file);
 void searchArtProdYear(FILE* file);
 void assArtshow(unsigned int id);
+
 
 
 void printArtwork(int num, artwork* artwork);

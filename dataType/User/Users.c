@@ -881,39 +881,38 @@ void assArtshow(unsigned int id)
     FILE *file = NULL;
     char str[MAX_LEN_SHOW], *name = NULL, *dates = NULL, *datee = NULL, *ptr = NULL, *ids = NULL, pos[5];
     unsigned int idShow;
-    if((file = fopen("Data/Artshow.txt", "r")) == NULL) 
-    { 
+    if ((file = fopen("Data/Artshow.txt", "r")) == NULL)
+    {
         printf("\n\t-ATTENZIONE: non è stata possibile effettuare l'operazione!");
     }
-        else 
+    else
+    {
+        while (fgets(str, MAX_LEN_SHOW, file) != NULL)
         {
-            while (fgets(str, MAX_LEN_SHOW, file) != NULL) 
+            ids = reversStrtok(reversStrtok(reversStrtok(reversStrtok(str, '/'), '#'), '/'), '#');
+            ids[strlen(ids) - 1] = '\0';
+            idShow = strtol(strtok(str, "#"), &ptr, 10);
+            name = strtok(NULL, "#");
+            strtok(NULL, "#");
+            dates = strtok(NULL, "#");
+            datee = strtok(NULL, "#");
+            sprintf(pos, "%u", id);
+            if (strstr(ids, pos) != NULL)
             {
-                ids = reversStrtok(reversStrtok(reversStrtok(reversStrtok(str, '/'), '#'), '/'), '#');
-                ids[strlen(ids) - 1] = '\0';
-                idShow = strtol(strtok(str, "#"), &ptr, 10);
-                name = strtok(NULL, "#");
-                strtok(NULL, "#");
-                dates = strtok(NULL, "#");
-                datee = strtok(NULL, "#");
-                sprintf(pos, "%u", id);
-                if (strstr(ids, pos) != NULL)
-                {
-                    printf("\n\t>Quest'opera verra' mostrata nella mostra con queste caratteristiche:");
-                    printf("\n\t\t-ID: %u", idShow);
-                    printf("\n\t\t-Nome: %s", name);
-                    printf("\n\t\t-Data inizio: %s", dates);
-                    printf("\n\t\t-Data fine: %s", datee);
-                }
+                printf("\n\t>Quest'opera verra' mostrata nella mostra con queste caratteristiche:");
+                printf("\n\t\t-ID: %u", idShow);
+                printf("\n\t\t-Nome: %s", name);
+                printf("\n\t\t-Data inizio: %s", dates);
+                printf("\n\t\t-Data fine: %s", datee);
             }
-            fclose(file);
         }
+        fclose(file);
+    }
 }
 
+// printa le mostre disponibili e le opere associate
 void bookShow(char *username)
 {
-
-    // printa le mostre disponibili e le opere associate
     selectArtshow(username);
 }
 
@@ -1007,6 +1006,104 @@ void selectArtshow(char *username)
     printf("\n\t-Digita il ID della mostra a cui vuoi registrarti:\n\t-");
     choice = getUInt(10);
     bookUser(choice, username);
+}
+
+void deleteReservation(char *username)
+{
+    FILE *file = NULL, *fileCopy = NULL;
+    char temp[MAX_LEN_SHOW], *ptr = NULL, *usernames = NULL;
+    unsigned int id, max, idshow;
+    bool ctrl = false;
+
+    if ((file = fopen("Data/Reservations.txt",
+                      "r")) ==
+        NULL)
+    {
+        printf("\n\t-ATTENZIONE: non è stata possibile effettuare l'operazione!");
+    }
+    else
+    {
+
+        if ((fileCopy = fopen(
+                 "Data/CopyReservations.txt",
+                 "w")) ==
+            NULL)
+        {
+            printf("\n\t-ATTENZIONE: non è stato possibile effettuare la copia del file!");
+        }
+        else
+        {
+            printf("\tInserire ID della mostra prenotata da disdire\n\t-");
+            idshow = getUInt(10);
+            while (fgets(temp, MAX_LEN_SHOW, file))
+            {
+
+                temp[strlen(temp) - 1] = '\0';
+
+                id = strtol(strtok(temp, "#"), &ptr, 10);
+                max = strtol(strtok(NULL, "#"), &ptr, 10);
+
+                if (id == idshow)
+                {
+                    if (max < 30)
+                    {
+                        max++;
+                        fprintf(fileCopy, "%u#%u#", id, max);
+                        while ((usernames = strtok(NULL, ",")) != NULL)
+                        {
+                            if (strstr(usernames, "<") == NULL)
+                            {
+                                if (strstr(username, usernames) == NULL)
+                                {
+                                    fprintf(fileCopy, "%s,", usernames);
+                                    ctrl = true;
+                                }
+                            }
+                        }
+                        fprintf(fileCopy, "<\n");
+                    }
+                    else
+                    {
+                        printf("\n\t-ATTENZIONE:Errore! Questa mostra non possiede prenotazioni\n");
+                        usernames = strtok(NULL, "<");
+                        if (usernames != NULL)
+                        {
+                            fprintf(fileCopy, "%u#%u#%s<\n", id, max, usernames);
+                        }
+                        else
+                        {
+                            fprintf(fileCopy, "%u#%u#<\n", id, max);
+                        }
+                    }
+                }
+                else
+                {
+                    usernames = strtok(NULL, "<");
+                    if (usernames != NULL)
+                    {
+                        fprintf(fileCopy, "%u#%u#%s<\n", id, max, usernames);
+                    }
+                    else
+                    {
+                        fprintf(fileCopy, "%u#%u#<\n", id, max);
+                    }
+                }
+            }
+            fclose(file);
+            fclose(fileCopy);
+            if (ctrl == true)
+            {
+            remove("Data/Reservations.txt");
+            rename("Data/CopyReservations.txt",
+                   "Data/Reservations.txt");
+            }
+            else
+            {
+                remove("Data/CopyReservations.txt");
+                printf("\nATTENZIONE: Nessuna prenotazione trovata per la mostra selezionata, modifica annullata.\n");
+            }
+        }
+    }
 }
 
 void bookUser(const unsigned int IDArtshow, char *newUsername)
