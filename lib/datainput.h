@@ -10,5 +10,6 @@ int getShort(int representation);
 unsigned int getUInt(int representation);
 float getFloat();
 double getDouble();
+int unsignedIntCompare(const void *p1, const void *p2);
 
 #endif //GALLERIADARTE_DATAINPUT_H

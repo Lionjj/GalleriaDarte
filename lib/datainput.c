@@ -35,7 +35,7 @@ int getShort(int representation) {
     return val;
 }
 
-float getFloat( ) {
+float getFloat() {
     float val;
     char str[13], *ptr;
     gets(str);
@@ -46,7 +46,7 @@ float getFloat( ) {
     return val;
 }
 
-double getDouble( ) {
+double getDouble() {
     double val;
     char str[13], *ptr;
     gets(str);
@@ -55,4 +55,13 @@ double getDouble( ) {
 
     free(ptr);
     return val;
+}
+
+int unsignedIntCompare(const void *p1, const void *p2) {
+    int int_a = *((int *) p1);
+    int int_b = *((int *) p2);
+
+    if (int_a == int_b) { return 0; }
+    else if (int_a < int_b) { return -1; }
+    else { return 1; }
 }

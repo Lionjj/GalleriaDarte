@@ -17,10 +17,10 @@ typedef struct
     char email[80];
     char pw [50];
     bool artGalleryManager;
-}Users;
+}User;
 
 void registerUser();
-void getUser(Users* user);
+void getUser(User* user);
 
 void getName(char* user);
 void getSurname(char *surname);
@@ -28,22 +28,22 @@ void getUsername(char *username);
 void getEmail(char *email);
 void getPw(char *pw);
 
-bool saveUser(Users* user);
+bool saveUser(User* user);
 bool isUserAlredyReg(char userName[],char userEmail[] , char mode, bool userType);
 
 // restitutisce vero se l'utente è riuscito ad entrare nel sistema
-bool getLog(Users* user, exhiPlace* place);
-bool logIn(Users* user, exhiPlace* place);
+bool getLog(User* user, exhiPlace* place);
+bool logIn(User* user, exhiPlace* place);
 
 // data la stringa presa da file, vengono caricate le informazioni dell'utente
-void loadUser(char str[], Users* user);
+void loadUser(char str[], User* user);
 
 // Procedura per modificare le credenziali di un utente
-void editFile(Users* user, exhiPlace* place, unsigned int choice);
-void editUser(Users* user, exhiPlace* place);
+void editFile(User* user, exhiPlace* place, unsigned int choice);
+void editUser(User* user, exhiPlace* place);
 
 // Procedura per eliminare un utente
-void delateUser(Users* users);
+void delateUser(User* users);
 
 // EffettuaPrenotazione()
 
@@ -53,21 +53,9 @@ void deleteReservation(char *username);
 
 // RicercaOpera()
 //Procedure di ricerca
-void research();
-void searchName(FILE* file);
-void searchArtAuthor(FILE* file);
-void searchArtType(FILE* file);
-void searchArtKind(FILE* file);
-void searchArtHistorPeriod(FILE* file);
-void searchArtProdYear(FILE* file);
-void assArtshow(unsigned int id);
 
 
 
-void printArtwork(int num, artwork* artwork);
-unsigned int* fgetIdsArtwork(unsigned int idArtshow, unsigned int *retDim);
-void printAssArtworks(unsigned int idArtshow);
-void bookUser(unsigned int IDArtshow, char *newUsername);
-void selectArtshow(char *username);
 void bookShow(char *username);
+void editRes(char *oldUsername, char *newUsername);
 #endif //GALLERIADARTE_USERS_H

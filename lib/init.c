@@ -4,24 +4,25 @@
 #include "datainput.h"
 #include "../dataType/User/Artgalleymanagers.h"
 #include "../lib/init.h"
+#include "search.h"
 
-void init(){
+void init() {
     bool access = false, run = true;
-    Users user;
+    User user;
     exhiPlace place;
 
     listenerTimeExpired();
 
     printf("Benvenuto in *nome del sistema*");
     do {
-        if(!access){
+        if (!access) {
             run = home(&user, &place, &access);
 
         } else {
-            if(!user.artGalleryManager) {
+            if (!user.artGalleryManager) {
                 run = userOperation(&user, &access);
 
-            } else{
+            } else {
                 run = managerOperation(&user, &place, &access);
 
             }
@@ -29,7 +30,7 @@ void init(){
     } while (run);
 }
 
-bool userOperation(Users *user, bool *access){
+bool userOperation(User *user, bool *access) {
     unsigned int choice;
     bool run = true;
 
@@ -62,7 +63,8 @@ bool userOperation(Users *user, bool *access){
     }
     return run;
 }
-bool managerOperation(Users *user, exhiPlace *place, bool *access){
+
+bool managerOperation(User *user, exhiPlace *place, bool *access) {
     unsigned int choice;
     bool run = true;
 
@@ -96,7 +98,8 @@ bool managerOperation(Users *user, exhiPlace *place, bool *access){
     }
     return run;
 }
-bool home(Users *user, exhiPlace *place, bool *access){
+
+bool home(User *user, exhiPlace *place, bool *access) {
     unsigned int choice;
     bool run = true;
 
@@ -105,8 +108,7 @@ bool home(Users *user, exhiPlace *place, bool *access){
     choice = getUInt(10);
 
 
-    switch (choice)
-    {
+    switch (choice) {
         case 1:
             registerUser();
             break;
@@ -115,11 +117,10 @@ bool home(Users *user, exhiPlace *place, bool *access){
                    "\n\t\t-2] Oppure un qualsiasi bottone per effettuare l'accesso come gestore della galleria;\n\t\t-");
 
             choice = getUInt(10);
-            if(choice == 1)
-            {
+            if (choice == 1) {
                 user->artGalleryManager = false;
                 *access = logIn(user, NULL);
-            }else {
+            } else {
                 user->artGalleryManager = true;
                 *access = logIn(user, place);
             }

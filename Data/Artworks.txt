@@ -4,3 +4,8 @@
 3#Assenzio-Edgar-Degas-0-Olio su tela-Modernismo-1875-0
 4#La spiaggia di Scheweningen prima di una tempesta-Vincent-Van-0-Olio su tela-Romanticismo-1883-0
 5#Il pensatore-August-Rodin-1-Marmo-Romanticismo-1896-0
+6#L'ultima cena-Leonardo-Vinci-0-olio su tela-medioevo-1498-0
+7#Madonna Benois-Leonardo-Vinci-0-olio-medioevo-1482-0
+8#San Girolamo-Leonardo-Vinci-0-tavola-medioevo-1480-0
+9#Adorazione dei Magi-Leonardo-Vinci-0-olio-medioevo-1486-0
+10#Ritratto di muscio-Leonardo-Vinci-0-olio-medioevo-1485-0
