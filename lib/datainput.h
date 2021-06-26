@@ -1,3 +1,10 @@
+/**
+ * \file datainput.h
+ * \brief Funzioni per lettura valori da tastiera
+ * Funzioni utilizzate per la lettura da tastiera di valori di diverso tipo
+ * \author Esposito Daniele, Ivone Danilo
+ */
+
 #ifndef GALLERIADARTE_DATAINPUT_H
 #define GALLERIADARTE_DATAINPUT_H
 /**
