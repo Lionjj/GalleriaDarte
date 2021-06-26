@@ -2,9 +2,11 @@
 #include <stdio.h>
 #include "../dataType/User/Users.h"
 #include "datainput.h"
-#include "../dataType/User/Artgalleymanagers.h"
+
 #include "../lib/init.h"
 #include "search.h"
+#include "../dataType/Users/Client.h"
+#include "../dataType/Users/Artgallerymanagers.h"
 
 void init() {
     bool access = false, run = true;
@@ -20,7 +22,7 @@ void init() {
 
         } else {
             if (!user.artGalleryManager) {
-                run = userOperation(&user, &access);
+                run = clientOperation(&user, &access);
 
             } else {
                 run = managerOperation(&user, &place, &access);
@@ -28,19 +30,15 @@ void init() {
             }
         }
     } while (run);
-
-    printf("Premi il tasto invio per continuare...");
-    getchar();
-    fflush(stdin);
 }
 
-bool userOperation(User *user, bool *access) {
+bool clientOperation(User *user, bool *access) {
     unsigned int choice;
     bool run = true;
 
     printf("\n# Utente: %s #\n\tPremi:\n\t\t-1] Per prenotare una mostra;\n\t\t-2] Per"
-           " modificare il tuo account;\n\t\t-3] Per eliminare l'account;\n\t\t-4] Per ricercare un'opera;\n\t\t-5] Per disdire una prenotazione\n\t\t-6] Per "
-           "chiudere il programma;\n\t-", user->username);
+           " modificare il tuo account;\n\t\t-3] Per eliminare l'account;\n\t\t-4] Per ricercare un'opera;\n\t\t-5] Per "
+           "disdire una prenotazione\n\t\t-6] Per chiudere il programma;\n\t-", user->username);
 
     choice = getUInt(10);
 
@@ -62,6 +60,7 @@ bool userOperation(User *user, bool *access) {
             deleteReservation(user->username);
             break;
         default:
+            *access = false;
             run = false;
             break;
     }
@@ -73,8 +72,8 @@ bool managerOperation(User *user, exhiPlace *place, bool *access) {
     bool run = true;
 
     printf("\n# Gestore galleria: %s #\n\tPremi:\n\t\t-1] Per registrare una mostra;\n\t\t-2] Per"
-           " modificare il tuo account;\n\t\t-3] Per eliminare l'account;\n\t\t-4] Per ricercare un'opera;\n\t\t-5] Per aggiungere una nuova opera d'arte;"
-           "\n\t\t-6] Per chiudere il programma;\n\t-", user->username);
+           " modificare il tuo account;\n\t\t-3] Per eliminare l'account;\n\t\t-4] Per ricercrare un'opera;\n\t\t-5] "
+           "Per aggiungere una nuova opera d'arte;\n\t\t-6] Per chiudere il programma;\n\t-", user->username);
 
     choice = getUInt(10);
 
@@ -96,7 +95,7 @@ bool managerOperation(User *user, exhiPlace *place, bool *access) {
             registerArtwork();
             break;
         default:
-            access = false;
+            *access = false;
             run = false;
             break;
     }
@@ -131,6 +130,7 @@ bool home(User *user, exhiPlace *place, bool *access) {
             break;
         default:
             run = false;
+            *access = false;
             break;
     }
     return run;

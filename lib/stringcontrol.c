@@ -8,10 +8,10 @@
 #include <stdio.h>
 
 bool sisalpha(char *str) {
-    bool proposition;
+    bool proposition = true;
     unsigned int i = 0;
 
-    while (str[i] != '\0') {
+    while (str[i] != '\0' && proposition) {
         proposition = (bool) isalpha(str[i]);
         i++;
     }
@@ -20,10 +20,10 @@ bool sisalpha(char *str) {
 }
 
 bool sisdigit(char *str) {
-    bool proposition;
+    bool proposition = true;
     unsigned int i = 0;
 
-    while (str[i] != '\0') {
+    while (str[i] != '\0' && proposition) {
         proposition = (bool) isdigit(str[i]);
         i++;
     }
@@ -32,10 +32,10 @@ bool sisdigit(char *str) {
 }
 
 bool sisalnum(char str[]) {
-    bool proposition;
+    bool proposition = true;
     unsigned int i = 0;
 
-    while (str[i] != '\0') {
+    while (str[i] != '\0' && proposition) {
         proposition = (bool) isalnum(str[i]);
         i++;
     }
@@ -59,53 +59,54 @@ bool shaveanumber(char str[]) {
 bool verifyemail(char str[]) {
     bool proposition = false, run = false;
     char *ptr = NULL;
-    unsigned int i;
+    unsigned int i, j = 0;
 
     for (i = 0; i < strlen(str); ++i) {
         if (str[i] == '@') {
-            run = true;
-            break;
+            j++;
         }
     }
-    i++;
-    while (str[i] != '\0' && run) {
-        if (str[i] == '.') {
-            if (isalpha(str[i - 1]) && isalpha(str[i + 1])) {
+
+    if(j == 1){
+        run = true;
+    }
+    i = 0;
+
+    ptr = reversStrtok(str, '@');
+
+    // partendo da dopo la '@'
+    while (*(ptr + i) != '\0' && run) {
+
+        // se l'elemento i-esimo è '.'
+        if (*(ptr + i) == '.') {
+
+            // verifica se l'elemento precedente e quello successivo sono caratteri
+            if (isalpha(*((ptr + i) - 1)) && isalpha(*((ptr + i) + 1))) {
                 proposition = true;
             } else {
                 proposition = false;
                 run = false;
             }
+        } else if(!isalpha(*(ptr + i))){
+            run = false;
+            proposition = false;
         }
         i++;
     }
-    free(ptr);
-    return proposition;
-}
 
-bool sisspace(char str[]) {
-    bool proposition = false;
-    unsigned int i = 0;
-
-    while (str[i] != '\0') {
-        if (isspace(str[i])) {
-            proposition = true;
-            break;
-        } else { i++; }
-    }
     return proposition;
 }
 
 char* deletespaces(char str[]) {
-	int i = 0, j = 0;
-	while (str[i])
-	{
-		if (str[i] != ' ')
-          str[j++] = str[i];
-		i++;
-	}
-	str[j] = '\0';
-	return str;
+    int i = 0, j = 0;
+    while (str[i])
+    {
+        if (str[i] != ' ')
+            str[j++] = str[i];
+        i++;
+    }
+    str[j] = '\0';
+    return str;
 }
 
 void stoupper(char str[]) {
@@ -123,12 +124,11 @@ char *separateWithComma(unsigned int *arr, const unsigned int dim) {
         sprintf(strTemp, "%u", arr[i]);
         j += strlen(strTemp);
     }
- 
-    i++;
+
     k = i + j;
     string = (char *) malloc(sizeof(char) * (k + 1));
 
-    string[k + 1] = '\0';
+    string[2 * dim] = '\0';
     j = 0;
     for (i = 0; i < dim; i++) {
         k = 0;
@@ -141,6 +141,7 @@ char *separateWithComma(unsigned int *arr, const unsigned int dim) {
         string[j] = ',';
         j++;
     }
+
     return string;
 }
 
@@ -181,9 +182,9 @@ unsigned int fgetIdsArtwork(const unsigned int idArtshow, unsigned int idsArtwor
     char str[MAX_LEN_SHOW], *ptr = NULL, *temp = NULL, *ids = NULL;
     unsigned int id, i = 0;
 
-    if ((file = fopen("Data/Artshow.txt", "r")) ==
+    if ((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Artshow.txt", "r")) ==
         NULL) {
-        printf("\n\t-ATTENZIONE: non e' stato possibile aprire il file per la verifica.");
+        printf("\n\t-ATTENZIONE: non è stato possibile aprire il file per la verifica.");
     } else {
         while (run && fgets(str, MAX_LEN_SHOW, file) != NULL) {
 
@@ -206,7 +207,7 @@ unsigned int fgetIdsArtwork(const unsigned int idArtshow, unsigned int idsArtwor
         fclose(file);
     }
 
-    qsort(idsArtwork, i, sizeof(unsigned int), unsignedIntCompare);
+    qsort(idsArtwork, i, sizeof(unsigned int), intCompare);
 
     return i;
 }

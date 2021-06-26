@@ -1,10 +1,15 @@
-#ifndef GALLERIADARTE_ARTGALLEYMANAGERS_H
-#define GALLERIADARTE_ARTGALLEYMANAGERS_H
+#ifndef GALLERIADARTE_ARTGALLERYMANAGERS_H
+#define GALLERIADARTE_ARTGALLERYMANAGERS_H
 
-// operazioni del utente manager
 /**
+ * Numero massimo di caratteri che una stringa può contenere nel file ArtGalleryManager.txt
+ */
+#define MAX_LEN_MANAGER  415
+
+/**
+ * \file GalleriaDarte.dataType.Users.Artgallerymanagers.h
  * \defgroup managerOperations Operazioni dell'utente manager
- * \addtogroup
+ * \addtogroup managerOperations
  *@{*/
 
 /**
@@ -18,11 +23,12 @@
  * - la via della struttura
  * - il numero civico della struttura
  *
- * \pre I parametri user e place, devono essere caricati estrapolando le informazioni memorizzate su ArtGalleyManager.txt
- * \pre altrimenti il corretto funziomaneto della procedura non è garantito.
+ * \pre I parametri user e place, devono essere caricati estrapolando le informazioni memorizzate su
+ * \pre ArtGalleyManager.txt altrimenti il corretto funziomaneto della procedura non è garantito.
  *
  * @param[in,out] *user: punatore ad una struttura di tipo User, contente le informaizoni di un utente manager
- * @param[in,out] *place: puntatore ad una struttura di tipo exhiPlace, contenette le informazioni della struttura gestita dal manager
+ * @param[in,out] *place: puntatore ad una struttura di tipo exhiPlace, contenette le informazioni della struttura
+ * gestita dal manager
  * @param[in] choice: intero senza segno rappresentante la decisione dell'utente
  */
 void editManagerFile(User *user, exhiPlace *place, unsigned int choice);
@@ -53,6 +59,11 @@ void recordShow(char* nameStructure);
 /**@}*/
 
 /**
+ * \defgroup implictManagerOperations Operazioni implicite per l'utente manager
+ * \addtogroup implictManagerOperations
+ *@{*/
+
+/**
  * Tale funzione permette di memorizzare le informazioni contenute nel parametro user, in ArtGalleryManger.txt
  *
  * @param[in] *user: punatore ad una struttura di tipo User, contente le informaizoni di un utente manager
@@ -73,20 +84,23 @@ bool saveArtGalleyManager(User *user);
  * @param[in] *userName: stringa rappresentante l'username del manager
  * @param[in] *userEmail: stringa rappresentante l'e-mail del manager
  * @param[in] mode: tipo di controllo da effettuare
- * @return True se l'usenrmae, l'e-mail o entrambi, a seconda del mode, esistono in ArtGalleyManager.txt, false altrimenti
+ * @return True se l'usenrmae, l'e-mail o entrambi, a seconda del mode, esistono in ArtGalleyManager.txt, false
+ * altrimenti
  */
 bool isGalleryManagAlredyReg(char *userName, char *userEmail, char mode);
 
 /**
- * Tale funzione permette di verificare se le credenziali uNameORuEmail e uPw, rispettivamente username/e-mail e passowrd
- * corrispodnono con quelle estrapolate da ArtGalleryManager.txt, se si, allora la struttura user, e place vengono caricate
- * con i valori estrapolati dal file.
+ * Tale funzione permette di verificare se le credenziali uNameORuEmail e uPw, rispettivamente username/e-mail e
+ * passowrd corrispodnono con quelle estrapolate da ArtGalleryManager.txt, se si, allora la struttura user, e place
+ * vengono caricate con i valori estrapolati dal file.
  *
  * @param[out] *user: punatore ad una struttura di tipo User, contente le informaizoni di un utente manager
- * @param[out] *place: puntatore ad una struttura di tipo exhiPlace, contenette le informazioni della struttura gestita dal manager
+ * @param[out] *place: puntatore ad una struttura di tipo exhiPlace, contenette le informazioni della struttura gestita
+ * dal manager
  * @param[in] *uNameORuEmail: stringa rappresentante l'username o l'e-mail dell'utente manager
  * @param[in] *uPw: stringa rappresentante la password del utente manager
  * @return True se l'utente esiste nel sistema, falso altrimenti
  */
 bool getManagerLog(User *user, exhiPlace *place, char *uNameORuEmail, char * uPw);
-#endif //GALLERIADARTE_ARTGALLEYMANAGERS_H
+/**@}*/
+#endif //GALLERIADARTE_ARTGALLERYMANAGERS_H
