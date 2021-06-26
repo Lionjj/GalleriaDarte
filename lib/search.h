@@ -9,4 +9,6 @@ void searchArtKind(FILE* file);
 void searchArtHistorPeriod(FILE* file);
 void searchArtProdYear(FILE* file);
 
+void searchShowName();
+
 #endif //GALLERIADARTE_SEARCH_H

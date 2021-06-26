@@ -8,6 +8,9 @@
 #include "../../lib/stringcontrol.h"
 #include "../../lib/datainput.h"
 #include "Artgalleymanagers.h"
+#include "Client.h"
+#include "../../lib/search.h"
+#include "../../dataType/ArtShow/Artshow.h"
 
 void registerUser() {
     User user = {"", "", "", "", ""};
@@ -49,7 +52,7 @@ bool saveUser(User *user) {
     FILE *file = NULL;
 
     if (!user->artGalleryManager) {
-        if ((file = fopen("C:\\User\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Client.txt", "a")) ==
+        if ((file = fopen("Data/Client.txt", "a")) ==
             NULL) {
             proposition = false;
             printf("-ATTENZIONE: Non e' stato possibile registrare l'utente!\n");
@@ -72,7 +75,7 @@ bool isUserAlredyReg(char *userName, char *userEmail, char mode, bool userType) 
     char str[MAX_LEN_USERS], *fUserName = NULL, *fUserEmail = NULL;
 
     if (!userType) {
-        if ((file = fopen("C:\\User\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Client.txt", "r")) ==
+        if ((file = fopen("Data/Client.txt", "r")) ==
             NULL) {
             proposition = NULL;
             printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file per la verifica.");
@@ -159,7 +162,7 @@ bool getLog(User *user, exhiPlace *place) {
     } while (strlen(uPw) > 50 || strlen(uPw) < 8);
     if (!user->artGalleryManager) {
 
-        if ((file = fopen("C:\\User\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Client.txt", "r")) ==
+        if ((file = fopen("Data/Client.txt", "r")) ==
             NULL) {
             proposition = NULL;
             printf("\n-ATTENZIONE: Non e' stato possibile aprire il file per la verifica.");
@@ -266,14 +269,14 @@ void editFile(User *user, exhiPlace *place, unsigned int choice) {
     User temp;
 
     if (!user->artGalleryManager) {
-        if ((file = fopen("C:\\User\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Client.txt", "r")) ==
+        if ((file = fopen("Data/Client.txt", "r")) ==
             NULL) {
-            printf("\n\t-ATTENZIONE: non è stata possibile effettuare l'operazione!");
+            printf("\n\t-ATTENZIONE: non e' stata possibile effettuare l'operazione!");
         } else {
 
-            if ((fileCopy = fopen("C:\\User\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\CopyClient.txt",
+            if ((fileCopy = fopen("Data/CopyClient.txt",
                                   "w")) == NULL) {
-                printf("\n\t-ATTENZIONE: non è stato possibile effettuare la copia del file!");
+                printf("\n\t-ATTENZIONE: non e' stato possibile effettuare la copia del file!");
             } else {
                 // continua fintato che non ci sono più linee nel file
                 while (fgets(str, MAX_LEN_USERS, file) != NULL) {
@@ -327,9 +330,9 @@ void editFile(User *user, exhiPlace *place, unsigned int choice) {
                 fclose(file);
                 fclose(fileCopy);
 
-                remove("C:\\User\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Client.txt");
-                rename("C:\\User\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\CopyClient.txt",
-                       "C:\\User\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Client.txt");
+                remove("Data/Client.txt");
+                rename("Data/CopyClient.txt",
+                       "Data/Client.txt");
 
                 free(fileCopy);
                 free(file);
@@ -347,21 +350,22 @@ void delateUser(User *users) {
     User temp;
 
     printf("\n\t-ATTENZIONE: stai per eliminare questo account, sei sicuro di procedere?(s/n):\n\t-");
-    choice = (char) getch();
+    choice = getchar();
+    fflush(stdin);
 
     if (toupper(choice) == 'S') {
         if (!users->artGalleryManager) {
-            if ((file = fopen("C:\\User\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Client.txt",
+            if ((file = fopen("Data/Client.txt",
                               "r")) ==
                 NULL) {
-                printf("\n\t-ATTENZIONE: non è stata possibile effettuare l'operazione!");
+                printf("\n\t-ATTENZIONE: non e' stata possibile effettuare l'operazione!");
             } else {
 
                 if ((fileCopy = fopen(
-                        "C:\\User\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\CopyClient.txt",
+                        "Data/CopyClient.txt",
                         "w")) ==
                     NULL) {
-                    printf("\n\t-ATTENZIONE: non è stato possibile effettuare la copia del file!");
+                    printf("\n\t-ATTENZIONE: non e' stato possibile effettuare la copia del file!");
                 } else {
 
                     while (fgets(str, MAX_LEN_USERS, file) != NULL) {
@@ -376,9 +380,9 @@ void delateUser(User *users) {
                     fclose(file);
                     fclose(fileCopy);
 
-                    remove("C:\\User\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Client.txt");
-                    rename("C:\\User\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\CopyClient.txt",
-                           "C:\\User\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Client.txt");
+                    remove("Data/Client.txt");
+                    rename("Data/CopyClient.txt",
+                           "Data/Client.txt");
 
                     free(fileCopy);
                     free(file);
@@ -393,7 +397,7 @@ void delateUser(User *users) {
 }
 
 void getName(char *name) {
-    char str[30];
+    char str[30], *str2 = NULL;
     int i = 0;
 
     printf("\n\t>Nome (Il nome non deve contenere numeri o spazi, e non deve superare i 30 caratteri):");
@@ -403,14 +407,14 @@ void getName(char *name) {
         }
         gets(str);
         i++;
-    } while (!sisalpha(str) || strlen(str) > 30);
+    } while (!sisalpha(str) || strlen(str) > 30 || strlen(str) < 4);
 
-    deletespaces(str);
-    strcpy(name, str);
+    str2 = deletespaces(str);
+    strcpy(name, str2);
 }
 
 void getSurname(char *surname) {
-    char str[30];
+    char str[30], *str2 = NULL;
     int i = 0;
 
     printf("\n\t>Cognome (Il cognome non deve contenere numeri, e non deve superare i 30 caratteri):");
@@ -420,14 +424,14 @@ void getSurname(char *surname) {
         }
         gets(str);
         i++;
-    } while (!sisalpha(str) || strlen(str) > 30);
+    } while (!sisalpha(str) || strlen(str) > 30 || strlen(str) < 4);
 
-    deletespaces(str);
-    strcpy(surname, str);
+    str2 = deletespaces(str);
+    strcpy(surname, str2);
 }
 
 void getUsername(char *username) {
-    char str[50];
+    char str[50], *str2 = NULL;
     int i = 0;
 
     printf("\n\t>Username (L'Username non deve superare i 50 caratteri):");
@@ -437,14 +441,14 @@ void getUsername(char *username) {
         }
         gets(str);
         i++;
-    } while (!sisalnum(str) || strlen(str) > 50);
+    } while (!sisalnum(str) || strlen(str) > 50 || strlen(str) < 8);
 
-    deletespaces(str);
-    strcpy(username, str);
+    str2 = deletespaces(str);
+    strcpy(username, str2);
 }
 
 void getEmail(char *email) {
-    char str[80];
+    char str[80], *str2 = NULL;
     int i = 0;
 
     printf("\n\t>Email (L'Email non deve superare gli 80 caratteri):");
@@ -456,12 +460,12 @@ void getEmail(char *email) {
         i++;
     } while (!verifyemail(str) || strlen(str) > 80);
 
-    deletespaces(str);
-    strcpy(email, str);
+    str2 = deletespaces(str);
+    strcpy(email, str2);
 }
 
 void getPw(char *pw) {
-    char str[50];
+    char str[50], *str2 = NULL;
     int i = 0;
     printf("\n\t>password (la password non deve superare i 50 caratteri e deve essere di almeno 8 caratteri, inoltre deve almeno\n\tcontenere un numero):");
     do {
@@ -472,13 +476,54 @@ void getPw(char *pw) {
         i++;
     } while (!shaveanumber(str) || (strlen(str) > 50 || strlen(str) < 8));
 
-    deletespaces(str);
-    strcpy(pw, str);
+    str2 = deletespaces(str);
+    strcpy(pw, str2);
 }
 
 void bookShow(char *username) {
-    printArtworksInShow(6);
-    selectArtshow(username);
+    unsigned int choice, i = 0;
+    FILE* file = NULL;
+    if ((file = fopen(
+                "Data/Artshow.txt",
+                "r")) ==
+            NULL) {
+            printf("\n\t-ATTENZIONE: non e' stato possibile aprire il file delle mostre!");
+        } else {
+    do {
+        printf("\n\t>Inserire \"1\" per avviare una ricerca tramite nome delle mostre disponibili\n\t>Inserire \"2\" per visualizzare in modo compatto tutte le mostre nel sistema\n");
+        choice = getUInt(10);
+        switch (choice)
+        {
+        case 1:
+            searchShowName();
+            break;
+        case 2:
+            printShow();
+            break;
+        default:
+            printf("\n\t-ATTENZIONE: Inserire un valore tra quelli disponibili.");
+            break;
+        }
+    } while(choice < 1 || choice > 2);
+
+    do {
+        if(i > 0)
+        {
+            printf("\n\t-ATTENZIONE: ID inserito non esistente!");
+        }
+        printf("\n\t>Inserire ID della mostra desiderata per vedere le opere associate:\n\t-");
+        choice = getUInt(10);
+        i=1;
+        } while(!IDExists(choice, file));
+        printArtworksInShow(choice);
+        printf("\n\t>Vuoi registrarti a questa mostra? (S/N):\n\t-");
+        if(toupper(getchar()) == 'S') 
+        {
+            bookClient(choice, username);
+        }
+        fflush(stdin);
+        fclose(file);
+        }
 }
 
 void deleteReservation(char *username) {
@@ -490,14 +535,14 @@ void deleteReservation(char *username) {
     if ((file = fopen("Data/Reservations.txt",
                       "r")) ==
         NULL) {
-        printf("\n\t-ATTENZIONE: non è stata possibile effettuare l'operazione!");
+        printf("\n\t-ATTENZIONE: non e' stata possibile effettuare l'operazione!");
     } else {
 
         if ((fileCopy = fopen(
                 "Data/CopyReservations.txt",
                 "w")) ==
             NULL) {
-            printf("\n\t-ATTENZIONE: non è stato possibile effettuare la copia del file!");
+            printf("\n\t-ATTENZIONE: non e' stato possibile effettuare la copia del file!");
         } else {
             printf("\tInserire ID della mostra prenotata da disdire\n\t-");
             idshow = getUInt(10);
@@ -556,11 +601,11 @@ void deleteReservation(char *username) {
 void editRes(char *oldUsername, char *newUsername) {
     FILE *oldRes = NULL, *newRes = NULL;
     char str[MAX_LEN_RES], *leftSubs = NULL, *subToReplace = NULL, *rigthSubs = NULL;
-    if ((oldRes = fopen("C:\\User\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Reservations.txt", "r")) ==
+    if ((oldRes = fopen("Data/Reservations.txt", "r")) ==
         NULL) {
         printf("-ATTENZIONE: Non e' stato possibile aprire il file!\n");
     } else {
-        if ((newRes = fopen("C:\\User\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\CopyReservations.txt",
+        if ((newRes = fopen("Data/CopyReservations.txt",
                             "w")) == NULL) {
             printf("-ATTENZIONE: Non e' stato possibile aprire il file!\n");
         } else {
@@ -585,7 +630,7 @@ void editRes(char *oldUsername, char *newUsername) {
         }
         fclose(oldRes);
     }
-    remove("C:\\User\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Reservations.txt");
-    rename("C:\\User\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\CopyReservations.txt",
-           "C:\\User\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Reservations.txt");
+    remove("Data/Reservations.txt");
+    rename("Data/CopyReservations.txt",
+           "Data/Reservations.txt");
 }

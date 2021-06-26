@@ -18,7 +18,7 @@ bool verifyemail(char str[]);
 
 bool sisspace(char str[]);
 
-void deletespaces(char str[]);
+char* deletespaces(char str[]);
 
 void stoupper(char str[]);
 

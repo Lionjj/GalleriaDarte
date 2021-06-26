@@ -28,6 +28,10 @@ void init() {
             }
         }
     } while (run);
+
+    printf("Premi il tasto invio per continuare...");
+    getchar();
+    fflush(stdin);
 }
 
 bool userOperation(User *user, bool *access) {
@@ -69,7 +73,7 @@ bool managerOperation(User *user, exhiPlace *place, bool *access) {
     bool run = true;
 
     printf("\n# Gestore galleria: %s #\n\tPremi:\n\t\t-1] Per registrare una mostra;\n\t\t-2] Per"
-           " modificare il tuo account;\n\t\t-3] Per eliminare l'account;\n\t\t-4] Per ricercrare un'opera;\n\t\t-5] Per aggiungere una nuova opera d'arte;"
+           " modificare il tuo account;\n\t\t-3] Per eliminare l'account;\n\t\t-4] Per ricercare un'opera;\n\t\t-5] Per aggiungere una nuova opera d'arte;"
            "\n\t\t-6] Per chiudere il programma;\n\t-", user->username);
 
     choice = getUInt(10);

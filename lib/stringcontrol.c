@@ -96,33 +96,16 @@ bool sisspace(char str[]) {
     return proposition;
 }
 
-void deletespaces(char str[]) {
-    int i = 0, j = 1;
-    char *formattedString = NULL;
-
-    if (sisspace(str)) {
-        while (str[i] != '\0') {
-            if (!isspace(str[i])) {
-                j++;
-            }
-            i++;
-        }
-
-        formattedString = (char *) malloc(sizeof(char) * j);
-
-        i = 0;
-        while (str[i] != '\0') {
-            if (!isspace(str[i])) {
-
-                formattedString[i] = str[i];
-            }
-            i++;
-        }
-
-
-        strcpy(str, formattedString);
-        free(formattedString);
-    }
+char* deletespaces(char str[]) {
+	int i = 0, j = 0;
+	while (str[i])
+	{
+		if (str[i] != ' ')
+          str[j++] = str[i];
+		i++;
+	}
+	str[j] = '\0';
+	return str;
 }
 
 void stoupper(char str[]) {
@@ -140,11 +123,12 @@ char *separateWithComma(unsigned int *arr, const unsigned int dim) {
         sprintf(strTemp, "%u", arr[i]);
         j += strlen(strTemp);
     }
-
+ 
+    i++;
     k = i + j;
     string = (char *) malloc(sizeof(char) * (k + 1));
 
-    string[2 * dim] = '\0';
+    string[k + 1] = '\0';
     j = 0;
     for (i = 0; i < dim; i++) {
         k = 0;
@@ -157,7 +141,6 @@ char *separateWithComma(unsigned int *arr, const unsigned int dim) {
         string[j] = ',';
         j++;
     }
-
     return string;
 }
 
@@ -198,9 +181,9 @@ unsigned int fgetIdsArtwork(const unsigned int idArtshow, unsigned int idsArtwor
     char str[MAX_LEN_SHOW], *ptr = NULL, *temp = NULL, *ids = NULL;
     unsigned int id, i = 0;
 
-    if ((file = fopen("C:\\User\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Artshow.txt", "r")) ==
+    if ((file = fopen("Data/Artshow.txt", "r")) ==
         NULL) {
-        printf("\n\t-ATTENZIONE: non è stato possibile aprire il file per la verifica.");
+        printf("\n\t-ATTENZIONE: non e' stato possibile aprire il file per la verifica.");
     } else {
         while (run && fgets(str, MAX_LEN_SHOW, file) != NULL) {
 

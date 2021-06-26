@@ -1,4 +1,4 @@
-0#Colazione sull'erba-Edouard-Manet-0-olio su tela-Illuminismo-1863-0
+0#Colazione sull'erba-Edouard-Manet-0-Olio su tela-Illuminismo-1863-0
 1#Cielo stellato-Leonard-Vangog-0-Olio su tela-Romanticismo-1905-0
 2#L'urlo-Edvard-Mumch-0-Olio su tela-Romanticismo-1893-0
 3#Assenzio-Edgar-Degas-0-Olio su tela-Modernismo-1875-0
@@ -9,3 +9,6 @@
 8#San Girolamo-Leonardo-Vinci-0-tavola-medioevo-1480-0
 9#Adorazione dei Magi-Leonardo-Vinci-0-olio-medioevo-1486-0
 10#Ritratto di muscio-Leonardo-Vinci-0-olio-medioevo-1485-0
+11#Nascita di Venere-Sandro-Botticelli-0-Tempera su tela-Rinascimento-1485-0
+12#Gioconda-Leonardo-Vinci-0-Olio su tavola di legno-Medioevo-1503-0
+13#Madonna dei Fusi-Leonardo-Vinci-0-Olio su tavola-Medioevo-1501-0

@@ -30,12 +30,12 @@ void bookClient(const unsigned int IDArtshow, char *newUsername) {
     char temp[MAX_LEN_SHOW], *ptr = NULL, *usernames = NULL;
     unsigned int id, max;
 
-    if ((file = fopen("C:\\User\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Reservations.txt", "r")) ==
+    if ((file = fopen("Data/Reservations.txt", "r")) ==
         NULL) {
         printf("-ATTENZIONE: Non e' stato possibile registrarti alla mostra!\n");
     } else {
         if ((fileCopy = fopen(
-                "C:\\User\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\CopyReservations.txt",
+                "Data/CopyReservations.txt",
                 "w")) == NULL) {
             printf("\n\t-ATTENZIONE: non è stato possibile effettuare la copia del file!");
         } else {
@@ -78,8 +78,8 @@ void bookClient(const unsigned int IDArtshow, char *newUsername) {
         }
         fclose(file);
 
-        remove("C:\\User\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Reservations.txt");
-        rename("C:\\User\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\CopyReservations.txt",
-               "C:\\User\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Reservations.txt");
+        remove("Data/Reservations.txt");
+        rename("Data/CopyReservations.txt",
+               "Data/Reservations.txt");
     }
 }

@@ -367,7 +367,9 @@ void loadArtwork(char str[], artwork *artwork);
  * @param[in] ID: Identificativo di cui si verificerà l'esistenza
  * @return True se il valore è esistente, falso altrimenti
  */
-bool IDExists(unsigned int ID);
+bool IDExists(unsigned int ID, FILE* file);
+
+bool isArtworkAlredyReg(char* artName);
 /**@}*/
 
 /**
@@ -421,6 +423,6 @@ bool isShowOver(unsigned int id);
 /**@}*/
 
 
-void selectArtshow(char *username);
 void assArtshow(unsigned int id);
+void printShow();
 #endif //GALLERIADARTE_ARTSHOW_H
