@@ -1,8 +1,19 @@
 #ifndef GALLERIADARTE_ARTSHOW_H
 #define GALLERIADARTE_ARTSHOW_H
 
+/**
+ * Numero massimo di caratteri che una stringa può contenere nel file Artshow.txt
+ */
 #define MAX_LEN_SHOW 400
+
+/**
+ * Numero massimo di caratteri che una stringa può contenere nel file Artworks.txt
+ */
 #define MAX_LEN_ARTWORK 235
+
+/**
+ * Numero massimo di opere che una mostra può contenere
+ */
 #define MAX_ARTWORKS 60
 
 #include <stdbool.h>
@@ -75,28 +86,28 @@ typedef struct
 /**
  * Carica il valore: streetName[] di una struttura exhiPlace
  *
- * @param[in,out] *streetName: puntatore ad una stringa che contenerrà il nome della via in cui è situata una struttura
+ * @param[out] *streetName: puntatore ad una stringa che contenerrà il nome della via in cui è situata una struttura
  */
 void getStreet(char *streetName);
 
 /**
  * Carica il valore: houseNum[] di una struttura exhiPlace
  *
- * @param[in,out] *houseNum: puntatore ad una stringa che contenerrà il numero civico di una struttura
+ * @param[out] *houseNum: puntatore ad una stringa che contenerrà il numero civico di una struttura
  */
 void getHouseNum(char *houseNum);
 
 /**
  * Carica il valore: city[] di una struttura exhiPlace
  *
- * @param[in,out] *place: puntatore ad una stringa che conterrà il nome della città in cui è situata la struttura
+ * @param[out] *place: puntatore ad una stringa che conterrà il nome della città in cui è situata la struttura
  */
 void getCity(char *city);
 
 /**
  * Carica il valore: structure[] di una struttura exhiPlace
  *
- * @param[in,out] *structure: puntatore ad una stringa che conterrà il nome della struttura
+ * @param[out] *structure: puntatore ad una stringa che conterrà il nome della struttura
  */
 void getNameStructure(char *structure);
 
@@ -104,7 +115,9 @@ void getNameStructure(char *structure);
  * \brief Carica l'intera struttura
  *
  * Modulo coordinatore, utilizzato per caricare una generica struttura, exhiPlace;
- * sfruttando le procedure:
+ *
+ * \pre Tutte le evenutali informazioni precedentemente contenute nel parametro place, andranno perse una volta che questa
+ * \pre procedura verrà richiamata.
  *
  * \sa getStreet(char *streetName)
  *
@@ -114,7 +127,7 @@ void getNameStructure(char *structure);
  *
  * \sa getNameStructure(char *structure)
  *
- * @param[in,out] *place: puntatore ad una struttura di tipo: exhiPlace
+ * @param[out] *place: puntatore ad una struttura di tipo: exhiPlace
  */
 void getExhiPlace(exhiPlace *place);
 
@@ -122,7 +135,9 @@ void getExhiPlace(exhiPlace *place);
  * Tale procedura viene utilizzata per dividere in token la stringa str, recuperata da file,
  * per poi caricare i token nella struttura place.
  *
- * \sa loadGallery(char str[], exhiPlace *place)
+ * \pre la stringa str, dovrà essere recuperata dal file ArtGalleryManager.txt, altrimenti il corretto funzionamento
+ * \pre della procedura non è garantito. Inoltre tutte le evenutali informazioni precedentemente contenute nel parametro
+ * \pre place, andranno perse una volta che questa procedura verrà richiamata.
  *
  * @param[in] str[]: stringa da dividere in token
  * @param[out] *place: puntatore ad una struttura di tipo exhiPlace
@@ -131,6 +146,9 @@ void loadGallery(char str[], exhiPlace *place);
 
 /**
  * Funzione utilizzata per verificare se una sede della galleria d'arte è gia registrata
+ *
+ * \pre Se anche solo uno dei parametri galCity, galStreet e galHouseN è NULL, il corretto funzionamento della funzione
+ * \pre non è garantito.
  *
  * \sa isGalleryAlredyReg(char *galCity, char *galStreet, char *galHouseN)
  *
@@ -149,12 +167,18 @@ bool isGalleryAlredyReg(char *galCity, char *galStreet, char *galHouseN);
 /**
  * Procedura utilizzata per caricare una struttura di tipo: date, con la data odierna
  *
- * @param[in,out] *d: puntatore ad una struttura di tipo: date
+ * \pre Tutte le evenutali informazioni precedentemente contenute nel parametro time, andranno perse una volta che
+ * \pre questa procedura verrà richiamata.
+ *
+ * @param[out] *d: puntatore ad una struttura di tipo: date
  */
 void getCurrentDate(date* d);
 
 /**
  * Procedura utilizzata per caricare il valore: year di una struttura data
+ *
+ * \pre Le evenutali informazioni precedentemente contenute nel parametro time->year, andranno perse una volta che
+ * \pre questa procedura verrà richiamata.
  *
  * @param[out] *time: puntatore ad una struttura di tipo: date
  * @param[in] current: valore che specifica l'anno corrente
@@ -164,6 +188,9 @@ void getYear(date* time, unsigned int current);
 /**
  * Procedura utilizzata per caricare il valore: month di una struttura data
  *
+ * \pre Le evenutali informazioni precedentemente contenute nel parametro time->month, andranno perse una volta che
+ * \pre questa procedura verrà richiamata.
+ *
  * @param[out] *time: puntatore ad una struttura di tipo: date
  * @param[in] *current: puntatore ad una struttura di tipo: date, che indica la data corrente
  */
@@ -172,6 +199,9 @@ void getMonth(date *time, date *current);
 /**
  * Procedura utilizata per caricare il valore: day di una struttura date
  *
+ * \pre Le evenutali informazioni precedentemente contenute nel parametro time->day, andranno perse una volta che
+ * \pre questa procedura verrà richiamata.
+
  * @param[out] *time: puntatore ad una struttura di tipo: date
  * @param[in] *current: puntatore ad una struttura di tipo: date, che indica la data corrente
  */
@@ -179,7 +209,10 @@ void getDay(date* time, date* current);
 
 /**
  * Modulo coordinatore ulizizzato per caricare una struttura di tipo: date;
- * sfrutta le procedure:
+ *
+ *
+ * \pre Le evenutali informazioni precedentemente contenute nel parametro time, andranno perse una volta che
+ * \pre questa procedura verrà richiamata.
  *
  * \sa getYear(date* time, unsigned int current)
  *
@@ -192,21 +225,27 @@ void getDay(date* time, date* current);
 void getDate(date* time);
 
 /**
- * Modulo coordinatore, utilizzato per specificare il tempo di esposizione di esposizione di una mostra
- * sfruttando le procedure:
+ * Modulo coordinatore, utilizzato per specificare il tempo di esposizione di una mostra.
+ *
+ *
+ * \pre Le evenutali informazioni precedentemente contenute nei parametri timeStart e timeEnd, andranno perse una volta
+ * \pre che questa procedura verrà richiamata.
  *
  * \sa getDate(date* time)
  *
- * @param[in,out] *timeStart: puntatore ad una struttura date che rappresenta la data di partenza
- * @param[in,out] *timeEnd: punatore ad una struttura date che rappresenta la data di fine
+ * @param[out] *timeStart: puntatore ad una struttura date che rappresenta la data di partenza
+ * @param[out] *timeEnd: punatore ad una struttura date che rappresenta la data di fine
  */
 void getExpositionTime(date* timeStart, date* timeEnd);
 
 /**
- * Procedura utilizzata per recuperare la data di terminazione della mostra il cui identificativo è rappresentato da
- * id, dal file Artshow.txt, caricando tale data nelle struttura timeEnd.
+ * Procedura utilizzata per recuperare la data di terminazione della mostra, il cui identificativo è rappresentato da
+ * id, dal file Artshow.txt caricando tale data nelle struttura timeEnd.
  *
- * @param[in,out] *timeEnd: puntatore ad una struttura di tipo date rappresentante la data di fine di una mostra
+ * \pre Le evenutali informazioni precedentemente contenute nel parametro timeEnd, andranno perse una volta che
+ * \pre questa procedura verrà richiamata.
+ *
+ * @param[out] *timeEnd: puntatore ad una struttura di tipo date rappresentante la data di fine di una mostra
  * @param[in] id: valore intero senza segno rappresentante l'identificatore della mostra
  */
 void fgetDateEnd(date *timeEnd, unsigned int id);
@@ -232,6 +271,9 @@ bool isLeapYear(unsigned int year);
 /**
  * Funzione utilizzata per verificare se la data timeStart è precedente alla data timeEnd
  *
+ * \pre Se tutti gli attributi dei parametri timeStart e timeEnd non contengono valori, il corretto funzionamento della
+ * \pre funzione non è grantito.
+ *
  * @param[in] *timeStart: puntatore ad una struttura date che rappresenta la data di partenza
  * @param[in] *timeEnd: punatore ad una struttura date che rappresenta la data di fine
  * @return: Restituisce True se la data rappresentata da timeStart è precedente alla data rappresentata da timeEnd, false altrimenti
@@ -244,20 +286,22 @@ bool isPrevious(date* timeStart, date* timeEnd);
  * @{*/
 
 /**
- *  Procedura utilizzata per caricare il valore fiscalCode[] di una struttura localManager
+ * Procedura utilizzata per caricare il valore fiscalCode[] di una struttura localManager
  *
- * @param[in,out] *fiscalCode: puntatore ad una stringa che conterra il codice fiscale di un manager locale
+ * @param[out] *fiscalCode: puntatore ad una stringa che conterra il codice fiscale di un manager locale
  */
 void getFiscalCode(char* fiscalCode);
 
 /**
- * Modulo coordinatore per caricare una generica struttura: localManager, esso sfrutta le procedure:
+ * Modulo coordinatore per caricare una generica struttura: localManager:
  *
  * \sa getFiscalCode(char* fiscalCode)
  *
- * \sa getName(char* name) guarda anche \ref
+ * \sa getName(char* name)
  *
- * @param[in,out] *manager: puntatore ad una struttora di tipo: localManager
+ * \sa getSurname(char *surname)
+ *
+ * @param[out] *manager: puntatore ad una struttora di tipo: localManager
  */
 /**@}*/
 void getLocalManager(localManager* manager);
@@ -276,7 +320,7 @@ unsigned int getIdArtwork();
 /**
  * Procedura per caricare il name[] della struttura artwork
  *
- * @param[in,out] *artworkName: puntatore ad una stringa che conterrà il nome dell'opera
+ * @param[out] *artworkName: puntatore ad una stringa che conterrà il nome dell'opera
  */
 void getArtworkName(char* artworkName);
 
@@ -290,14 +334,14 @@ enum operaType getOperaType();
 /**
  * procedura per caricare il kind[] della struttura artwork
  *
- * @param[in,out] *kind: puntatore ad una stringa che conterrà il genere dell'opera
+ * @param[out] *kind: puntatore ad una stringa che conterrà il genere dell'opera
  */
 void getKind(char* kind);
 
 /**
  * Procedura per caricare il historPeriod[] della struttura artwork
  *
- * @param[in,out] *historPeriod: puntatore ad una stringa che contterra il periodo storico in cui è stata realizzata l'opera
+ * @param[out] *historPeriod: puntatore ad una stringa che contterra il periodo storico in cui è stata realizzata l'opera
  */
 void getHistorPeriod(char* historPeriod);
 
@@ -311,13 +355,18 @@ bool isBC();
 /**
  * Funzione untilizzata per specificare l'anno in cui è stata prodotta l'opera
  *
+ * \note Tale funzione verifica se l'anno di produzione di un'opera d'arte, nel caso essa fosse A.C., non sià superiore
+ * \note all'anno 40.000 A.C. (anno a cui risale la prima opera d'arte scoperta)
+ *
  * @param[in] BC: valore booleano che specifica se la data a cui ci si riferisce è prima o dopo cristo
  * @return L'anno di produzione dell'opera
  */
 unsigned int getProdYear(bool BC);
 
 /**
- * Modulo coordinatore utilizzato per caricare una generica struttura artwork, sfrutta:
+ * Modulo coordinatore utilizzato per caricare una generica struttura artwork.
+ *
+ * \pre Tutte le informazioni contenute nel parametro artw, andranno perse al termine di questa procedura.
  *
  * \sa getIdArtwork()
  *
@@ -333,7 +382,7 @@ unsigned int getProdYear(bool BC);
  *
  * \sa getProdYear(bool BC)
  *
- * @param[in,out] *artw: puntatore ad una struttura di tipo artwork
+ * @param[out] *artw: puntatore ad una struttura di tipo artwork
  */
 void getArtwork(artwork* artw);
 
@@ -341,14 +390,27 @@ void getArtwork(artwork* artw);
  * Procedura utilizzata per decidere quali opere d'arte dovranno essere inserite nella mostra
  *
  * @param[in,out] IDs[]: vettore di interi che contiene gli identificativi delle opere d'arte
- * @param[in,out] dim: dimensione del vettore
+ * @param[in] dim: dimensione del vettore
  */
 void chooseArtwork(unsigned int IDs[], unsigned int dim);
 
-
+/**
+ * Tale procedura viene utilizzata per mostrare all'utente le informazioni dell'opera passata come parametro.
+ *
+ * \pre Il parametro artwork dovrà essere necessariamente caricato in precedenza, altrimenti non è garantito il corretto
+ * \pre funzionamento della procedura.
+ *
+ * @param[in] num: identificativo dell'opera d'arte
+ * @param[in] *artwork: puntatore ad una struttura di tipo artwork, rappresentante un'opera d'arte
+ */
 void printArtwork(int num, artwork* artwork);
 
-
+/**
+ * Tale procedura permette di mostrare all'utente le opere che sono associate alla mostra il cui identificativo
+ * corrisponde al parametro idArtshow.
+ *
+ * @param[in] idArtshow: identificativo della mostra
+ */
 void printArtworksInShow(unsigned int idArtshow);
 
 /**
@@ -369,7 +431,25 @@ void loadArtwork(char str[], artwork *artwork);
  */
 bool IDExists(unsigned int ID, FILE* file);
 
+/**
+ * Tale funzione verifica se all'interno del file Artworks.txt, l'opera il cui nome è rappresentato da
+ * artName è già stata registrata o meno.
+ *
+ * @param[in] *artName: puntatore ad una stringa rappresentante il nome di un'opera d'arte
+ * @return true se l'opera è già stata registrata nel sistema, falso altriemnti
+ */
 bool isArtworkAlredyReg(char* artName);
+
+/**
+ * Tale funzione carica il vettore idsArtwork, con gli identificativi delle opere, che la mostra identificata da
+ * idArtshow, ha al suo interno.
+ *
+ * @param[in] idArtshow: intero senza segno, rappresentante l'identificativo di una mostra
+ * @param[in,out] idsArtwork: vettore di interi senza segno, dove ciascun valore del vettore rappresenta un
+ * identificativo di un'opera
+ * @return l'indice relativo all'ultima posizione dele vettore idsArtworks
+ */
+unsigned int fgetIdsArtwork(unsigned int idArtshow, unsigned int idsArtwork[]);
 /**@}*/
 
 /**
@@ -385,13 +465,15 @@ bool isArtworkAlredyReg(char* artName);
 unsigned int getIDShow();
 
 /**
- * Modulo coordinatore utilizzato per caricare le strutture: timeStart, timeEnd, manager; sfruttando:
+ * Modulo coordinatore utilizzato per caricare le strutture: timeStart, timeEnd, manager;
  *
  * \sa getLocalManager(localManager* manager)
  *
  * \sa getExpositionTime(date* timeStart, date* timeEnd)
  *
  * \sa chooseArtwork(unsigned int IDs[], unsigned int dim)
+ *
+ * \post La stringa che viene restituita, dopo che è stata utilizzata, deve essere liberata tramite la free()
  *
  * @param[in] *timeStart: puntatore ad una struttura date che rappresenta la data di inizio di una mostra
  * @param[in] *timeEnd: punntatore ad una struttura date che rappresenta la data di fine di una mostra
@@ -420,9 +502,35 @@ void delateArtshow(unsigned int idArtshow);
  * @return True se la mostra è terminata, falso altrimenti
  */
 bool isShowOver(unsigned int id);
-/**@}*/
 
 
+/**
+ * Tale procedura permette la visualizzazione delle informazioni relative ad una mostra, ricercando essa tramite id
+ *
+ * @param[in] id: intero senza segno rappresentante l'identificativo di una mostra
+ */
 void assArtshow(unsigned int id);
+
+/**
+ * Tale funzione permette di all'utente di selezionare la mostra e registrarsi attreverso la procedura:
+ *
+ * \sa bookClient(const unsigned int IDArtshow, char *newUsername)
+ *
+ * @param[in] username: stringa rappresentante il nome l'username dell'utente che vuole registrarsi ad una mostra
+ */
+void selectArtshow(char *username);
+
+/**
+ * Tale procedura è utilizzata per modificare l'username dell'utente all'interno del file Reservations.txt, sostituendo
+ * il precedente username con il parametro newUsername.
+ *
+ * \pre I parametri oldUsername e newUsername, se nulli non garantiscono il corretto funzionamento della procedura
+ *
+ * @param[in] *oldUsername stringa rappresentante l'username dell'utente client da sostituire
+ * @param [in] *newUsername stringa rappresentante l'username dell'utente client che sostituirà il precedente
+ */
+void editRes(char *oldUsername, char *newUsername);
+
 void printShow();
+/**@}*/
 #endif //GALLERIADARTE_ARTSHOW_H
