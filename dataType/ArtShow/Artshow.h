@@ -531,6 +531,9 @@ void selectArtshow(char *username);
  */
 void editRes(char *oldUsername, char *newUsername);
 
+/**
+ * Tale procedura permette di visualizzare le mostre disponibili nel sistema
+ */
 void printShow();
 /**@}*/
 #endif //GALLERIADARTE_ARTSHOW_H

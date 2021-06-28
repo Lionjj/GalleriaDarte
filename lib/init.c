@@ -133,7 +133,6 @@ bool home(User *user, exhiPlace *place, bool *access) {
             break;
         default:
             run = false;
-            *access = false;
             break;
     }
     return run;
