@@ -2,7 +2,7 @@
 #define GALLERIADARTE_INIT_H
 
 #include <stdbool.h>
-#include "../dataType/User/Users.h"
+#include "../dataType/Users/Users.h"
 /**
  * Procedura utilizzata per inizializare le funzionalità di base del programma
  *

@@ -12,7 +12,7 @@ void research() {
                "\n\t\t-3] Tipo opera;\n\t\t-4] Genere opera;\n\t\t-5] Periodo storico opera;"
                "\n\t\t-6] Anno produzione opera\n\t-");
         choice = getUInt(10);
-        if ((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Artworks.txt", "r")) ==
+        if ((file = fopen("Data/Artworks.txt", "r")) ==
             NULL) {
             printf("\n\t-ATTENZIONE: non e' stata possibile effettuare l'operazione!");
         } else {
@@ -188,7 +188,7 @@ void searchShowName()
         printf("\n\t>Inserire nome da ricercare\n\t-");
         gets(name);
         while (fgets(str, MAX_LEN_SHOW, file) != NULL)
-        {
+        {  
             id = strtok(str, "#");
             showName = strtok(NULL, "#");
             strtok(NULL, "#");

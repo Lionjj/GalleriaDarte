@@ -1,21 +1,24 @@
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include "Users.h"
 #include "Client.h"
 #include "../../lib/stringcontrol.h"
 #include "../../lib/datainput.h"
+#include "../../lib/search.h"
+#include "../ArtShow/Artshow.h"
 
 void editClientFile(User *user, unsigned int choice){
     FILE *file = NULL, *fileCopy = NULL;
     char str[MAX_LEN_CLIENT];
     User temp;
 
-    if ((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Client.txt", "r")) ==
+    if ((file = fopen("Data/Client.txt", "r")) ==
         NULL) {
         printf("\n\t-ATTENZIONE: non è stata possibile effettuare l'operazione!");
     } else {
 
-        if ((fileCopy = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\CopyClient.txt",
+        if ((fileCopy = fopen("Data/CopyClient.txt",
                               "w")) == NULL) {
             printf("\n\t-ATTENZIONE: non è stato possibile effettuare la copia del file!");
         } else {
@@ -79,9 +82,9 @@ void editClientFile(User *user, unsigned int choice){
             fclose(file);
             fclose(fileCopy);
 
-            remove("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Client.txt");
-            rename("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\CopyClient.txt",
-                   "C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Client.txt");
+            remove("Data/Client.txt");
+            rename("Data/CopyClient.txt",
+                   "Data/Client.txt");
         }
     }
 }
@@ -91,14 +94,14 @@ void delateClient(User *user){
     char str[MAX_LEN_CLIENT];
     User temp;
 
-    if ((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Client.txt",
+    if ((file = fopen("Data/Client.txt",
                       "r")) ==
         NULL) {
         printf("\n\t-ATTENZIONE: non è stata possibile effettuare l'operazione!");
     } else {
 
         if ((fileCopy = fopen(
-                "C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\CopyClient.txt",
+                "Data/CopyClient.txt",
                 "w")) ==
             NULL) {
             printf("\n\t-ATTENZIONE: non è stato possibile effettuare la copia del file!");
@@ -121,16 +124,49 @@ void delateClient(User *user){
             fclose(file);
             fclose(fileCopy);
 
-            remove("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Client.txt");
-            rename("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\CopyClient.txt",
-                   "C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Client.txt");
+            remove("Data/Client.txt");
+            rename("Data/CopyClient.txt",
+                   "Data/Client.txt");
         }
     }
 }
 
-void bookShow(char *username) {
-    printArtworksInShow(6);
-    selectArtshow(username);
+ void bookShow(char *username) {
+    unsigned int choice, i = 0;
+    bool fileArtshow = true;
+    do {
+        printf("\n\t>Inserire \"1\" per avviare una ricerca tramite nome delle mostre disponibili\n\t>Inserire \"2\" per visualizzare in modo compatto tutte le mostre nel sistema\n");
+        choice = getUInt(10);
+        switch (choice)
+        {
+        case 1:
+            searchShowName();
+            break;
+        case 2:
+            printShow();
+            break;
+        default:
+            printf("\n\t-ATTENZIONE: Inserire un valore tra quelli disponibili.");
+            break;
+        }
+    } while(choice < 1 || choice > 2);
+
+    do {
+        if(i > 0)
+        {
+            printf("\n\t-ATTENZIONE: ID inserito non esistente!");
+        }
+        printf("\n\t>Inserire ID della mostra desiderata per vedere le opere associate:\n\t-");
+        choice = getUInt(10);
+        i=1;
+        } while(!IDExists(choice, fileArtshow));
+        printArtworksInShow(choice);
+        printf("\n\t>Vuoi registrarti a questa mostra? (S/N):\n\t-");
+        if(toupper(getchar()) == 'S') 
+        {
+            bookClient(choice, username);
+        }
+        fflush(stdin);
 }
 
 void deleteReservation(char *username) {
@@ -210,12 +246,12 @@ void bookClient(const unsigned int IDArtshow, char *newUsername) {
     char temp[MAX_LEN_SHOW], *ptr = NULL, *usernames = NULL;
     unsigned int id, max;
 
-    if ((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Reservations.txt", "r")) ==
+    if ((file = fopen("Data/Reservations.txt", "r")) ==
         NULL) {
         printf("-ATTENZIONE: Non e' stato possibile registrarti alla mostra!\n");
     } else {
         if ((fileCopy = fopen(
-                "C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\CopyReservations.txt",
+                "Data/CopyReservations.txt",
                 "w")) == NULL) {
             printf("\n\t-ATTENZIONE: non è stato possibile effettuare la copia del file!");
         } else {
@@ -279,9 +315,9 @@ void bookClient(const unsigned int IDArtshow, char *newUsername) {
         }
         fclose(file);
 
-        remove("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Reservations.txt");
-        rename("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\CopyReservations.txt",
-               "C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Reservations.txt");
+        remove("Data/Reservations.txt");
+        rename("Data/CopyReservations.txt",
+               "Data/Reservations.txt");
     }
 }
 
@@ -289,7 +325,7 @@ bool saveClient(User *user){
     bool proposition = true;
     FILE *file = NULL;
 
-    if ((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Client.txt", "a")) ==
+    if ((file = fopen("Data/Client.txt", "a")) ==
         NULL) {
         proposition = false;
         printf("-ATTENZIONE: Non e' stato possibile registrare l'utente!\n");
@@ -309,7 +345,7 @@ bool isClientAlredyReg(char *userName, char *userEmail, char mode){
     char str[MAX_LEN_CLIENT], *fUserName = NULL, *fUserEmail = NULL;
 
 
-    if ((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Client.txt", "r")) ==
+    if ((file = fopen("Data/Client.txt", "r")) ==
         NULL) {
         proposition = NULL;
         printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file per la verifica.");
@@ -368,7 +404,7 @@ bool getClientLog(User *user, char uNameORuEmail[], char uPw[]){
     char *fUserUserName = NULL, *fUserEmail = NULL, *fUserPw = NULL, *fUserName = NULL, *fUserSurname = NULL, *verif = NULL;
     FILE *file = NULL;
 
-    if ((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Client.txt", "r")) ==
+    if ((file = fopen("Data/Client.txt", "r")) ==
         NULL) {
         proposition = NULL;
         printf("\n-ATTENZIONE: Non e' stato possibile aprire il file per la verifica.");

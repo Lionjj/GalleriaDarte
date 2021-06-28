@@ -8,13 +8,15 @@
 #include "../../lib/datainput.h"
 #include "Artgallerymanagers.h"
 #include "Client.h"
+#include "../../lib/search.h"
+#include "../../dataType/ArtShow/Artshow.h"
 
 void registerUser() {
     User user = {"", "", "", "", ""};
     unsigned int choice;
 
-    printf("\n\t-Premi:\n\t\t-1] Per registrarti come utente;\n\t\t"
-           "-2] oppure un qualsiasi altro tasto per registrarti come gestore della galleria;\n\t\t-");
+    printf("# Registrazione utente #\n\t-Premi:\n\t\t-1] Per registrarti come utente;\n\t\t"
+           "-2] oppure un qualsiasi altro tasto per registrarti come gestore della galleria;\n\t-");
     choice = getUInt(10);
 
     if (choice == 1) {
@@ -59,7 +61,8 @@ void delateUser(User *user) {
     char choice;
 
     printf("\n\t-ATTENZIONE: stai per eliminare questo account, sei sicuro di procedere?(s/n):\n\t-");
-    choice = (char) getch();
+    choice = (char) getchar();
+    fflush(stdin);
 
     if (toupper(choice) == 'S') {
         if (!user->artGalleryManager) {
@@ -113,7 +116,7 @@ void getUser(User *user) {
 }
 
 void getName(char *name) {
-    char str[30];
+    char str[30], *str2 = NULL;
     int i = 0;
 
     printf("\n\t>Nome (Il nome non deve contenere numeri o spazi, e non deve superare i 30 caratteri):");
@@ -123,14 +126,14 @@ void getName(char *name) {
         }
         gets(str);
         i++;
-    } while (!sisalpha(str) || strlen(str) > 30);
+    } while (!sisalpha(str) || strlen(str) > 30 || strlen(str) < 4);
 
-    deletespaces(str);
-    strcpy(name, str);
+    str2 = deletespaces(str);
+    strcpy(name, str2);
 }
 
 void getSurname(char *surname) {
-    char str[30];
+    char str[30], *str2 = NULL;
     int i = 0;
 
     printf("\n\t>Cognome (Il cognome non deve contenere numeri, e non deve superare i 30 caratteri):");
@@ -140,31 +143,31 @@ void getSurname(char *surname) {
         }
         gets(str);
         i++;
-    } while (!sisalpha(str) || strlen(str) > 30);
+    } while (!sisalpha(str) || strlen(str) > 30 || strlen(str) < 4);
 
-    deletespaces(str);
-    strcpy(surname, str);
+    str2 = deletespaces(str);
+    strcpy(surname, str2);
 }
 
 void getUsername(char *username) {
-    char str[50];
+    char str[50], *str2 = NULL;
     int i = 0;
 
-    printf("\n\t>Username (L'Username non deve superare i 50 caratteri):");
+    printf("\n\t>Username (L'Username deve essere compreso tra 8 caratteri e 50 caratteri.):");
     do {
         if (i != 0) {
             printf("\n\t-ATTENZIONE: L'username inserito non e' conforme con le specifiche richieste, riprova:");
         }
         gets(str);
         i++;
-    } while (!sisalnum(str) || strlen(str) > 50);
+    } while (!sisalnum(str) || strlen(str) > 50 || strlen(str) < 8);
 
-    deletespaces(str);
-    strcpy(username, str);
+    str2 = deletespaces(str);
+    strcpy(username, str2);
 }
 
 void getEmail(char *email) {
-    char str[80];
+    char str[80], *str2 = NULL;
     int i = 0;
 
     printf("\n\t>Email (L'Email non deve superare gli 80 caratteri):");
@@ -176,12 +179,12 @@ void getEmail(char *email) {
         i++;
     } while (!verifyemail(str) || strlen(str) > 80);
 
-    deletespaces(str);
-    strcpy(email, str);
+    str2 = deletespaces(str);
+    strcpy(email, str2);
 }
 
 void getPw(char *pw) {
-    char str[50];
+    char str[50], *str2 = NULL;
     int i = 0;
     printf("\n\t>password (la password non deve superare i 50 caratteri e deve essere di almeno 8 caratteri, inoltre deve almeno\n\tcontenere un numero):");
     do {
@@ -192,8 +195,8 @@ void getPw(char *pw) {
         i++;
     } while (!shaveanumber(str) || (strlen(str) > 50 || strlen(str) < 8));
 
-    deletespaces(str);
-    strcpy(pw, str);
+    str2 = deletespaces(str);
+    strcpy(pw, str2);
 }
 
 void loadUser(char str[], User *user) {

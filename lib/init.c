@@ -1,12 +1,11 @@
 #include <stdbool.h>
 #include <stdio.h>
-#include "../dataType/User/Users.h"
+#include "../dataType/Users/Users.h"
 #include "datainput.h"
-
-#include "../lib/init.h"
-#include "search.h"
-#include "../dataType/Users/Client.h"
 #include "../dataType/Users/Artgallerymanagers.h"
+#include "../dataType/Users/Client.h"
+#include "init.h"
+#include "search.h"
 
 void init() {
     bool access = false, run = true;
@@ -30,6 +29,10 @@ void init() {
             }
         }
     } while (run);
+    
+    printf("Premi il tasto invio per continuare...");
+    getchar();
+    fflush(stdin);
 }
 
 bool clientOperation(User *user, bool *access) {

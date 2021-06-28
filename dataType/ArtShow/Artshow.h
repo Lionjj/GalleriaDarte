@@ -15,7 +15,7 @@
  * Numero massimo di opere che una mostra può contenere
  */
 #define MAX_ARTWORKS 60
-
+#include <stdio.h>
 #include <stdbool.h>
 /**
  * \file GalleriaDarte.dataType.ArtShow.Artshow.h
@@ -429,7 +429,7 @@ void loadArtwork(char str[], artwork *artwork);
  * @param[in] ID: Identificativo di cui si verificerà l'esistenza
  * @return True se il valore è esistente, falso altrimenti
  */
-bool IDExists(unsigned int ID, FILE* file);
+bool IDExists(unsigned int ID, bool isFileArtshow);
 
 /**
  * Tale funzione verifica se all'interno del file Artworks.txt, l'opera il cui nome è rappresentato da

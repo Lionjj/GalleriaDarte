@@ -115,7 +115,7 @@ void stoupper(char str[]) {
     }
 }
 
-char *separateWithComma(unsigned int *arr, const unsigned int dim) {
+ char *separateWithComma(unsigned int *arr, const unsigned int dim) {
     char *string = NULL;
     char strTemp[20];
     size_t i, j = 0, k;
@@ -125,10 +125,12 @@ char *separateWithComma(unsigned int *arr, const unsigned int dim) {
         j += strlen(strTemp);
     }
 
+ 
+    i++;
     k = i + j;
     string = (char *) malloc(sizeof(char) * (k + 1));
 
-    string[2 * dim] = '\0';
+    string[k + 1] = '\0';
     j = 0;
     for (i = 0; i < dim; i++) {
         k = 0;
@@ -144,6 +146,7 @@ char *separateWithComma(unsigned int *arr, const unsigned int dim) {
 
     return string;
 }
+
 
 char *reversStrtok(char *str, const char symbol) {
     char *ptr = NULL;
@@ -182,7 +185,7 @@ unsigned int fgetIdsArtwork(const unsigned int idArtshow, unsigned int idsArtwor
     char str[MAX_LEN_SHOW], *ptr = NULL, *temp = NULL, *ids = NULL;
     unsigned int id, i = 0;
 
-    if ((file = fopen("C:\\Users\\iMuSL\\CLionProjects\\GalleriaDarte\\GalleriaDarte\\Data\\Artshow.txt", "r")) ==
+    if ((file = fopen("Data/Artshow.txt", "r")) ==
         NULL) {
         printf("\n\t-ATTENZIONE: non è stato possibile aprire il file per la verifica.");
     } else {
