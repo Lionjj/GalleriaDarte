@@ -5,7 +5,7 @@
 #include "Artshow.h"
 #include "../../lib/stringcontrol.h"
 #include "../../lib/datainput.h"
-#include "../User/Users.h"
+#include "../Users/Users.h"
 #include "../../lib/search.h"
 #include "../Users/Client.h"
 #include <time.h>

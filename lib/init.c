@@ -1,6 +1,6 @@
 #include <stdbool.h>
 #include <stdio.h>
-#include "../dataType/User/Users.h"
+#include "../dataType/Users/Users.h"
 #include "datainput.h"
 
 #include "../lib/init.h"
@@ -130,7 +130,6 @@ bool home(User *user, exhiPlace *place, bool *access) {
             break;
         default:
             run = false;
-            *access = false;
             break;
     }
     return run;
