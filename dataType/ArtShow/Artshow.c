@@ -1156,7 +1156,7 @@ void editRes(char *oldUsername, char *newUsername)
                 if ((subToReplace = strstr(str, oldUsername)) != NULL)
                 {
 
-                    // se è il primo all'interno del file
+                    // se non è il primo all'interno della riga file
                     if (*(subToReplace - 1) != '#')
                     {
 
@@ -1229,4 +1229,160 @@ void printShow()
         }
         fclose(file);
     }
+}
+
+bool deleteReservationCheck(int idShow)
+{
+    FILE *file = NULL;
+    char str[MAX_LEN_SHOW], *idString = NULL, *ptr = NULL;
+    unsigned int id;
+    date current, fDateStart;
+    bool proposition = true;
+
+    if ((file = fopen("Data/Artshow.txt", "r")) ==
+        NULL)
+    {
+        printf("\n\t-ATTENZIONE: non e' stata possibile effettuare l'operazione!");
+    }
+    else
+    {
+        getCurrentDate(&current);
+        while(fgets(str, MAX_LEN_SHOW, file) != NULL && proposition)
+        {
+            idString = strtok(str, "#");
+            id = strtol(idString, &ptr, 10);
+            if(id == idShow)
+            {
+            strtok(NULL, "#");
+            strtok(NULL, "#");
+            fDateStart.day = strtol(strtok(NULL, "/"), &ptr, 10);
+            fDateStart.month = strtol(strtok(NULL, "/"), &ptr, 10);
+            fDateStart.year = strtol(strtok(NULL, "/"), &ptr, 10);
+            if(isPrevious(&current, &fDateStart))
+            {
+                if(fDateStart.year == current.year && fDateStart.month == current.month && ((fDateStart.day - current.day) > 1))
+                {
+                    proposition= false;
+                }
+            }
+            }
+        }
+    }
+    return proposition;
+}
+
+bool printIdReservations(char* username)
+{
+    FILE *file = NULL;
+    char str[MAX_LEN_RES], *idRes = NULL;
+    bool ctrl = false;
+    unsigned int num = 1;
+    if ((file = fopen("Data/Reservations.txt", "r")) ==
+        NULL)
+    {
+        printf("\n\t-ATTENZIONE: non e' stata possibile effettuare l'operazione!");
+    }
+    else
+    {
+        while(fgets(str, MAX_LEN_RES, file) != NULL) 
+        {
+            if(strstr(str, username) != NULL)
+            {
+                idRes = strtok(str, "#");
+                printf("\n\t>Prenotazione numero: %u", num);
+                printf("\n\t\t-ID mostra prenotata: %s", idRes);
+                num++;
+                ctrl = true;
+            }
+        }
+        if(!ctrl)
+        {
+            printf("\n\t-ATTENZIONE: Nessuna prenotazione trovata con questo account!");
+        }
+        fclose(file);
+    }
+    return ctrl;
+}
+
+bool deleteClientFromRes(char *username, unsigned int idshow) {
+    FILE *file = NULL, *fileCopy = NULL;
+    char str[MAX_LEN_RES], strCop[MAX_LEN_RES], *ptr = NULL, *subToReplace = NULL, *rigthSubs = NULL, *leftSubs = NULL;
+    unsigned int id, max;
+    bool ctrl = false;
+
+    if ((file = fopen("Data/Reservations.txt",
+                      "r")) ==
+        NULL) {
+        printf("\n\t-ATTENZIONE: non è stata possibile effettuare l'operazione!");
+    } else {
+
+        if ((fileCopy = fopen(
+                "Data/CopyReservations.txt",
+                "w")) ==
+            NULL) {
+            printf("\n\t-ATTENZIONE: non è stato possibile effettuare la copia del file!");
+        } else {
+            // finche non ci sono più righe nel file
+            while (fgets(str, MAX_LEN_RES, file) != NULL) {
+
+                strcpy(strCop, str);
+
+                // prendi l'id della prenotazione
+                id = strtoul(strtok(strCop, "#"), &ptr, 10);
+
+                // prendi il numero di posti disposnibili per la mostra
+                max = strtoul(strtok(NULL, "#"), &ptr, 10);
+
+                // se è la mostra da cui si vuole cancellare l'username
+                if(id == idshow){
+
+                    // allora se nella stringa appena presa, esiste l'username dell'utente che deve essere cancellato
+                    if ((subToReplace = strstr(str, username)) != NULL) {
+                        max++;
+                        // se non è il primo all'interno della riga file
+                        if (*(subToReplace - 1) != '#') {
+
+                            // allora rimpiazza il carattere precedente con il carattere '.' in modo tale da recuperare
+                            // tutta la sottostringa che precede l'username da rimpiazzare
+                            *(subToReplace - 1) = '.';
+                            // recupera la sottostringa successiva a l'username che deve essere rimpiazzato
+                            rigthSubs = reversStrtok(subToReplace, ',');
+
+                            // recupera la sottostringa che precede l'username da rimpiazzare (tranne l'ID e il valore
+                            // di posti diposnibili)
+                            leftSubs = reversStrtok(str, '#');
+                            leftSubs = reversStrtok(leftSubs, '#');
+                            leftSubs = strtok(leftSubs, ".");
+
+                            // elimina l'username dell'utente
+                            fprintf(fileCopy, "%u#%u#%s,%s", id, max, leftSubs, rigthSubs);
+                        } else {
+                            // fai le stesse cose
+                            rigthSubs = reversStrtok(subToReplace, ',');
+
+                            // ma memorizzale in un modo differente
+                            fprintf(fileCopy, "%u#%u#%s", id, max, rigthSubs);
+                        }
+                        ctrl = true;
+                    } else {
+                        fprintf(fileCopy, "%s", str);
+                    }
+                } else{
+                    fprintf(fileCopy, "%s", str);
+                }
+            }
+
+            fclose(file);
+            fclose(fileCopy);
+
+            if (ctrl) {
+                remove("Data/Reservations.txt");
+                rename("Data/CopyReservations.txt",
+                       "Data/Reservations.txt");
+            } else {
+                remove("Data/CopyReservations.txt");
+            }
+        }
+    }
+    return ctrl;
 }

@@ -3,6 +3,7 @@
 #include "../dataType/ArtShow/Artshow.h"
 #include "datainput.h"
 #include "search.h"
+#include <stdlib.h>
 
 void research() {
     FILE *file = NULL;
@@ -176,30 +177,34 @@ void searchArtProdYear(FILE *file) {
 void searchShowName()
 {
     FILE *file = NULL;
-    char name[50], str[MAX_LEN_SHOW], *showName = NULL, *dates = NULL, *datee = NULL;
-    char *id = NULL;
+    char name[50], str[MAX_LEN_SHOW], *showName = NULL, *dates = NULL, *datee = NULL, *ptr = NULL;
+    unsigned int id;
+    unsigned int num = 1;
+
     if ((file = fopen("Data/Artshow.txt", "r")) ==
         NULL)
     {
         printf("\n\t-ATTENZIONE: non e' stata possibile aprire il file delle mostre!");
     }
     else
-    {
+    {   
         printf("\n\t>Inserire nome da ricercare\n\t-");
         gets(name);
         while (fgets(str, MAX_LEN_SHOW, file) != NULL)
         {  
-            id = strtok(str, "#");
+            id = strtol(strtok(str, "#"), &ptr, 10);
             showName = strtok(NULL, "#");
             strtok(NULL, "#");
             dates = strtok(NULL, "#");
             datee = strtok(NULL, "#");
             if (strcmp(name, showName) == 0)
             {
-                printf("\n\t\t-ID della mostra: %s", id);
-                printf("\n\t\t-Nome luogo di esposizione della mostra: %s", showName);
-                printf("\n\t\t-Data inizio della mostra: %s", dates);
-                printf("\n\t\t-Data fine della mostra: %s", datee);
+                printf("\n\t>Mostra numero: %u", num);
+                printf("\n\t\t-ID mostra: %u", id);
+                printf("\n\t\t-Nome mostra: %s", showName);
+                printf("\n\t\t-Data inizio mostra: %s", dates);
+                printf("\n\t\t-Data fine mostra: %s", datee);
+                num++;
             }
         }
         fclose(file);

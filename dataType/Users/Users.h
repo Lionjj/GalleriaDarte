@@ -203,7 +203,7 @@ bool saveUser(User* user);
 bool isUserAlredyReg(char userName[],char userEmail[] , char mode, bool userType);
 
 /**
- * Tale funzione coordinatoria permette ad un utente di inserire le proprie credenziali dell'account, dopodichè verifica
+ * Tale funzione coordinatoria permette ad un utente di inserire le proprie credenziali dell'account, dopo di chè verifica 
  * se tale account esiste nel sistema. A seconda che si tratti di un account manager o client.
  *
  * \sa getClientLog(User *user, char uNameORuEmail[], char uPw[])

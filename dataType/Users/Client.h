@@ -52,10 +52,16 @@ void delateClient(User *User);
 void bookShow(char *username);
 
 /**
- * Tale procedura permette di disdire la prenotazione di un utente client ad una mostra.
+ * Tale procedura coordinatoria permette di disdire la prenotazione di un'utente client, ad una mostra.
+ *
+ * \sa deleteClientFromRes(char *username, unsigned int idshow)
+ *
+ * \sa printIdReservations(char* username);
+ * 
+ * \sa deleteReservationCheck(int idShow);
  *
  * \pre Se il parametro username è NULL il corretto funzionamento della procedura non è garantito
- * @param[in] *username stringa rappresentante l'username di un utente client
+ * @param[in] *username stringa rappresentante l'username di un'utente client
  */
 void deleteReservation(char *username);
 /** @}*/

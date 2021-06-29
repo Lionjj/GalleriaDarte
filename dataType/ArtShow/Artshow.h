@@ -535,5 +535,36 @@ void editRes(char *oldUsername, char *newUsername);
  * Tale procedura permette di visualizzare le mostre disponibili nel sistema
  */
 void printShow();
+
+/**
+ * Tale funzione verifica se un utente può disdire una prenotazione rispettando i vincoli temporali.
+ * 
+ * \pre Il parametro idShow deve essere un identificativo esistente, altrimenti il corretto funzionamento della funzione non è garantito
+ *  
+ * @param[in] idShow: valore intero rappresentante l'identificativo della mostra prenotata.
+ */
+bool deleteReservationCheck(int idShow);
+
+/**
+ * Tale funzione è utilizzata per mostrare all'utente gli identificativi di tutte le mostre a cui si è iscritto.
+ * 
+ * \pre Il parametro *username non deve essere NULL altrimenti il corretto funzionamento della funzione non è garantito.
+ * 
+ * @param[in] *username: stringa rappresentante l'username dell'utente.
+ */
+bool printIdReservations(char* username);
+
+/**
+ * Tale funzione permette di eliminare il nome utente rappresentanto dal parametro username, da una prenotazione ad una
+ * mostra il cui identificativo è idshow.
+ *
+ * \pre se l'usernmae dovesse essere NULL, il corretto funzionamento della funzione non è garantito.
+ *
+ * @param *username: stringa rappresentante l'username dell'utente
+ * @param idshow: intero senza segno rappresentante l'identificativo di una mostra
+ * @return true se è stato possibile cancellare l'username dal file, false altrimenti
+ */
+bool deleteClientFromRes(char *username, unsigned int idshow);
+
 /**@}*/
 #endif //GALLERIADARTE_ARTSHOW_H
