@@ -155,12 +155,12 @@ void editManagerFile(User *user, exhiPlace *place, unsigned int choice)
                             }
                             break;
                         default:
-                            printf("\n\t-Azione per modificare i dati dell'utente interrotta!\n");
+                            printf("\n\t-Azione per modificare i dati dell'utente interrotta!");
                             break;
                         }
                         break;
                     default:
-                        printf("\n\t-Azione per modificare i dati dell'utente interrotta!\n");
+                        printf("\n\t-Azione per modificare i dati dell'utente interrotta!");
                         break;
                     }
                 }
@@ -220,7 +220,7 @@ void delateManager(User *user)
                             tempP.structure);
                 }
             }
-            printf("\n\t-Account cancellato, grazie per aver utilizzato la nostra APP!");
+            printf("\n\t-Account cancellato!");
 
             fclose(file);
             fclose(fileCopy);
@@ -248,7 +248,7 @@ void registerArtwork()
         if ((file = fopen("Data/Artworks.txt", "a")) ==
             NULL)
         {
-            printf("-ATTENZIONE: Non e' stato possibile registrare nel sistema l'opera!\n");
+            printf("\n\t-ATTENZIONE: Non e' stato possibile registrare nel sistema l'opera!");
         }
         else
         {
@@ -274,7 +274,7 @@ void recordShow(char *nameStructure)
     if ((file = fopen("Data/Artshow.txt", "a")) ==
         NULL)
     {
-        printf("\n-ATTENZIONE: Non e' stato possibile registrare la mostra!");
+        printf("\n\t-ATTENZIONE: Non e' stato possibile registrare la mostra!");
     }
     else
     {
@@ -292,7 +292,7 @@ void recordShow(char *nameStructure)
     if ((file = fopen("Data/Reservations.txt", "a")) ==
         NULL)
     {
-        printf("\n-ATTENZIONE: Non e' stato possibile registrare la mostra!");
+        printf("\n\t-ATTENZIONE: Non e' stato possibile registrare la mostra!");
     }
     else
     {
@@ -327,13 +327,13 @@ bool saveArtGalleyManager(User *user)
             fprintf(file, "%s#%s#%s-%s-%s-%s<%s<%s<%s-\n", user->username, user->email, user->pw, user->name,
                     user->surname,
                     place.city, place.streetName, place.houseNum, place.structure);
-            printf("\n-Benvenuto nel sistema %s!", user->name);
+            printf("\n\t-Benvenuto nel sistema %s!", user->name);
             fclose(file);
         }
     }
     else
     {
-        printf("\n\t-ATTENZIONE: Esiste gia' una sede della galleria nel luogo specificato!\n");
+        printf("\n\t-ATTENZIONE: Esiste gia' una sede della galleria nel luogo specificato!");
     }
     return proposition;
 }

@@ -129,7 +129,7 @@ bool logIn(User *user, exhiPlace *place)
 void getUser(User *user)
 {
     // Indice utilizzato per emettere eventuali messaggi di errore
-    printf("\n# Registrazione utente #\n-Inserisci:");
+    printf("\n# Registrazione utente #\n\t-Inserisci:");
 
     getName(user->name);
 

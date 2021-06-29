@@ -86,7 +86,7 @@ void editClientFile(User *user, unsigned int choice)
                         break;
 
                     default:
-                        printf("\n\t-Azione per modificare i dati dell'utente interrotta!\n");
+                        printf("\n\t-Azione per modificare i dati dell'utente interrotta!");
                         break;
                     }
                 }
@@ -148,7 +148,7 @@ void delateClient(User *user)
             for (int i = 0; i < len; i++){
                 deleteClientFromRes(user->username, i);
             }
-            printf("\n\t-Account cancellato, grazie per aver utilizzato la nostra APP!");
+            printf("\n\t-Account cancellato!");
 
             fclose(file);
             fclose(fileCopy);
@@ -166,7 +166,7 @@ void bookShow(char *username)
     bool fileArtshow = true;
     do
     {
-        printf("\n\t>Inserire \"1\" per avviare una ricerca tramite nome delle strutture disponibili\n\t>Inserire \"2\" per visualizzare in modo compatto tutte le mostre nel sistema\n");
+        printf("\n\t>Inserire \"1\" per avviare una ricerca tramite nome delle strutture disponibili\n\t>Inserire \"2\" per visualizzare in modo compatto tutte le mostre nel sistema\n\t-");
         choice = getUInt(10);
         switch (choice)
         {
@@ -233,7 +233,7 @@ void bookClient(const unsigned int IDArtshow, char *newUsername)
     if ((file = fopen("Data/Reservations.txt", "r")) ==
         NULL)
     {
-        printf("-ATTENZIONE: Non e' stato possibile registrarti alla mostra!\n");
+        printf("\n\t-ATTENZIONE: Non e' stato possibile registrarti alla mostra!");
     }
     else
     {
@@ -336,13 +336,13 @@ bool saveClient(User *user)
         NULL)
     {
         proposition = false;
-        printf("-ATTENZIONE: Non e' stato possibile registrare l'utente!\n");
+        printf("\n\t-ATTENZIONE: Non e' stato possibile registrare l'utente!");
     }
     else
     {
 
         fprintf(file, "%s#%s#%s-%s-%s-\n", user->username, user->email, user->pw, user->name, user->surname);
-        printf("-Benvenuto nel sistema %s!\n", user->name);
+        printf("\n\t-Benvenuto nel sistema %s!", user->name);
         fclose(file);
         free(file);
     }
@@ -428,7 +428,7 @@ bool getClientLog(User *user, char uNameORuEmail[], char uPw[])
         NULL)
     {
         proposition = NULL;
-        printf("\n-ATTENZIONE: Non e' stato possibile aprire il file per la verifica.");
+        printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file per la verifica.");
     }
     else
     {
