@@ -1,8 +1,8 @@
 0#Colazione sull'erba-Edouard-Manet-0-Olio su tela-Illuminismo-1863-0
-1#Cielo stellato-Leonard-Vangog-0-Olio su tela-Romanticismo-1905-0
+1#Cielo stellato-Leonard-Van Gogh-0-Olio su tela-Romanticismo-1905-0
 2#L'urlo-Edvard-Mumch-0-Olio su tela-Romanticismo-1893-0
 3#Assenzio-Edgar-Degas-0-Olio su tela-Modernismo-1875-0
-4#La spiaggia di Scheweningen prima di una tempesta-Vincent-Van-0-Olio su tela-Romanticismo-1883-0
+4#La spiaggia di Scheweningen prima di una tempesta-Vincent-Van Gogh-0-Olio su tela-Romanticismo-1883-0
 5#Il pensatore-August-Rodin-1-Marmo-Romanticismo-1896-0
 6#L'ultima cena-Leonardo-Vinci-0-olio su tela-medioevo-1498-0
 7#Madonna Benois-Leonardo-Vinci-0-olio-medioevo-1482-0
@@ -12,3 +12,4 @@
 11#Nascita di Venere-Sandro-Botticelli-0-Tempera su tela-Rinascimento-1485-0
 12#Gioconda-Leonardo-Vinci-0-Olio su tavola di legno-Medioevo-1503-0
 13#Madonna dei Fusi-Leonardo-Vinci-0-Olio su tavola-Medioevo-1501-0
+14#Campo di grano con volo di corvi-Vincent-Van Gogh-0-Pittura paesaggistica-Romanticismo-1890-0

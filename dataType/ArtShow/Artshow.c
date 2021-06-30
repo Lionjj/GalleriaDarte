@@ -17,10 +17,10 @@
 
 void getStreet(char *streetName)
 {
-    char str[90];
+    char str[90], *str2 = NULL;
     int i = 0;
 
-    printf("\n\t>Via/piazza (Il nome della via/piazza non deve contenere numeri, e non deve superare i 90 caratteri):");
+    printf("\n\t>Via/piazza (Il nome della via/piazza non deve contenere numeri\n\t e deve essere compreso tra i 5 e i 90 caratteri):");
     do
     {
         if (i != 0)
@@ -29,14 +29,15 @@ void getStreet(char *streetName)
         }
         gets(str);
         i++;
-    } while (!sisalpha(str) || strlen(str) > 90);
+    } while (!sisalphaandspace(str) || strlen(str) > 90 || strlen(str) < 5);
 
-    strcpy(streetName, str);
+    str2 = trimwhitespace(str);
+    strcpy(streetName, str2);
 }
 
 void getHouseNum(char *houseNum)
 {
-    char str[5];
+    char str[5], *str2 = NULL;
     int i = 0;
     printf("\n\t>Numero civico (Il numero civico deve contenere esclusivamente numeri):");
     do
@@ -47,16 +48,17 @@ void getHouseNum(char *houseNum)
         }
         gets(str);
         i++;
-    } while (!sisdigit(str));
+    } while (!sisalnum(str));
 
-    strcpy(houseNum, str);
+    str2 = deletespaces(str);
+    strcpy(houseNum, str2);
 }
 
 void getCity(char *city)
 {
-    char str[30];
+    char str[30], *str2 = NULL;
     int i = 0;
-    printf("\n\t>Citta' (Il nome della citta non deve contenere numeri e non deve superare i 30 caratteri):");
+    printf("\n\t>Citta' (Il nome della citta non deve contenere numeri\n\te deve essere compreso tra 4 e 30 caratteri):");
     do
     {
         if (i != 0)
@@ -65,16 +67,17 @@ void getCity(char *city)
         }
         gets(str);
         i++;
-    } while (!sisalpha(str) || strlen(str) > 30);
+    } while (!sisalpha(str) || strlen(str) > 30 || strlen(str) < 4);
 
-    strcpy(city, str);
+    str2 = trimwhitespace(str);
+    strcpy(city, str2);
 }
 
 void getNameStructure(char *structure)
 {
-    char str[50];
+    char str[50], *str2 = NULL;
     int i = 0;
-    printf("\n\t>Nome della struttura (Il nome della struttura non deve contenere numeri e non deve superare i 50 caratteri):");
+    printf("\n\t>Nome della struttura (Il nome della struttura non deve contenere numeri\n\te deve essere compreso tra 5 e 50 caratteri):");
     do
     {
         if (i != 0)
@@ -83,9 +86,10 @@ void getNameStructure(char *structure)
         }
         gets(str);
         i++;
-    } while (!sisalpha(str) || strlen(str) > 50);
+    } while (!sisalpha(str) || strlen(str) > 50 || strlen(str) < 5);
 
-    strcpy(structure, str);
+    str2 = trimwhitespace(str);
+    strcpy(structure, str2);
 }
 
 void getExhiPlace(exhiPlace *place)
@@ -187,12 +191,12 @@ void getYear(date *time, const unsigned int current)
     unsigned int t;
     int i = 0;
 
-    printf("\n\t>Anno (L'anno deve essere maggiore o uguale a quello corrente):");
+    printf("\n\t>Anno (L'anno deve essere maggiore o uguale a quello corrente):\n\t-");
     do
     {
         if (i != 0)
         {
-            printf("\n\t-ATTENZIONE: L'anno inserito non e' conforme con le specifiche richieste, riprova:");
+            printf("\n\t-ATTENZIONE: L'anno inserito non e' conforme con le specifiche richieste, riprova:\n\t-");
         }
         t = getUInt(10);
         i++;
@@ -206,7 +210,7 @@ void getMonth(date *time, date *current)
     unsigned int t;
     int i = 0;
 
-    printf("\n\t>Mese (Il mese deve essere maggiore o uguale a quello corrente):");
+    printf("\n\t>Mese (Il mese deve essere maggiore o uguale a quello corrente):\n\t-");
     do
     {
         if (i != 0)
@@ -214,12 +218,12 @@ void getMonth(date *time, date *current)
             if (current->month > t && current->year == time->year)
             {
                 printf("\n\t-ATTENZIONE: Il mese inserito deve essere compreso fra 1 e 12 e "
-                       "\n\tdeve essere maggiore o uguale a %u, riprova:",
+                       "\n\tdeve essere maggiore o uguale a %u, riprova:\n\t-",
                        current->month);
             }
             else
             {
-                printf("\n\t-ATTENZIONE: Il mese inserito deve essere compreso fra 1 e 12, riprova:");
+                printf("\n\t-ATTENZIONE: Il mese inserito deve essere compreso fra 1 e 12, riprova:\n\t-");
             }
         }
         t = getUInt(10);
@@ -264,7 +268,7 @@ void getDay(date *time, date *current)
         lim = 31;
     }
 
-    printf("\n\t>Giorno (il giorno deve essere maggiore o uguale a quello corrente):");
+    printf("\n\t>Giorno (il giorno deve essere maggiore o uguale a quello corrente):\n\t-");
     do
     {
         if (i != 0)
@@ -272,12 +276,12 @@ void getDay(date *time, date *current)
             if (t < current->day && current->month == time->month && current->year == time->year)
             {
                 printf("\n\t-ATTENZIONE: Il giorno inserito deve essere compreso fra 1 e %d e"
-                       "\n\tdeve essere maggiore o uguale a %u, riprova:",
+                       "\n\tdeve essere maggiore o uguale a %u, riprova:\n\t-",
                        lim, current->day);
             }
             else
             {
-                printf("\n\t-ATTENZIONE: Il giorno inserito deve essere compreso fra 1 e %d, riprova:", lim);
+                printf("\n\t-ATTENZIONE: Il giorno inserito deve essere compreso fra 1 e %d, riprova:\n\t-", lim);
             }
         }
         t = getUInt(10);
@@ -475,7 +479,7 @@ void getFiscalCode(char *fiscalCode)
 
 void getLocalManager(localManager *manager)
 {
-    printf("\n- Registrazione del manager locale -\n\t-Inserisci:");
+    printf("\n\t- Registrazione del manager locale -\n\t-Inserisci:");
     getName(manager->name);
     getSurname(manager->surname);
     getFiscalCode(manager->fiscalCode);
@@ -504,9 +508,9 @@ unsigned int getIdArtwork()
 
 void getArtworkName(char *artworkName)
 {
-    char str[100];
+    char str[100], *str2 = NULL;
     int i = 0;
-    printf("\n\t>Nome opera d'arte (Il nome dell'opera deve contenere esclusivamente\n\tlettere e non puo' superare i 100 caratteri):\n\t-");
+    printf("\n\t>Nome opera d'arte (Il nome dell'opera deve contenere esclusivamente\n\tlettere e deve essere compreso tra 5 e 100 caratteri):\n\t-");
     do
     {
         if (i != 0)
@@ -515,9 +519,10 @@ void getArtworkName(char *artworkName)
         }
         gets(str);
         i++;
-    } while (!sisalpha(str) || strlen(str) > 100);
+    } while (!sisalphaandspace(str) || strlen(str) > 100 || strlen(str) < 5);
 
-    strcpy(artworkName, str);
+    str2 = trimwhitespace(str);
+    strcpy(artworkName, str2);
 }
 
 enum operaType getOperaType()
@@ -555,9 +560,9 @@ enum operaType getOperaType()
 
 void getKind(char *kind)
 {
-    char str[30];
+    char str[30], *str2 = NULL;
     int i = 0;
-    printf("\n\t>Genere opera (Il genere dell'opera deve contenere solo lettere e non puo' superare i 30 caratteri):");
+    printf("\n\t>Genere opera (Il genere dell'opera deve contenere solo lettere\n\te deve essere compreso tra 5 e 30 caratteri):");
     do
     {
         if (i != 0)
@@ -566,16 +571,17 @@ void getKind(char *kind)
         }
         gets(str);
         i++;
-    } while (!sisalpha(str) || strlen(str) > 30);
+    } while (!sisalphaandspace(str) || strlen(str) > 30 || strlen(str) < 5);
 
-    strcpy(kind, str);
+    str2 = trimwhitespace(str);
+    strcpy(kind, str2);
 }
 
 void getHistorPeriod(char *historPeriod)
 {
-    char str[30];
+    char str[30], *str2 = NULL;
     int i = 0;
-    printf("\n\t>Periodo storico (Il periodo storico deve contenere solo lettere e deve essere al massimo di 30 caratteri):");
+    printf("\n\t>Periodo storico (Il periodo storico deve contenere solo lettere\n\te deve essere compreso tra 4 e 30 caratteri):");
     do
     {
         if (i != 0)
@@ -584,9 +590,10 @@ void getHistorPeriod(char *historPeriod)
         }
         gets(str);
         i++;
-    } while (!sisalpha(str) || strlen(str) > 30);
+    } while (!sisalphaandspace(str) || strlen(str) > 30 || strlen(str) < 4);
 
-    strcpy(historPeriod, str);
+    str2 = trimwhitespace(str);
+    strcpy(historPeriod, str2);
 }
 
 bool isBC()
@@ -594,11 +601,11 @@ bool isBC()
     bool proposition = false;
     printf("\n\t>Si tratta di un opera avanti cristo? (S/N):\n\t-");
 
-    if (toupper(getch()) == 'S')
+    if (toupper(getchar()) == 'S')
     {
         proposition = true;
     }
-    getch();
+    fflush(stdin);
     return proposition;
 }
 
@@ -617,7 +624,7 @@ unsigned int getProdYear(bool BC)
 
         if (i != 0)
         {
-            printf("\n\t-ATTENZIONE: Il perido storico non e' conforme con le specifiche richieste, riprova:");
+            printf("\n\t-ATTENZIONE: Il perido storico non e' conforme con le specifiche richieste, riprova:\n\t-");
         }
 
         year = getUInt(10);
@@ -672,7 +679,7 @@ void chooseArtwork(unsigned int *IDs, const unsigned int dim)
     {
         do
         {
-            printf("\n\t>Inserire \"1\" per avviare una ricerca dettgliata delle opere disponibili\n\t>Inserire \"2\" per visualizzare in modo compatto tutte le opere nel sistema\n");
+            printf("\n\t>Inserire \"1\" per avviare una ricerca dettgliata delle opere disponibili\n\t>Inserire \"2\" per visualizzare in modo compatto tutte le opere nel sistema\n\t-");
             choice = getUInt(10);
             switch (choice)
             {
@@ -759,15 +766,15 @@ void printArtwork(int num, artwork *artwork)
 
     printf("\n\t\t-Genere dell'opera d'arte: %s", artwork->kind);
     printf("\n\t\t-Periodo storico dell'opera d'arte: %s", artwork->historPeriod);
-    printf("\n\t\t-Anno di produzione dell'opera d'arte: %d\n", artwork->prodYear);
+    printf("\n\t\t-Anno di produzione dell'opera d'arte: %d", artwork->prodYear);
 
     if (artwork->BC == true)
     {
-        printf(" A.C.");
+        printf(" A.C.\n");
     }
     else
     {
-        printf(" D.C.");
+        printf(" D.C.\n");
     }
 
     assArtshow(artwork->IDArtwork);
@@ -902,7 +909,9 @@ bool isArtworkAlredyReg(char *artName)
     {
         while (fgets(str, MAX_LEN_ARTWORK, file) != NULL && run)
         {
+            strtok(str, "#");
             name = strtok(NULL, "-");
+
             if (strcmp(name, artName) == 0)
             {
                 proposition = true;
@@ -951,7 +960,7 @@ char *getShow(date *timeStart, date *timeEnd, localManager *manager)
     {
         if (i > 0)
         {
-            printf("\n\t-ATTENZIONE: il numero di opere supera il massimo valore inseribile, riprova:");
+            printf("\n\t-ATTENZIONE: il numero di opere supera il massimo valore inseribile, riprova:\n\t-");
         }
         dimShow = getUInt(10);
         i++;
@@ -1247,31 +1256,31 @@ bool deleteReservationCheck(int idShow)
     else
     {
         getCurrentDate(&current);
-        while(fgets(str, MAX_LEN_SHOW, file) != NULL && proposition)
+        while (fgets(str, MAX_LEN_SHOW, file) != NULL && proposition)
         {
             idString = strtok(str, "#");
             id = strtol(idString, &ptr, 10);
-            if(id == idShow)
+            if (id == idShow)
             {
-            strtok(NULL, "#");
-            strtok(NULL, "#");
-            fDateStart.day = strtol(strtok(NULL, "/"), &ptr, 10);
-            fDateStart.month = strtol(strtok(NULL, "/"), &ptr, 10);
-            fDateStart.year = strtol(strtok(NULL, "/"), &ptr, 10);
-            if(isPrevious(&current, &fDateStart))
-            {
-                if(fDateStart.year == current.year && fDateStart.month == current.month && ((fDateStart.day - current.day) < 1))
+                strtok(NULL, "#");
+                strtok(NULL, "#");
+                fDateStart.day = strtol(strtok(NULL, "/"), &ptr, 10);
+                fDateStart.month = strtol(strtok(NULL, "/"), &ptr, 10);
+                fDateStart.year = strtol(strtok(NULL, "/"), &ptr, 10);
+                if (isPrevious(&current, &fDateStart))
                 {
-                    proposition= false;
+                    if (fDateStart.year == current.year && fDateStart.month == current.month && ((fDateStart.day - current.day) < 1))
+                    {
+                        proposition = false;
+                    }
                 }
-            }
             }
         }
     }
     return proposition;
 }
 
-bool printIdReservations(char* username)
+bool printIdReservations(char *username)
 {
     FILE *file = NULL;
     char str[MAX_LEN_RES], *idRes = NULL;
@@ -1284,9 +1293,9 @@ bool printIdReservations(char* username)
     }
     else
     {
-        while(fgets(str, MAX_LEN_RES, file) != NULL) 
+        while (fgets(str, MAX_LEN_RES, file) != NULL)
         {
-            if(strstr(str, username) != NULL)
+            if (strstr(str, username) != NULL)
             {
                 idRes = strtok(str, "#");
                 printf("\n\t>Prenotazione numero: %u", num);
@@ -1295,7 +1304,7 @@ bool printIdReservations(char* username)
                 ctrl = true;
             }
         }
-        if(!ctrl)
+        if (!ctrl)
         {
             printf("\n\t-ATTENZIONE: Nessuna prenotazione trovata con questo account!");
         }
@@ -1304,7 +1313,8 @@ bool printIdReservations(char* username)
     return ctrl;
 }
 
-bool deleteClientFromRes(char *username, unsigned int idshow) {
+bool deleteClientFromRes(char *username, unsigned int idshow)
+{
     FILE *file = NULL, *fileCopy = NULL;
     char str[MAX_LEN_RES], strCop[MAX_LEN_RES], *ptr = NULL, *subToReplace = NULL, *rigthSubs = NULL, *leftSubs = NULL;
     unsigned int id, max;
@@ -1312,18 +1322,25 @@ bool deleteClientFromRes(char *username, unsigned int idshow) {
 
     if ((file = fopen("Data/Reservations.txt",
                       "r")) ==
-        NULL) {
+        NULL)
+    {
         printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file delle prenotazioni.");
-    } else {
+    }
+    else
+    {
 
         if ((fileCopy = fopen(
-                "Data/CopyReservations.txt",
-                "w")) ==
-            NULL) {
+                 "Data/CopyReservations.txt",
+                 "w")) ==
+            NULL)
+        {
             printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file copia delle prenotazioni.");
-        } else {
+        }
+        else
+        {
             // finche non ci sono più righe nel file
-            while (fgets(str, MAX_LEN_RES, file) != NULL) {
+            while (fgets(str, MAX_LEN_RES, file) != NULL)
+            {
 
                 strcpy(strCop, str);
 
@@ -1334,13 +1351,16 @@ bool deleteClientFromRes(char *username, unsigned int idshow) {
                 max = strtoul(strtok(NULL, "#"), &ptr, 10);
 
                 // se è la mostra da cui si vuole cancellare l'username
-                if(id == idshow){
+                if (id == idshow)
+                {
 
                     // allora se nella stringa appena presa, esiste l'username dell'utente che deve essere cancellato
-                    if ((subToReplace = strstr(str, username)) != NULL) {
+                    if ((subToReplace = strstr(str, username)) != NULL)
+                    {
                         max++;
                         // se non è il primo all'interno della riga file
-                        if (*(subToReplace - 1) != '#') {
+                        if (*(subToReplace - 1) != '#')
+                        {
 
                             // allora rimpiazza il carattere precedente con il carattere '.' in modo tale da recuperare
                             // tutta la sottostringa che precede l'username da rimpiazzare
@@ -1356,7 +1376,9 @@ bool deleteClientFromRes(char *username, unsigned int idshow) {
 
                             // elimina l'username dell'utente
                             fprintf(fileCopy, "%u#%u#%s,%s", id, max, leftSubs, rigthSubs);
-                        } else {
+                        }
+                        else
+                        {
                             // fai le stesse cose
                             rigthSubs = reversStrtok(subToReplace, ',');
 
@@ -1364,10 +1386,14 @@ bool deleteClientFromRes(char *username, unsigned int idshow) {
                             fprintf(fileCopy, "%u#%u#%s", id, max, rigthSubs);
                         }
                         ctrl = true;
-                    } else {
+                    }
+                    else
+                    {
                         fprintf(fileCopy, "%s", str);
                     }
-                } else{
+                }
+                else
+                {
                     fprintf(fileCopy, "%s", str);
                 }
             }
@@ -1375,11 +1401,14 @@ bool deleteClientFromRes(char *username, unsigned int idshow) {
             fclose(file);
             fclose(fileCopy);
 
-            if (ctrl) {
+            if (ctrl)
+            {
                 remove("Data/Reservations.txt");
                 rename("Data/CopyReservations.txt",
                        "Data/Reservations.txt");
-            } else {
+            }
+            else
+            {
                 remove("Data/CopyReservations.txt");
             }
         }

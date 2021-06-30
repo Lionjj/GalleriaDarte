@@ -6,7 +6,7 @@
  * \addtogroup serviceFunctionsStr
  * @{
  */
-
+#include <stdbool.h>
 #include <stdio.h>
 /**
  * Tale funzione è utilizzata per verificare se la stringa str contiente solo caratteri alfabetici.
@@ -104,5 +104,24 @@ bool isSubStringExist(char *str, const char *subStr);
  * @return il numero di righe presenti nel file
  */
 unsigned int lineOfFile(FILE *file, int MAX_LENG);
+
+/**
+ * Tale funzione è utilizzata per verificare se la stringa str contiente solo caratteri alfabetici o spazi bianchi.
+ *
+ * \sa isalpha(int c);
+ * \sa isspace(int c);
+ *
+ * @param[in] *str: puntatore ad una stringa generica
+ * @return true se la stringa è composta da soli caratteri alfabetici o spazi bianchi, false altrimenti
+ */
+bool sisalphaandspace(char *str);
+
+/**
+ * Procedura che elimina dalla stringa str eventuali spazi iniziali e finali
+ *
+ * @param[in,out] str[]: stringa generica
+ * @return un puntatore ad una stringa senza spazi iniziali e finali
+ */
+char *trimwhitespace(char *str);
 /**@}*/
 #endif //GALLERIADARTE_STRINGCONTROL_H

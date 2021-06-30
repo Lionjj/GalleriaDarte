@@ -87,7 +87,7 @@ void editManagerFile(User *user, exhiPlace *place, unsigned int choice)
 
                     case 4:
                         printf("\n\tPremi:\n\t\t-1] Per modificare la citta';\n\t\t-2] Per modificare la via;"
-                               "\n\t\t-3] Per modificare il numero civico;\n\t\t-4] oppure un qualsiasi bottone "
+                               "\n\t\t-3] Per modificare il numero civico;\n\t\t-4] oppure un qualsiasi numero "
                                "interrompere la modifica;\n\t-");
 
                         choice = getUInt(10);
@@ -241,7 +241,7 @@ void registerArtwork()
     FILE *file = NULL;
 
     getArtwork(&artw);
-
+    
     // verifica se l'opera è già esistente nel file
     if (!isArtworkAlredyReg(artw.name))
     {

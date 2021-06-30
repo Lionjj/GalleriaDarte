@@ -2,7 +2,7 @@ CC=gcc
 CFLAGS=-Wall -std=c99
 CFILES=main.c $(wildcard lib/*.c dataType/*/*.c)
 OBJFILES=$(CFILES:.c=.o)
-OUT=output
+OUT=MyGallery
 
 $(OUT): $(OBJFILES)
 	$(CC) $(LDFLAGS) -o $@ $^ $(LDLIBS)

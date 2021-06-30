@@ -148,7 +148,8 @@ void delateClient(User *user)
                 }
             }
             len++;
-            for (int i = 0; i < len; i++){
+            for (int i = 0; i < len; i++)
+            {
                 deleteClientFromRes(user->username, i);
             }
             printf("\n\t-Account cancellato!");
@@ -204,26 +205,28 @@ void bookShow(char *username)
     fflush(stdin);
 }
 
-void deleteReservation(char *username){
+void deleteReservation(char *username)
+{
     unsigned int choice;
 
-    if(printIdReservations(username))
+    if (printIdReservations(username))
     {
-    printf("\n\t>Digita l'ID della mostra di cui vuoi disdire la prenotazione:");
-    choice = getUInt(10);
-    
-    if(deleteReservationCheck(choice))
-    {
-        if(!deleteClientFromRes(username, choice)){
-        printf("\n\t-ATTENZIONE: Nessuna prenotazione trovata per la mostra selezionata, modifica annullata.");
-    }
-    }
-    else
-    {
-        printf("\n\t-ATTENZIONE: Non e' possibile disdire una prenotazione se restano meno di 2 giorni dall'inizio della mostra.");
-    }
-    
-    fflush(stdin);
+        printf("\n\t>Digita l'ID della mostra di cui vuoi disdire la prenotazione:\n\t-");
+        choice = getUInt(10);
+
+        if (deleteReservationCheck(choice))
+        {
+            if (!deleteClientFromRes(username, choice))
+            {
+                printf("\n\t-ATTENZIONE: Nessuna prenotazione trovata per la mostra selezionata, modifica annullata.");
+            }
+        }
+        else
+        {
+            printf("\n\t-ATTENZIONE: Non e' possibile disdire una prenotazione se restano meno di 2 giorni dall'inizio della mostra.");
+        }
+
+        fflush(stdin);
     }
 }
 
