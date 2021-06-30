@@ -14,7 +14,7 @@ void init() {
 
     listenerTimeExpired();
 
-    printf("Benvenuto in *nome del sistema*");
+    printf("Benvenuto in MyGallery!");
     do {
         if (!access) {
             run = home(&user, &place, &access);

@@ -17,7 +17,7 @@ void registerUser()
     unsigned int choice;
 
     printf("# Registrazione utente #\n\t-Premi:\n\t\t-1] Per registrarti come utente;\n\t\t"
-           "-2] oppure un qualsiasi altro tasto per registrarti come gestore della galleria;\n\t-");
+           "-2] Oppure un qualsiasi altro tasto per registrarti come gestore della galleria;\n\t-");
     choice = getUInt(10);
 
     if (choice == 1)
@@ -48,7 +48,7 @@ void editUser(User *user, exhiPlace *place)
     if (!user->artGalleryManager)
     {
         printf("# Modifica utente #\n\tPremi:\n\t\t-1] Per modificare l'username;\n\t\t-2] Per modifcare l'email;"
-               "\n\t\t-3] Per modificare la password;\n\t\t-4] oppure un qualsiasi bottone interrompere la modifica;\n\t-");
+               "\n\t\t-3] Per modificare la password;\n\t\t-4] Oppure un qualsiasi bottone interrompere la modifica;\n\t-");
 
         choice = getUInt(10);
 
@@ -58,7 +58,7 @@ void editUser(User *user, exhiPlace *place)
     {
         printf("# Modifica utente/galleria #\n\tPremi:\n\t\t-1] Per modificare l'username;\n\t\t-2] Per modifcare l'email;"
                "\n\t\t-3] Per modificare la password;\n\t\t-4] Per modificare il posto in cui e' sitauata la galleria;"
-               "\n\t\t-5] oppure un qualsiasi bottone interrompere la modifica;\n\t-");
+               "\n\t\t-5] Oppure un qualsiasi bottone interrompere la modifica;\n\t-");
 
         choice = getUInt(10);
 

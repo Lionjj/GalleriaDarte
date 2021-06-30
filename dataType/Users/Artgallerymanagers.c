@@ -418,7 +418,7 @@ bool getManagerLog(User *user, exhiPlace *place, char *uNameORuEmail, char *uPw)
         NULL)
     {
         proposition = NULL;
-        printf("\n-ATTENZIONE: Non e' stato possibile aprire il file per la verifica.");
+        printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file per la verifica.");
     }
     else
     {

@@ -17,7 +17,7 @@ void editClientFile(User *user, unsigned int choice)
     if ((file = fopen("Data/Client.txt", "r")) ==
         NULL)
     {
-        printf("\n\t-ATTENZIONE: non è stata possibile effettuare l'operazione!");
+        printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file dei clienti.");
     }
     else
     {
@@ -25,7 +25,7 @@ void editClientFile(User *user, unsigned int choice)
         if ((fileCopy = fopen("Data/CopyClient.txt",
                               "w")) == NULL)
         {
-            printf("\n\t-ATTENZIONE: non è stato possibile effettuare la copia del file!");
+            printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file copia dei clienti.");
         }
         else
         {
@@ -63,6 +63,7 @@ void editClientFile(User *user, unsigned int choice)
                             // reimposta il precedente username
                             strcpy(temp.username, user->username);
                         }
+                        printf("\n\t-Azione di modifica avvenuta con successo.");
                         break;
 
                     case 2:
@@ -77,12 +78,14 @@ void editClientFile(User *user, unsigned int choice)
                         {
                             strcpy(temp.email, user->email);
                         }
+                        printf("\n\t-Azione di modifica avvenuta con successo.");
                         break;
 
                     case 3:
 
                         getPw(temp.pw);
                         strcpy(user->pw, temp.pw);
+                        printf("\n\t-Azione di modifica avvenuta con successo.");
                         break;
 
                     default:
@@ -115,7 +118,7 @@ void delateClient(User *user)
                       "r")) ==
         NULL)
     {
-        printf("\n\t-ATTENZIONE: non è stata possibile effettuare l'operazione!");
+        printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file dei clienti.");
     }
     else
     {
@@ -125,7 +128,7 @@ void delateClient(User *user)
                  "w")) ==
             NULL)
         {
-            printf("\n\t-ATTENZIONE: non è stato possibile effettuare la copia del file!");
+            printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file copia dei clienti.");
         }
         else
         {
@@ -209,7 +212,7 @@ void deleteReservation(char *username){
     printf("\n\t>Digita l'ID della mostra di cui vuoi disdire la prenotazione:");
     choice = getUInt(10);
     
-    if(!deleteReservationCheck(choice))
+    if(deleteReservationCheck(choice))
     {
         if(!deleteClientFromRes(username, choice)){
         printf("\n\t-ATTENZIONE: Nessuna prenotazione trovata per la mostra selezionata, modifica annullata.");
@@ -233,7 +236,7 @@ void bookClient(const unsigned int IDArtshow, char *newUsername)
     if ((file = fopen("Data/Reservations.txt", "r")) ==
         NULL)
     {
-        printf("\n\t-ATTENZIONE: Non e' stato possibile registrarti alla mostra!");
+        printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file delle prenotazioni.");
     }
     else
     {
@@ -241,7 +244,7 @@ void bookClient(const unsigned int IDArtshow, char *newUsername)
                  "Data/CopyReservations.txt",
                  "w")) == NULL)
         {
-            printf("\n\t-ATTENZIONE: non è stato possibile effettuare la copia del file!");
+            printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file copia dei clienti.");
         }
         else
         {
@@ -298,7 +301,7 @@ void bookClient(const unsigned int IDArtshow, char *newUsername)
                     {
 
                         // nel caso in cui i posti alla mostra siano finiti, allora l'utente non potra effettuare la prenotazione
-                        printf("\n\t-ATTENZIONE: ci dispiace ma purtoppo il numero massimo di utenti \n\tpartecipanti a "
+                        printf("\n\t-ATTENZIONE: ci dispiace ma purtoppo il numero massimo di clienti \n\tpartecipanti a "
                                "questa mostra e' stato raggiunto.");
                         fprintf(fileCopy, "%u#%u#%s<\n", id, max, usernames);
                     }
@@ -336,7 +339,7 @@ bool saveClient(User *user)
         NULL)
     {
         proposition = false;
-        printf("\n\t-ATTENZIONE: Non e' stato possibile registrare l'utente!");
+        printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file dei clienti.");
     }
     else
     {
@@ -359,7 +362,7 @@ bool isClientAlredyReg(char *userName, char *userEmail, char mode)
         NULL)
     {
         proposition = NULL;
-        printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file per la verifica.");
+        printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file dei clienti.");
     }
     else
     {
@@ -428,7 +431,7 @@ bool getClientLog(User *user, char uNameORuEmail[], char uPw[])
         NULL)
     {
         proposition = NULL;
-        printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file per la verifica.");
+        printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file dei clienti.");
     }
     else
     {

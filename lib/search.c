@@ -15,47 +15,47 @@ void research() {
         choice = getUInt(10);
         if ((file = fopen("Data/Artworks.txt", "r")) ==
             NULL) {
-            printf("\n\t-ATTENZIONE: non e' stata possibile effettuare l'operazione!");
+            printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file delle opere.");
         } else {
             switch (choice) {
                 case 1:
 
-                    printf("\n\t-Ricerca tramite nome\n");
+                    printf("\n\t-Ricerca tramite nome");
                     searchName(file);
                     break;
 
                 case 2:
 
-                    printf("\n\t-Ricerca tramite autore\n");
+                    printf("\n\t-Ricerca tramite autore");
                     searchArtAuthor(file);
                     break;
 
                 case 3:
 
-                    printf("\n\t-Ricerca tramite tipo di opera\n");
+                    printf("\n\t-Ricerca tramite tipo di opera");
                     searchArtType(file);
                     break;
 
                 case 4:
 
-                    printf("\n\t-Ricerca tramite genere di opera\n");
+                    printf("\n\t-Ricerca tramite genere di opera");
                     searchArtKind(file);
                     break;
 
                 case 5:
 
-                    printf("\n\t-Ricerca tramite periodo storico\n");
+                    printf("\n\t-Ricerca tramite periodo storico");
                     searchArtHistorPeriod(file);
                     break;
 
                 case 6:
 
-                    printf("\n\t-Ricerca tramite anno di produzione\n");
+                    printf("\n\t-Ricerca tramite anno di produzione");
                     searchArtProdYear(file);
                     break;
 
                 default:
-                    printf("\n\t-Azione di ricerca interrotta!\n");
+                    printf("\n\t-Azione di ricerca interrotta!");
                     break;
             }
             fclose(file);

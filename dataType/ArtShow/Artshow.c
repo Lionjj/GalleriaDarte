@@ -56,7 +56,7 @@ void getCity(char *city)
 {
     char str[30];
     int i = 0;
-    printf("\n\t>Citta (Il nome della citta non deve contenere numeri e non deve superare i 30 caratteri):");
+    printf("\n\t>Citta' (Il nome della citta non deve contenere numeri e non deve superare i 30 caratteri):");
     do
     {
         if (i != 0)
@@ -90,7 +90,7 @@ void getNameStructure(char *structure)
 
 void getExhiPlace(exhiPlace *place)
 {
-    printf("\n# Registra sede galleria #\n-Inserisci:");
+    printf("\n# Registra sede galleria #\n\t-Inserisci:");
 
     getStreet(place->streetName);
 
@@ -214,7 +214,7 @@ void getMonth(date *time, date *current)
             if (current->month > t && current->year == time->year)
             {
                 printf("\n\t-ATTENZIONE: Il mese inserito deve essere compreso fra 1 e 12 e "
-                       "\n\tdeve essere maggiore o guale a %u, riprova:",
+                       "\n\tdeve essere maggiore o uguale a %u, riprova:",
                        current->month);
             }
             else
@@ -272,7 +272,7 @@ void getDay(date *time, date *current)
             if (t < current->day && current->month == time->month && current->year == time->year)
             {
                 printf("\n\t-ATTENZIONE: Il giorno inserito deve essere compreso fra 1 e %d e"
-                       "\n\tdeve essere maggiore o guale a %u, riprova:",
+                       "\n\tdeve essere maggiore o uguale a %u, riprova:",
                        lim, current->day);
             }
             else
@@ -292,7 +292,7 @@ void getDate(date *time)
     date current;
     getCurrentDate(&current);
 
-    printf("\n-Inserisci:");
+    printf("\n\t-Inserisci:");
     getYear(time, current.year);
     getMonth(time, &current);
     getDay(time, &current);
@@ -304,7 +304,7 @@ void getExpositionTime(date *timeStart, date *timeEnd)
     bool isTemp = false;
     date current;
 
-    printf("\n>E' una mostra temporanea?(s/n)\n\t-");
+    printf("\n\t>E' una mostra temporanea?(s/n)\n\t-");
     if (toupper(getchar()) == 'S')
     {
         isTemp = true;
@@ -313,7 +313,7 @@ void getExpositionTime(date *timeStart, date *timeEnd)
     getCurrentDate(&current);
     do
     {
-        printf("\n- Inizio data esposizione -");
+        printf("\n\t- Inizio data esposizione -");
         getDate(timeStart);
         if ((timeStart->year - current.year) > 5)
         {
@@ -322,7 +322,7 @@ void getExpositionTime(date *timeStart, date *timeEnd)
     } while ((timeStart->year - current.year) > 5);
     if (isTemp)
     {
-        printf("\n- Fine data esposizione -");
+        printf("\n\t- Fine data esposizione -");
         do
         {
             if (i > 0)
@@ -352,7 +352,7 @@ void fgetDateEnd(date *timeEnd, const unsigned int id)
     if ((file = fopen("Data/Artshow.txt", "r")) ==
         NULL)
     {
-        printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file.");
+        printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file delle mostre.");
     }
     else
     {
@@ -387,7 +387,7 @@ void listenerTimeExpired()
     if ((file = fopen("Data/Artshow.txt", "r")) ==
         NULL)
     {
-        printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file.");
+        printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file delle mostre.");
     }
     else
     {
@@ -459,7 +459,7 @@ void getFiscalCode(char *fiscalCode)
 {
     char str[17];
     int i = 0;
-    printf("\n\t>Codice fiscale (Il codice fisc. deve contenere solo numeri e lettere):");
+    printf("\n\t>Codice fiscale (Il codice fiscale deve contenere solo numeri e lettere):");
     do
     {
         if (i != 0)
@@ -475,7 +475,7 @@ void getFiscalCode(char *fiscalCode)
 
 void getLocalManager(localManager *manager)
 {
-    printf("\n- Registrazione del manager locale -\n-Inserisci:");
+    printf("\n- Registrazione del manager locale -\n\t-Inserisci:");
     getName(manager->name);
     getSurname(manager->surname);
     getFiscalCode(manager->fiscalCode);
@@ -528,7 +528,7 @@ enum operaType getOperaType()
 
     do
     {
-        printf("\n-Premi:\n\t\t-1] Dipinto;\n\t\t-2] Scultura;\n\t\t-3] Disegno;\n\t-");
+        printf("\n\t-Premi:\n\t\t-1] Dipinto;\n\t\t-2] Scultura;\n\t\t-3] Disegno;\n\t-");
         choice = getUInt(10);
 
         switch (choice)
@@ -557,7 +557,7 @@ void getKind(char *kind)
 {
     char str[30];
     int i = 0;
-    printf("\n\t>Genere opera (Il genere dell'opera deve contenere solo lette e non puo' superare i 30 caratteri):");
+    printf("\n\t>Genere opera (Il genere dell'opera deve contenere solo lettere e non puo' superare i 30 caratteri):");
     do
     {
         if (i != 0)
@@ -592,7 +592,7 @@ void getHistorPeriod(char *historPeriod)
 bool isBC()
 {
     bool proposition = false;
-    printf("\n\t>Si tratta di un opera avanti cristo? (s/n):\n\t-");
+    printf("\n\t>Si tratta di un opera avanti cristo? (S/N):\n\t-");
 
     if (toupper(getch()) == 'S')
     {
@@ -609,7 +609,7 @@ unsigned int getProdYear(bool BC)
     unsigned int currentY = tm.tm_year + 1900;
     unsigned int year, i = 0;
 
-    printf("\n\t>Anno di prosuzione (L'anno non deve essere superiore a quello corrente, se l'opera e D.C.\n\t "
+    printf("\n\t>Anno di produzione (L'anno non deve essere superiore a quello corrente, se l'opera e D.C.\n\t "
            "Altrimenti se e' A.C. non puo superare l'anno 40.000):\n\t-");
 
     do
@@ -666,13 +666,13 @@ void chooseArtwork(unsigned int *IDs, const unsigned int dim)
     if ((file = fopen("Data/Artworks.txt",
                       "r")) == NULL)
     {
-        printf("\n-ATTENZIONE: Non e' stato possibile aprire il file!");
+        printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file delle opere!");
     }
     else
     {
         do
         {
-            printf("\n>Inserire \"1\" per avviare una ricerca dettgliata delle opere disponibili\n>Inserire \"2\" per visualizzare in modo compatto tutte le opere nel sistema\n");
+            printf("\n\t>Inserire \"1\" per avviare una ricerca dettgliata delle opere disponibili\n\t>Inserire \"2\" per visualizzare in modo compatto tutte le opere nel sistema\n");
             choice = getUInt(10);
             switch (choice)
             {
@@ -683,12 +683,12 @@ void chooseArtwork(unsigned int *IDs, const unsigned int dim)
                 while (fgets(str, MAX_LEN_ARTWORK, file) != NULL)
                 {
                     printf("\n\t\t>ID: %s;", strtok(str, "#"));
-                    printf("\tNome opera: %s;", strtok(NULL, "-"));
-                    printf("\tAutore:%s %s;", strtok(NULL, "-"), strtok(NULL, "-"));
+                    printf("\n\tNome opera: %s;", strtok(NULL, "-"));
+                    printf("\n\tAutore:%s %s;\n", strtok(NULL, "-"), strtok(NULL, "-"));
                 }
                 break;
             default:
-                printf("\nInserire un valore tra quelli disponibili");
+                printf("\n\tInserire un valore tra quelli disponibili.");
                 break;
             }
             // Prima che il valore temp venga inserito nel vettore di identificatori delle
@@ -696,7 +696,7 @@ void chooseArtwork(unsigned int *IDs, const unsigned int dim)
 
         } while (choice < 1 || choice > 2);
 
-        printf("\n\n\t\t-Digita l'ID delle opere, per aggiungerle alla mostra:");
+        printf("\n\t-Digita l'ID delle opere, per aggiungerle alla mostra:");
 
         // l'utente manager dovrà inserire gli identificativi delle opere d'arte che la mostra dovrà
         // contenere.
@@ -753,21 +753,21 @@ void printArtwork(int num, artwork *artwork)
         printf("Disegno");
         break;
     default:
-        printf("Errore nel tipo");
+        printf("-ATTENZIONE: Errore nel tipo di opera!");
         break;
     }
 
     printf("\n\t\t-Genere dell'opera d'arte: %s", artwork->kind);
     printf("\n\t\t-Periodo storico dell'opera d'arte: %s", artwork->historPeriod);
-    printf("\n\t\t-Anno di produzione dell'opera d'arte: %d", artwork->prodYear);
+    printf("\n\t\t-Anno di produzione dell'opera d'arte: %d\n", artwork->prodYear);
 
     if (artwork->BC == true)
     {
-        printf(" BC\n");
+        printf(" A.C.");
     }
     else
     {
-        printf(" AD\n");
+        printf(" D.C.");
     }
 
     assArtshow(artwork->IDArtwork);
@@ -783,7 +783,7 @@ void printArtworksInShow(unsigned int idArtshow)
     if ((file = fopen("Data/Artworks.txt", "r")) ==
         NULL)
     {
-        printf("\n\t-ATTENZIONE: non è stato possibile aprire il file per la verifica.");
+        printf("\n\t-ATTENZIONE: non è stato possibile aprire il file delle opere.");
     }
     else
     {
@@ -800,7 +800,7 @@ void printArtworksInShow(unsigned int idArtshow)
 
             if (id == idsArtworks[i])
             {
-                printf("\n\tNome opera:%s\tNome autore:%s %s;", fNameArt, fSurname, fNameAut);
+                printf("\n\tNome opera:%s\n\tNome autore:%s %s\n", fNameArt, fSurname, fNameAut);
                 i++;
             }
             if (i == dim)
@@ -870,7 +870,7 @@ bool IDExists(unsigned int ID, bool isFileArtshow)
     {
         if ((file = fopen("Data/Artworks.txt", "r")) == NULL)
         {
-            printf("\n\t-ATTENZIONE: non e' stato possibile aprire il file delle mostre!");
+            printf("\n\t-ATTENZIONE: non e' stato possibile aprire il file delle opere!");
         }
         else
         {
@@ -922,7 +922,7 @@ unsigned int getIDShow()
     if ((file = fopen("Data/Artshow.txt", "r")) ==
         NULL)
     {
-        printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file per la verifica.");
+        printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file delle mostre.");
     }
     else
     {
@@ -946,7 +946,7 @@ char *getShow(date *timeStart, date *timeEnd, localManager *manager)
 
     getExpositionTime(timeStart, timeEnd);
 
-    printf("\n\t-Inserisci il numero di opere che la mostra puo' contenere (Max 60 opere):\n\t\t-");
+    printf("\n\t-Inserisci il numero di opere che la mostra puo' contenere (Max 60 opere):\n\t-");
     do
     {
         if (i > 0)
@@ -980,7 +980,7 @@ void delateArtshow(const unsigned int idArtshow)
     if ((fileArtshow = fopen("Data/Artshow.txt", "r")) ==
         NULL)
     {
-        printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file.");
+        printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file delle mostre.");
     }
     else
     {
@@ -988,7 +988,7 @@ void delateArtshow(const unsigned int idArtshow)
         if ((fileArtshowCopy = fopen(
                  "Data/CopyArtshow.txt", "w")) == NULL)
         {
-            printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file.");
+            printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file copia delle mostre.");
         }
         else
         {
@@ -996,7 +996,7 @@ void delateArtshow(const unsigned int idArtshow)
             if ((fileRes = fopen("Data/Reservations.txt",
                                  "r")) == NULL)
             {
-                printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file.");
+                printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file delle prenotazioni.");
             }
             else
             {
@@ -1005,7 +1005,7 @@ void delateArtshow(const unsigned int idArtshow)
                          "Data/CopyReservations.txt",
                          "w")) == NULL)
                 {
-                    printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file.");
+                    printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file copia delle prenotazioni.");
                 }
                 else
                 {
@@ -1087,7 +1087,7 @@ void assArtshow(unsigned int id)
     if ((file = fopen("Data/Artshow.txt", "r")) ==
         NULL)
     {
-        printf("\n\t-ATTENZIONE: non è stata possibile effettuare l'operazione!");
+        printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file delle mostre.");
     }
     else
     {
@@ -1113,7 +1113,7 @@ void assArtshow(unsigned int id)
                 printf("\n\t\t-ID: %u", idShow);
                 printf("\n\t\t-Nome: %s", name);
                 printf("\n\t\t-Data inizio: %s", dates);
-                printf("\n\t\t-Data fine: %s", datee);
+                printf("\n\t\t-Data fine: %s\n", datee);
             }
         }
         fclose(file);
@@ -1124,7 +1124,7 @@ void selectArtshow(char *username)
 {
     unsigned int choice;
 
-    printf("\n\t-Digita il ID della mostra a cui vuoi registrarti:\n\t-");
+    printf("\n\t-Digita l'identificativo della mostra a cui vuoi registrarti:\n\t-");
     choice = getUInt(10);
     bookClient(choice, username);
 }
@@ -1137,14 +1137,14 @@ void editRes(char *oldUsername, char *newUsername)
     if ((oldRes = fopen("Data/Reservations.txt", "r")) ==
         NULL)
     {
-        printf("-ATTENZIONE: Non e' stato possibile aprire il file!\n");
+        printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file delle prenotazioni.");
     }
     else
     {
         if ((newRes = fopen("Data/CopyReservations.txt",
                             "w")) == NULL)
         {
-            printf("-ATTENZIONE: Non e' stato possibile aprire il file!\n");
+            printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file copia delle prenotazioni.");
         }
         else
         {
@@ -1208,7 +1208,7 @@ void printShow()
     if ((file = fopen("Data/Artshow.txt", "r")) ==
         NULL)
     {
-        printf("\n\t-ATTENZIONE: non e' stata possibile effettuare l'operazione!");
+        printf("\n\t--ATTENZIONE: Non e' stato possibile aprire il file delle mostre.");
     }
     else
     {
@@ -1224,7 +1224,7 @@ void printShow()
             printf("\n\t\t-ID mostra: %u", idShow);
             printf("\n\t\t-Nome mostra: %s", name);
             printf("\n\t\t-Data inizio mostra: %s", dates);
-            printf("\n\t\t-Data fine mostra: %s", datee);
+            printf("\n\t\t-Data fine mostra: %s\n", datee);
             num++;
         }
         fclose(file);
@@ -1242,7 +1242,7 @@ bool deleteReservationCheck(int idShow)
     if ((file = fopen("Data/Artshow.txt", "r")) ==
         NULL)
     {
-        printf("\n\t-ATTENZIONE: non e' stata possibile effettuare l'operazione!");
+        printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file delle mostre.");
     }
     else
     {
@@ -1260,7 +1260,7 @@ bool deleteReservationCheck(int idShow)
             fDateStart.year = strtol(strtok(NULL, "/"), &ptr, 10);
             if(isPrevious(&current, &fDateStart))
             {
-                if(fDateStart.year == current.year && fDateStart.month == current.month && ((fDateStart.day - current.day) > 1))
+                if(fDateStart.year == current.year && fDateStart.month == current.month && ((fDateStart.day - current.day) < 1))
                 {
                     proposition= false;
                 }
@@ -1280,7 +1280,7 @@ bool printIdReservations(char* username)
     if ((file = fopen("Data/Reservations.txt", "r")) ==
         NULL)
     {
-        printf("\n\t-ATTENZIONE: non e' stata possibile effettuare l'operazione!");
+        printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file delle prenotazioni.");
     }
     else
     {
@@ -1313,14 +1313,14 @@ bool deleteClientFromRes(char *username, unsigned int idshow) {
     if ((file = fopen("Data/Reservations.txt",
                       "r")) ==
         NULL) {
-        printf("\n\t-ATTENZIONE: non è stata possibile effettuare l'operazione!");
+        printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file delle prenotazioni.");
     } else {
 
         if ((fileCopy = fopen(
                 "Data/CopyReservations.txt",
                 "w")) ==
             NULL) {
-            printf("\n\t-ATTENZIONE: non è stato possibile effettuare la copia del file!");
+            printf("\n\t-ATTENZIONE: Non e' stato possibile aprire il file copia delle prenotazioni.");
         } else {
             // finche non ci sono più righe nel file
             while (fgets(str, MAX_LEN_RES, file) != NULL) {
