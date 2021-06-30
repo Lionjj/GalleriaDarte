@@ -86,7 +86,7 @@ typedef struct
 /**
  * Carica il valore: streetName[] di una struttura exhiPlace
  *
- * @param[out] *streetName: puntatore ad una stringa che contenerrà il nome della via in cui è situata una struttura
+ * @param[out] *streetName: puntatore ad una stringa che contenerrà il nome della via in cui è situata la sede
  */
 void getStreet(char *streetName);
 
@@ -135,7 +135,7 @@ void getExhiPlace(exhiPlace *place);
  * Tale procedura viene utilizzata per dividere in token la stringa str, recuperata da file,
  * per poi caricare i token nella struttura place.
  *
- * \pre la stringa str, dovrà essere recuperata dal file ArtGalleryManager.txt, altrimenti il corretto funzionamento
+ * \pre La stringa str, dovrà essere recuperata dal file ArtGalleryManager.txt, altrimenti il corretto funzionamento
  * \pre della procedura non è garantito. Inoltre tutte le evenutali informazioni precedentemente contenute nel parametro
  * \pre place, andranno perse una volta che questa procedura verrà richiamata.
  *
@@ -175,7 +175,7 @@ bool isGalleryAlredyReg(char *galCity, char *galStreet, char *galHouseN);
 void getCurrentDate(date* d);
 
 /**
- * Procedura utilizzata per caricare il valore: year di una struttura data
+ * Procedura utilizzata per caricare il valore: year di una struttura date
  *
  * \pre Le evenutali informazioni precedentemente contenute nel parametro time->year, andranno perse una volta che
  * \pre questa procedura verrà richiamata.
@@ -186,7 +186,7 @@ void getCurrentDate(date* d);
 void getYear(date* time, unsigned int current);
 
 /**
- * Procedura utilizzata per caricare il valore: month di una struttura data
+ * Procedura utilizzata per caricare il valore: month di una struttura date
  *
  * \pre Le evenutali informazioni precedentemente contenute nel parametro time->month, andranno perse una volta che
  * \pre questa procedura verrà richiamata.
@@ -208,7 +208,7 @@ void getMonth(date *time, date *current);
 void getDay(date* time, date* current);
 
 /**
- * Modulo coordinatore ulizizzato per caricare una struttura di tipo: date;
+ * Modulo coordinatore utilizzato per caricare una struttura di tipo: date
  *
  *
  * \pre Le evenutali informazioni precedentemente contenute nel parametro time, andranno perse una volta che
@@ -216,7 +216,7 @@ void getDay(date* time, date* current);
  *
  * \sa getYear(date* time, unsigned int current)
  *
- * \sa getMonth(date *time, unsigned int currentMonth)
+ * \sa getMonth(date *time, date *current)
  *
  * \sa getDay(date* time, date* current)
  *
@@ -246,7 +246,7 @@ void getExpositionTime(date* timeStart, date* timeEnd);
  * \pre questa procedura verrà richiamata.
  *
  * @param[out] *timeEnd: puntatore ad una struttura di tipo date rappresentante la data di fine di una mostra
- * @param[in] id: valore intero senza segno rappresentante l'identificatore della mostra
+ * @param[in] id: valore intero senza segno rappresentante l'identificativo della mostra
  */
 void fgetDateEnd(date *timeEnd, unsigned int id);
 
@@ -264,7 +264,7 @@ void listenerTimeExpired();
  * Funzione utilizzata per verificare se, dato un certo anno esso è bisestile
  *
  * @param[in] year: valore che rappresenta una annata
- * @return True se l'anno è bisestile, falso altrimenti
+ * @return True se l'anno è bisestile, false altrimenti
  */
 bool isLeapYear(unsigned int year);
 
@@ -288,7 +288,7 @@ bool isPrevious(date* timeStart, date* timeEnd);
 /**
  * Procedura utilizzata per caricare il valore fiscalCode[] di una struttura localManager
  *
- * @param[out] *fiscalCode: puntatore ad una stringa che conterra il codice fiscale di un manager locale
+ * @param[out] *fiscalCode: puntatore ad una stringa che conterrà il codice fiscale di un manager locale
  */
 void getFiscalCode(char* fiscalCode);
 
@@ -303,17 +303,17 @@ void getFiscalCode(char* fiscalCode);
  *
  * @param[out] *manager: puntatore ad una struttora di tipo: localManager
  */
-/**@}*/
 void getLocalManager(localManager* manager);
+/**@}*/
 
 /**
  * \addtogroup artwork
  * @{*/
 
  /**
- * Funzione utilizzata per assegnare, ad un opera d'arte un identificativo
+ * Funzione utilizzata per assegnare un identificativo a un opera d'arte 
  *
- * @return l'identificativo dell'opera
+ * @return L'identificativo dell'opera
  */
 unsigned int getIdArtwork();
 
@@ -341,7 +341,7 @@ void getKind(char* kind);
 /**
  * Procedura per caricare il historPeriod[] della struttura artwork
  *
- * @param[out] *historPeriod: puntatore ad una stringa che contterra il periodo storico in cui è stata realizzata l'opera
+ * @param[out] *historPeriod: puntatore ad una stringa che conterrà il periodo storico in cui è stata realizzata l'opera
  */
 void getHistorPeriod(char* historPeriod);
 
@@ -353,9 +353,9 @@ void getHistorPeriod(char* historPeriod);
 bool isBC();
 
 /**
- * Funzione untilizzata per specificare l'anno in cui è stata prodotta l'opera
+ * Funzione utilizzata per specificare l'anno in cui è stata prodotta l'opera
  *
- * \note Tale funzione verifica se l'anno di produzione di un'opera d'arte, nel caso essa fosse A.C., non sià superiore
+ * \note Tale funzione verifica se l'anno di produzione di un'opera d'arte, nel caso essa fosse A.C., non sia superiore
  * \note all'anno 40.000 A.C. (anno a cui risale la prima opera d'arte scoperta)
  *
  * @param[in] BC: valore booleano che specifica se la data a cui ci si riferisce è prima o dopo cristo
@@ -366,7 +366,7 @@ unsigned int getProdYear(bool BC);
 /**
  * Modulo coordinatore utilizzato per caricare una generica struttura artwork.
  *
- * \pre Tutte le informazioni contenute nel parametro artw, andranno perse al termine di questa procedura.
+ * \pre Tutte le informazioni precedentemente contenute nel parametro artw, andranno perse al termine di questa procedura.
  *
  * \sa getIdArtwork()
  *
@@ -414,7 +414,7 @@ void printArtwork(int num, artwork* artwork);
 void printArtworksInShow(unsigned int idArtshow);
 
 /**
- * Procedura utilizzata per estrapolare dalla stringa str le informazioni relative ad una opera d'arte.
+ * Procedura utilizzata per estrapolare dalla stringa str le informazioni relative a un'opera d'arte.
  * \pre la stringa str deve essere estrapolata dal file Artworks.txt altrimenti il corretto funzionamento
  * \pre della procedura non è garantito.
  *
@@ -424,10 +424,10 @@ void printArtworksInShow(unsigned int idArtshow);
 void loadArtwork(char str[], artwork *artwork);
 
 /**
- * Funzione utilizzata per verificare l'esistenza del indentificativo ID, per un opera d'arte
+ * Funzione utilizzata per verificare l'esistenza dell'indentificativo ID, per un opera d'arte
  *
- * @param[in] ID: Identificativo di cui si verificerà l'esistenza
- * @return True se il valore è esistente, falso altrimenti
+ * @param[in] ID: Identificativo di cui si verificherà l'esistenza
+ * @return True se il valore è esistente, false altrimenti
  */
 bool IDExists(unsigned int ID, bool isFileArtshow);
 
@@ -436,7 +436,7 @@ bool IDExists(unsigned int ID, bool isFileArtshow);
  * artName è già stata registrata o meno.
  *
  * @param[in] *artName: puntatore ad una stringa rappresentante il nome di un'opera d'arte
- * @return true se l'opera è già stata registrata nel sistema, falso altriemnti
+ * @return True se l'opera è già stata registrata nel sistema, false altriemnti
  */
 bool isArtworkAlredyReg(char* artName);
 
@@ -445,7 +445,7 @@ bool isArtworkAlredyReg(char* artName);
  * idArtshow, ha al suo interno.
  *
  * @param[in] idArtshow: intero senza segno, rappresentante l'identificativo di una mostra
- * @param[in,out] idsArtwork: vettore di interi senza segno, dove ciascun valore del vettore rappresenta un
+ * @param[out] idsArtwork: vettore di interi senza segno, dove ciascun valore del vettore rappresenta un
  * identificativo di un'opera
  * @return l'indice relativo all'ultima posizione dele vettore idsArtworks
  */
@@ -476,8 +476,8 @@ unsigned int getIDShow();
  * \post La stringa che viene restituita, dopo che è stata utilizzata, deve essere liberata tramite la free()
  *
  * @param[in] *timeStart: puntatore ad una struttura date che rappresenta la data di inizio di una mostra
- * @param[in] *timeEnd: punntatore ad una struttura date che rappresenta la data di fine di una mostra
- * @param[in] *manager: puntatore ad una struttura localManager che rappresenta il il manager locale della mostra
+ * @param[in] *timeEnd: puntatore ad una struttura date che rappresenta la data di fine di una mostra
+ * @param[in] *manager: puntatore ad una struttura localManager che rappresenta il manager locale della mostra
  * @return Vettore di identificativi di opere d'arte
  */
 char* getShow(date *timeStart, date* timeEnd, localManager* manager);
@@ -493,13 +493,13 @@ void delateArtshow(unsigned int idArtshow);
 /**
  * Funzione utilizzata per verificare se, la mostra con identificativo id, è terminata basandosi sulla data odierna.
  *
- * \note se la data di terminazione della mosra corrisponde alla data odierna, allora la funzione
+ * \note Se la data di terminazione della mosra corrisponde alla data odierna, allora la funzione
  * \note restituirà il valore true
  *
  * \sa isPrevious(date* timeStart, date* timeEnd)
  *
  * @param id: intero senza segno rappresentante un'identificativo di una mostra
- * @return True se la mostra è terminata, falso altrimenti
+ * @return True se la mostra è terminata, false altrimenti
  */
 bool isShowOver(unsigned int id);
 
@@ -512,11 +512,11 @@ bool isShowOver(unsigned int id);
 void assArtshow(unsigned int id);
 
 /**
- * Tale funzione permette di all'utente di selezionare la mostra e registrarsi attreverso la procedura:
+ * Tale funzione permette all'utente di selezionare la mostra e registrarsi attreverso la procedura:
  *
  * \sa bookClient(const unsigned int IDArtshow, char *newUsername)
  *
- * @param[in] username: stringa rappresentante il nome l'username dell'utente che vuole registrarsi ad una mostra
+ * @param[in] username: stringa rappresentante l'username dell'utente che vuole registrarsi ad una mostra
  */
 void selectArtshow(char *username);
 
@@ -546,7 +546,7 @@ void printShow();
 bool deleteReservationCheck(int idShow);
 
 /**
- * Tale funzione è utilizzata per mostrare all'utente gli identificativi di tutte le mostre a cui si è iscritto.
+ * Tale funzione è utilizzata per mostrare all'utente gli identificativi di tutte le mostre a cui si è iscritti.
  * 
  * \pre Il parametro *username non deve essere NULL altrimenti il corretto funzionamento della funzione non è garantito.
  * 
@@ -558,7 +558,7 @@ bool printIdReservations(char* username);
  * Tale funzione permette di eliminare il nome utente rappresentanto dal parametro username, da una prenotazione ad una
  * mostra il cui identificativo è idshow.
  *
- * \pre se l'usernmae dovesse essere NULL, il corretto funzionamento della funzione non è garantito.
+ * \pre Se l'username dovesse essere NULL, il corretto funzionamento della funzione non è garantito.
  *
  * @param *username: stringa rappresentante l'username dell'utente
  * @param idshow: intero senza segno rappresentante l'identificativo di una mostra

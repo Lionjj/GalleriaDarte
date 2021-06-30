@@ -3,13 +3,13 @@
 
 /**
  * \file GalleriaDarte.lib.search.h
- * \defgroup research Ricerca delle opereù
+ * \defgroup research Ricerca delle opere
  * \addtogroup research
  * @{
  */
 
 /**
- * Modulo coordinaotre utilizzato per effettuare la ricerca di una opera d'arte.
+ * Modulo coordinatore utilizzato per effettuare la ricerca di una opera d'arte.
  *
  * \sa searchName(FILE* file)
  *
@@ -27,7 +27,7 @@
 void research();
 
 /**
- * Tale procedura viene utilizzata per ricercare una opera d'arte tramite il nome dell'opera.
+ * Tale procedura viene utilizzata per ricercare un'opera d'arte tramite il nome dell'opera.
  *
  * \pre Il parametro file deve puntare al file Artworks.txt, altrimenti il corretto funzionamento della procedura non è
  * \pre garantito
@@ -37,7 +37,7 @@ void research();
 void searchName(FILE* file);
 
 /**
- * Tale procedura viene utilizzata per ricercare una opera d'arte tramite il nome e il cognome dell'autore.
+ * Tale procedura viene utilizzata per ricercare un'opera d'arte tramite il nome e il cognome dell'autore.
  *
  * \pre Il parametro file deve puntare al file Artworks.txt, altrimenti il corretto funzionamento della procedura non è
  * \pre garantito
@@ -47,7 +47,7 @@ void searchName(FILE* file);
 void searchArtAuthor(FILE* file);
 
 /**
- * Tale procedura viene utilizzata per ricercare una opera d'arte tramite il tipo dell'opera.
+ * Tale procedura viene utilizzata per ricercare un'opera d'arte tramite il tipo dell'opera.
  *
  * \pre Il parametro file deve puntare al file Artworks.txt, altrimenti il corretto funzionamento della procedura non è
  * \pre garantito
@@ -58,7 +58,7 @@ void searchArtAuthor(FILE* file);
 void searchArtType(FILE* file);
 
 /**
- * Tale procedura viene utilizzata per ricercare una opera d'arte tramite il genere dell'opera.
+ * Tale procedura viene utilizzata per ricercare un'opera d'arte tramite il genere dell'opera.
  *
  * \pre Il parametro file deve puntare al file Artworks.txt, altrimenti il corretto funzionamento della procedura non è
  * \pre garantito
@@ -67,7 +67,7 @@ void searchArtType(FILE* file);
 void searchArtKind(FILE* file);
 
 /**
- * Tale procedura viene utilizzata per ricercare una opera d'arte tramite il periodo storico dell'opera.
+ * Tale procedura viene utilizzata per ricercare un'opera d'arte tramite il periodo storico dell'opera.
  *
  * \pre Il parametro file deve puntare al file Artworks.txt, altrimenti il corretto funzionamento della procedura non è
  * \pre garantito
@@ -77,7 +77,7 @@ void searchArtKind(FILE* file);
 void searchArtHistorPeriod(FILE* file);
 
 /**
- * Tale procedura viene utilizzata per ricercare una opera d'arte tramite l'anno di produzione dell'opera.
+ * Tale procedura viene utilizzata per ricercare un'opera d'arte tramite l'anno di produzione dell'opera.
  *
  * \pre Il parametro file deve puntare al file Artworks.txt, altrimenti il corretto funzionamento della procedura non è
  * \pre garantito

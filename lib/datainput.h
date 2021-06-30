@@ -41,7 +41,7 @@ unsigned int getUInt(int representation);
  * Tale funzione viene utilizzata per confrontare se il parametro p1 è maggiore, uguale o minore del parametro p2.
  *
  * @param[in] p1 primo parametro
- * @param[in]p2 secondo parametro
+ * @param[in] p2 secondo parametro
  *
  * @return 0 se i due parametri sono uguai, 1 se p1 > p2, e -1 se p1 < p2
  */

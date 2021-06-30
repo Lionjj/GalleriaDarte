@@ -29,7 +29,7 @@ typedef struct
  */
 /**
  * Tale procedura permette di registrarsi al sistema.
- * Permettendo al nuovo utente di registrarsi o come utente manager o come utente Client.
+ * Permettendo al nuovo utente di registrarsi come utente manager o come utente client.
  *
  * \sa saveUser(User* user)
  *
@@ -38,11 +38,11 @@ typedef struct
 void registerUser();
 
 /**
- * Tale procedura viene utilizzata per modificare le informazioni dell'utente, sia nella struttre che nei file.
+ * Tale procedura viene utilizzata per modificare le informazioni dell'utente, sia nella strutture che nei file.
  *
  * \sa editFile(User* user, exhiPlace* place, unsigned int choice)
  *
- * \pre Nel caso di modifica di un utente manager, se parametri user e place siano NULL non è garantito il corretto
+ * \pre Nel caso di modifica di un utente manager, se i parametri user e place siano NULL non è garantito il corretto
  * \pre funzionamento della procedura. Nel caso di modifica di un utente client allora è necessario che il parametro
  * \pre user non sia NULL, altrimenti non è garantito il corretto funzionamento della procedura.
  *
@@ -54,7 +54,7 @@ void registerUser();
 void editUser(User* user, exhiPlace* place);
 
 /**
- * Modulo coordinatoria permette di eliminare l'utente rappresentato dal parametro user dal sistema.
+ * Modulo coordinatore che permette di eliminare l'utente, rappresentato dal parametro user, dal sistema.
  *
  * \sa delateClient(User *user)
  *
@@ -66,7 +66,7 @@ void delateUser(User* user);
 
 /**
  * Tale funzione permette ad un utente di effettuare il log-in nel sistema utilizzando le sue credenziali, caricando le
- * informazioni dell'utente in user e nel caso sia un utente manager caricando le informazioni rigardanti il luogo
+ * informazioni dell'utente in user e, nel caso sia un utente manager, caricando le informazioni riguardanti il luogo
  * in place. Tali informazioni sono estrapolate dai file ArtGalleryManager.txt oppure da Client.txt.
  *
  * \sa getLog(User* user, exhiPlace* place)
@@ -76,7 +76,7 @@ void delateUser(User* user);
  *
  * @param[out] *user puntatore ad una struttura di tipo User, rappresentante le informazioni di un utente generico
  * @param[out] *place puntatore ad una struttura di tipo exhiPlace rappresentante una sede della galleria
- * @return true l'utente è effettivamente riuscito ad accedere al sistema, falso altrimenti
+ * @return true l'utente è effettivamente riuscito ad accedere al sistema, false altrimenti
  */
 bool logIn(User* user, exhiPlace* place);
 /** @}*/
@@ -88,7 +88,7 @@ bool logIn(User* user, exhiPlace* place);
  */
 
 /**
- * Modulo coordinatore utilizzato per caricare una struttura di tipo User con le informazioni iserite dall'utente.
+ * Modulo coordinatore utilizzato per caricare una struttura di tipo User con le informazioni inserite dall'utente.
  *
  * \pre Tutte le evenutali informazioni precedentemente contenute nel parametro user, andranno perse una volta che questa
  * \pre procedura verrà richiamata.
@@ -117,7 +117,7 @@ void getName(char* user);
  *
  * \pre se il parametro surname dovesse avere in precedenza un valore, esso verrà perso.
  *
- * @param surname
+ * @param *surname puntatore a stringa rappresentante il cognome di un utente
  */
 void getSurname(char *surname);
 
@@ -135,7 +135,7 @@ void getUsername(char *username);
  *
  * \pre se il parametro email dovesse avere in precedenza un valore, esso verrà perso.
  *
- * @param email
+ * @param *email puntatore a stringa rappresentante l'e-mail
  */
 void getEmail(char *email);
 
@@ -161,7 +161,7 @@ void getPw(char *pw);
 void loadUser(char str[], User* user);
 
 /**
- * Modulo coordinatorio utilizzata per modificare le informazioni relative o ad un utente Client o ad un utente Manager
+ * Modulo coordinatorio utilizzato per modificare le informazioni relative un utente Client o a un utente Manager
  * richiamando rispettivamente le procedure:
  *
  * \sa editClientFile(User *user, unsigned int choice)
@@ -185,7 +185,7 @@ void editFile(User* user, exhiPlace* place, unsigned int choice);
  * \sa saveArtGalleyManager(User *user)
  *
  * @param[in] *user puntatore ad una struttura di tipo User, rappresentante le informazioni di un utente generico
- * @return True se l'operazione di scrittura delle informazioni di user sui file è avvenuta con successo, falso
+ * @return True se l'operazione di scrittura delle informazioni di user sui file è avvenuta con successo, false
  * altrimenti
  */
 bool saveUser(User* user);
@@ -212,7 +212,7 @@ bool isUserAlredyReg(char userName[],char userEmail[] , char mode, bool userType
  *
  * @param[in] *user puntatore ad una struttura di tipo User, rappresentante le informazioni di un utente generico
  * @param[in] *place puntatore ad una struttura di tipo exhiPlace rappresentante una sede della galleria
- * @return true se le credenziali che ll'utente ha inserito esistono nel sistema, falso altrimenti
+ * @return true se le credenziali che ll'utente ha inserito esistono nel sistema, false altrimenti
  */
 bool getLog(User* user, exhiPlace* place);
 /** @}*/

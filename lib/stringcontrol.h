@@ -67,7 +67,7 @@ char* deletespaces(char str[]);
 void stoupper(char str[]);
 
 /**
- * Tale funzione si occupa di separare ogni elemento del vettore arr da una virgola.
+ * Tale funzione si occupa di separare ogni elemento del vettore arr con una virgola.
  *
  * @param[in] *arr: vettore di interi senza segno
  * @param[in] dim: dimensione del vettore
@@ -92,7 +92,7 @@ char* reversStrtok(char *str, char symbol);
  *
  * @param[in] *str: puntatore ad una stringa generica
  * @param[in] *subStr: puntatore alla stringa da ricercare
- * @return True se la sottostringa esiste, falso altrimenti
+ * @return True se la sottostringa esiste, false altrimenti
  */
 bool isSubStringExist(char *str, const char *subStr);
 
